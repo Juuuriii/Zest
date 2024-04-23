@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Zest</string>
+    <string name="continue_with_facebook">Continue with Facebook</string>
+    <string name="log_in">Log in</string>
+    <string name="continue_with_google">Continue with Google</string>
+    <string name="sign_up">Sign up</string>
+</resources>
