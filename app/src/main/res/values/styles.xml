@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="zest_button_style">
+    <style name="zest_long_button_style">
         <item name="fontFamily">@font/dekko</item>
         <item name="android:textColor">@color/primary_taupe</item>
         <item name="android:backgroundTint">@color/primary_coral</item>
         <item name="strokeWidth">2dp</item>
         <item name="strokeColor">@color/primary_taupe</item>
-
+        <item name="android:layout_width">280dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:textStyle">bold</item>
 
     </style>
 

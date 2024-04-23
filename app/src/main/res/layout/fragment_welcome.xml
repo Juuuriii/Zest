@@ -7,9 +7,8 @@
 
     <Button
         android:id="@+id/btnFacebookLogin"
-        style="@style/zest_button_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/zest_long_button_style"
+
 
         android:text="@string/continue_with_facebook"
         app:layout_constraintBottom_toTopOf="@+id/tvLogin"
@@ -18,9 +17,8 @@
 
     <TextView
         android:id="@+id/tvLogin"
-        style="@style/zest_button_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/zest_long_button_style"
+        android:gravity="center"
         android:layout_marginBottom="64dp"
         android:text="@string/log_in"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -29,9 +27,8 @@
 
     <Button
         android:id="@+id/btnGoogleLogin"
-        style="@style/zest_button_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/zest_long_button_style"
+
         android:text="@string/continue_with_google"
         app:layout_constraintBottom_toTopOf="@+id/btnFacebookLogin"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,13 +36,10 @@
 
     <Button
         android:id="@+id/btnSignup"
-        style="@style/zest_button_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/zest_long_button_style"
         android:text="@string/sign_up"
         app:layout_constraintBottom_toTopOf="@+id/btnGoogleLogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:strokeColor="@color/primary_taupe"
-        app:strokeWidth="2dp" />
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

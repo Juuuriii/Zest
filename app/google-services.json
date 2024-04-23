@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "388041049984",
+    "project_id": "zest-ec0b1",
+    "storage_bucket": "zest-ec0b1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:388041049984:android:5bada08dbef8d6ef5a2365",
+        "android_client_info": {
+          "package_name": "com.example.zest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXmZ4n29ltWJgcvDftqv1_1jCWKDuVe4M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
