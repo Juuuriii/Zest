@@ -45,6 +45,7 @@ android {
 dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
+    implementation("com.google.firebase:firebase-auth:22.3.1")
     val retrofitVersion = "2.9.0"
     val roomVersion = "2.6.0"
 
