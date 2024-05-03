@@ -1,19 +1,43 @@
 package com.example.zest
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.zest.data.Repository
+import com.example.zest.data.remote.QuoteApi
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class FirebaseViewModel: ViewModel() {
 
-    private val firebaseAuth = Firebase.auth
+    val firebaseAuth = Firebase.auth
 
-    fun loginWithEmailAndPassword(email: String, pwd: String, completion: () -> Unit) {
+    private val repository = Repository(QuoteApi)
+
+    val quotes = repository.quoteList
+
+    private var _curUser = MutableLiveData<FirebaseUser?>(firebaseAuth.currentUser)
+
+    val curUser: LiveData<FirebaseUser?>
+        get() = _curUser
+
+    init {
+        loadQuotes()
+    }
+
+    fun loginWithEmailAndPassword(email: String, pwd: String) {
         if (email.isNotBlank() && pwd.isNotBlank()) {
             firebaseAuth.signInWithEmailAndPassword(email, pwd).addOnCompleteListener { authResult ->
                 if (authResult.isSuccessful) {
-                    completion()
+
+                    _curUser.value = firebaseAuth.currentUser
+
+
                 } else {
                     Log.e("FIREBASE_AUTH", authResult.exception.toString())
                 }
@@ -25,16 +49,28 @@ class FirebaseViewModel: ViewModel() {
         if (email.isNotBlank() && pwd.isNotBlank()) {
             firebaseAuth.createUserWithEmailAndPassword(email, pwd).addOnCompleteListener { authResult ->
                 if (authResult.isSuccessful) {
-                    completion()
+
+                    logout()
+
                 } else {
                     Log.e("FIREBASE_AUTH", authResult.exception.toString())
                 }
+                completion()
             }
         }
     }
 
     fun logout() {
         firebaseAuth.signOut()
+        _curUser.value = firebaseAuth.currentUser
+    }
+
+    private fun loadQuotes(){
+
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.getQuotes()
+        }
+
     }
 
 }

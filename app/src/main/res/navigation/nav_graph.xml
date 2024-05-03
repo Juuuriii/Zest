@@ -25,4 +25,9 @@
         android:name="com.example.zest.ui.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/journalFragment"
+        android:name="com.example.zest.JournalFragment"
+        android:label="fragment_journal"
+        tools:layout="@layout/fragment_journal" />
 </navigation>

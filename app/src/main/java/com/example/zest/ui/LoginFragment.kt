@@ -21,7 +21,7 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentLoginBinding.inflate(inflater,container,false)
+        binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -29,24 +29,26 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        binding.btnLogin.setOnClickListener {
 
-            val email = binding.etEmailLogin.text.toString()
-            val password = binding.etPasswordLogin.text.toString()
+            binding.btnLogin.setOnClickListener {
 
-            viewModel.loginWithEmailAndPassword(email, password) {
+                val email = binding.etEmailLogin.text.toString()
+                val password = binding.etPasswordLogin.text.toString()
 
-                findNavController().navigate(R.id.homeFragment)
+                viewModel.loginWithEmailAndPassword(email, password)
 
             }
 
-        }
 
+            binding.ibBack.setOnClickListener {
+                findNavController().navigateUp()
+            }
 
-        binding.ibBack.setOnClickListener {
-            findNavController().navigateUp()
+        viewModel.curUser.observe(viewLifecycleOwner) {
+            if (it != null) {
+                findNavController().navigate(R.id.homeFragment)
+            }
         }
 
     }
-
 }

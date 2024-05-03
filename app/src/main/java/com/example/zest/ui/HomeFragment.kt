@@ -7,9 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.PagerSnapHelper
+import androidx.recyclerview.widget.SnapHelper
 import com.example.zest.FirebaseViewModel
 
 import com.example.zest.R
+import com.example.zest.data.adapter.QuoteAdapter
 import com.example.zest.databinding.FragmentHomeBinding
 
 
@@ -34,10 +37,25 @@ class HomeFragment : Fragment() {
         binding.btnLogout.setOnClickListener {
 
             viewModel.logout()
-            findNavController().navigate(R.id.welcomeFragment)
+
         }
 
 
-    }
+        viewModel.curUser.observe(viewLifecycleOwner){
 
+            if (it == null){
+                findNavController().navigate(R.id.welcomeFragment)
+            }
+
+        }
+
+        viewModel.quotes.observe(viewLifecycleOwner){
+
+            val helper: SnapHelper = PagerSnapHelper()
+            helper.attachToRecyclerView(binding.rvQuote)
+
+            binding.rvQuote.adapter = QuoteAdapter(it)
+
+        }
+    }
 }
