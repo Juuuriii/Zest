@@ -17,4 +17,8 @@
     <string name="quote_of_the_day">Quotes of the Day:</string>
     <string name="placeholder_quote">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et</string>
     <string name="author">Author</string>
+    <string name="home">Home</string>
+    <string name="journal">Journal</string>
+    <string name="search">Search</string>
+    <string name="calendar">Calendar</string>
 </resources>

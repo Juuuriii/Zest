@@ -6,4 +6,9 @@
     </style>
 
     <style name="Theme.Zest" parent="Base.Theme.Zest" />
+
+
+    <style name="Zest">
+        <item name="colorSecondaryContainer">#FFF3EFE1</item>
+    </style>
 </resources>

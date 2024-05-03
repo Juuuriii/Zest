@@ -27,7 +27,17 @@
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/journalFragment"
-        android:name="com.example.zest.JournalFragment"
+        android:name="com.example.zest.ui.JournalFragment"
         android:label="fragment_journal"
         tools:layout="@layout/fragment_journal" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.zest.ui.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/calenderFragment"
+        android:name="com.example.zest.ui.CalenderFragment"
+        android:label="fragment_calender"
+        tools:layout="@layout/fragment_calender" />
 </navigation>
