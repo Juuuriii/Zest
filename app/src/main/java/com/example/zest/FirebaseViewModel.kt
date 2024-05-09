@@ -6,13 +6,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.zest.data.Repository
-import com.example.zest.data.model.Journal
+import com.example.zest.data.model.Entry
 import com.example.zest.data.model.ZestUser
 import com.example.zest.data.remote.QuoteApi
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.Source
 import com.google.firebase.firestore.firestore
 
 import kotlinx.coroutines.Dispatchers
@@ -34,10 +35,16 @@ class FirebaseViewModel : ViewModel() {
     val curUser: LiveData<FirebaseUser?>
         get() = _curUser
 
+    var _username = MutableLiveData<String>()
+
+    val username: LiveData<String>
+        get() = _username
+
     private lateinit var userRef: DocumentReference
 
     init {
         loadQuotes()
+        getUsername()
     }
 
     fun loginWithEmailAndPassword(email: String, pwd: String) {
@@ -56,13 +63,18 @@ class FirebaseViewModel : ViewModel() {
         }
     }
 
-    fun registerWithEmailAndPassword(email: String, pwd: String, completion: () -> Unit) {
+    fun registerWithEmailAndPassword(
+        email: String,
+        pwd: String,
+        username: String,
+        completion: () -> Unit
+    ) {
         if (email.isNotBlank() && pwd.isNotBlank()) {
             firebaseAuth.createUserWithEmailAndPassword(email, pwd)
                 .addOnCompleteListener { authResult ->
                     if (authResult.isSuccessful) {
 
-                        createUser()
+                        createUser(username)
                         completion()
 
 
@@ -74,25 +86,29 @@ class FirebaseViewModel : ViewModel() {
         }
     }
 
-    fun createUser() {
+    fun createUser(username: String) {
 
         val users = firestoreDatabase.collection("users")
 
         users
             .document(firebaseAuth.currentUser!!.uid)
-            .set(ZestUser())
+            .set(ZestUser(username))
             .addOnSuccessListener { documentReference ->
-                Log.d("Firestore", "DocumentSnapshot added with ID: ${firebaseAuth.currentUser!!.uid}")
+                Log.d(
+                    "Firestore",
+                    "DocumentSnapshot added with ID: ${firebaseAuth.currentUser!!.uid}"
+                )
             }
             .addOnFailureListener { e ->
                 Log.w("Firestore", "Error adding document", e)
             }
+
+
         users
             .document(firebaseAuth.currentUser!!.uid)
             .collection("journal")
             .document(LocalDate.now().toString())
-            .set(Journal())
-
+            .set(Entry())
 
     }
 
@@ -101,11 +117,40 @@ class FirebaseViewModel : ViewModel() {
         _curUser.value = firebaseAuth.currentUser
     }
 
+
     private fun loadQuotes() {
 
         viewModelScope.launch(Dispatchers.IO) {
             repository.getQuotes()
         }
+
+    }
+
+    fun getUsername() {
+
+        val docRef = firestoreDatabase.collection("users").document(firebaseAuth.currentUser!!.uid)
+
+        val source = Source.CACHE
+
+
+        docRef.get(source).addOnCompleteListener() { task ->
+            if (task.isSuccessful) {
+                // Document found in the offline cache
+                val document = task.result
+
+                _username.value = document.data?.get("username").toString()
+
+                Log.d("ΩFirestoreUsername", "Cached document data: ${username}")
+
+
+            } else {
+                Log.d("ΩFirestoreUsername", "Cached get failed: ", task.exception)
+            }
+
+
+
+        }
+
 
     }
 

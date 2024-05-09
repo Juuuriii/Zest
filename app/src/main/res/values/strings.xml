@@ -21,4 +21,10 @@
     <string name="journal">Journal</string>
     <string name="search">Search</string>
     <string name="calendar">Calendar</string>
+    <string name="username">Username</string>
+    <string name="hello">Hello</string>
+    <string name="placeholder">placeholder</string>
+    <string name="exclamationmark">!</string>
+    <string name="placeholder_date">11.11.2011</string>
+    <string name="title">Title</string>
 </resources>

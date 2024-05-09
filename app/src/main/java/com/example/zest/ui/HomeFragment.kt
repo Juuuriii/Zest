@@ -34,7 +34,11 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.username.observe(viewLifecycleOwner){
 
+            binding.tvUsername.text = it
+
+        }
 
 
         binding.btnLogout.setOnClickListener {
@@ -43,6 +47,11 @@ class HomeFragment : Fragment() {
 
         }
 
+        binding.cvProfile.setOnClickListener {
+
+            viewModel.getUsername()
+
+        }
 
         viewModel.curUser.observe(viewLifecycleOwner){
 

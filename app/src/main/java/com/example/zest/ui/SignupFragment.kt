@@ -34,10 +34,11 @@ class SignupFragment : Fragment() {
 
         binding.btnSignup.setOnClickListener {
 
+            val username = binding.etUsernameSignup.text.toString()
             val email = binding.etEmailSignup.text.toString()
             val password = binding.etPasswordSignup.text.toString()
 
-            viewModel.registerWithEmailAndPassword(email, password) {
+            viewModel.registerWithEmailAndPassword(email, password, username) {
 
                 findNavController().navigate(R.id.loginFragment)
 

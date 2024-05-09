@@ -2,7 +2,6 @@ package com.example.zest.data.model
 
 data class ZestUser(
 
-    val username: String = "test",
-    val email: String = "test",
+    val username: String = "test"
 
 )

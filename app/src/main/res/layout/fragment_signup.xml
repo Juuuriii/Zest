@@ -30,6 +30,20 @@
             android:text="@string/sign_up" />
 
         <EditText
+            android:id="@+id/etUsernameSignup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="32dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/edit_text_border"
+            android:ems="10"
+            android:fontFamily="@font/dekko"
+            android:hint="@string/username"
+            android:inputType="textEmailAddress"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="12dp" />
+
+        <EditText
             android:id="@+id/etEmailSignup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -53,6 +67,7 @@
             android:ems="10"
             android:fontFamily="@font/dekko"
             android:hint="@string/password"
+
             android:inputType="textPassword"
             android:paddingHorizontal="16dp"
             android:paddingVertical="12dp" />
