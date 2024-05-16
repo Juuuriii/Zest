@@ -6,13 +6,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.zest.data.Repository
+import com.example.zest.data.model.Day
 import com.example.zest.data.model.Entry
 import com.example.zest.data.model.ZestUser
 import com.example.zest.data.remote.QuoteApi
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.Source
 import com.google.firebase.firestore.firestore
 
@@ -26,49 +26,46 @@ class FirebaseViewModel : ViewModel() {
 
     private val firestoreDatabase = Firebase.firestore
 
+    private val usersRef = firestoreDatabase.collection("users")
+
     private val repository = Repository(QuoteApi)
+
 
     val quotes = repository.quoteList
 
-    private var _curUser = MutableLiveData<FirebaseUser?>(firebaseAuth.currentUser)
 
+
+    private var _curUser = MutableLiveData<FirebaseUser?>(firebaseAuth.currentUser)
     val curUser: LiveData<FirebaseUser?>
         get() = _curUser
 
     var _username = MutableLiveData<String>()
-
     val username: LiveData<String>
         get() = _username
 
-    private lateinit var userRef: DocumentReference
+    private var _curDate = MutableLiveData<LocalDate>(LocalDate.now())
+
+    val curDate: LiveData<LocalDate>
+        get() = _curDate
 
     init {
         loadQuotes()
-        getUsername()
     }
 
-    fun loginWithEmailAndPassword(email: String, pwd: String) {
-        if (email.isNotBlank() && pwd.isNotBlank()) {
-            firebaseAuth.signInWithEmailAndPassword(email, pwd)
-                .addOnCompleteListener { authResult ->
-                    if (authResult.isSuccessful) {
+    private fun loadQuotes() {
 
-                        _curUser.value = firebaseAuth.currentUser
+        viewModelScope.launch(Dispatchers.IO) {
 
+            repository.getQuotes()
 
-                    } else {
-                        Log.e("FIREBASE_AUTH", authResult.exception.toString())
-                    }
-                }
         }
     }
 
-    fun registerWithEmailAndPassword(
-        email: String,
-        pwd: String,
-        username: String,
-        completion: () -> Unit
-    ) {
+
+
+    // FIREBASE
+
+    fun register(email: String, pwd: String, username: String, completion: () -> Unit) {
         if (email.isNotBlank() && pwd.isNotBlank()) {
             firebaseAuth.createUserWithEmailAndPassword(email, pwd)
                 .addOnCompleteListener { authResult ->
@@ -77,7 +74,6 @@ class FirebaseViewModel : ViewModel() {
                         createUser(username)
                         completion()
 
-
                     } else {
                         Log.e("FIREBASE_AUTH", authResult.exception.toString())
                     }
@@ -85,72 +81,87 @@ class FirebaseViewModel : ViewModel() {
                 }
         }
     }
+    fun login(email: String, pwd: String) {
+        if (email.isNotBlank() && pwd.isNotBlank()) {
+            firebaseAuth.signInWithEmailAndPassword(email, pwd)
+                .addOnCompleteListener { authResult ->
+                    if (authResult.isSuccessful) {
+                        _curUser.value = firebaseAuth.currentUser
+                    } else {
+                        Log.e("FIREBASE_AUTH", authResult.exception.toString())
+                    }
+                }
+        }
+    }
+    private fun createUser(username: String) {
 
-    fun createUser(username: String) {
-
-        val users = firestoreDatabase.collection("users")
-
-        users
+        usersRef
             .document(firebaseAuth.currentUser!!.uid)
-            .set(ZestUser(username))
-            .addOnSuccessListener { documentReference ->
+            .set(ZestUser(username, firebaseAuth.currentUser!!.uid, firebaseAuth.currentUser?.email ?: ""))
+            .addOnSuccessListener {
                 Log.d(
-                    "Firestore",
-                    "DocumentSnapshot added with ID: ${firebaseAuth.currentUser!!.uid}"
+                    "Firestore", "DocumentSnapshot added with ID: ${firebaseAuth.currentUser!!.uid}"
                 )
             }
             .addOnFailureListener { e ->
                 Log.w("Firestore", "Error adding document", e)
             }
-
-
-        users
-            .document(firebaseAuth.currentUser!!.uid)
-            .collection("journal")
-            .document(LocalDate.now().toString())
-            .set(Entry())
-
     }
-
-    fun logout() {
-        firebaseAuth.signOut()
-        _curUser.value = firebaseAuth.currentUser
-    }
-
-
-    private fun loadQuotes() {
-
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.getQuotes()
+    fun createEntry(title: String, text: String) {
+        if (title.isNotEmpty() && text.isNotEmpty()) {
+            usersRef.document(firebaseAuth.currentUser!!.uid)
+                .collection("journal")
+                .document(Day().date)
+                .collection("entries")
+                .document(Entry().time)
+                .set(Entry(title = title, text = text))
         }
-
     }
-
     fun getUsername() {
 
         val docRef = firestoreDatabase.collection("users").document(firebaseAuth.currentUser!!.uid)
 
         val source = Source.CACHE
 
-
         docRef.get(source).addOnCompleteListener() { task ->
             if (task.isSuccessful) {
-                // Document found in the offline cache
+
                 val document = task.result
 
                 _username.value = document.data?.get("username").toString()
 
-                Log.d("ΩFirestoreUsername", "Cached document data: ${username}")
-
-
             } else {
+
                 Log.d("ΩFirestoreUsername", "Cached get failed: ", task.exception)
+
             }
+        }
+    }
+    fun logout() {
+        firebaseAuth.signOut()
+        _curUser.value = firebaseAuth.currentUser
+    }
 
+    //DATE
 
+    fun resetDateToCurrentDate(){
+
+        _curDate.value = LocalDate.now()
+
+    }
+
+    fun curDatePlusOne(){
+
+        if(_curDate.value != LocalDate.now()) {
+
+            _curDate.value = _curDate.value!!.plusDays(1)
 
         }
+    }
 
+    fun curDateMinusOne(){
+
+        _curDate.value = _curDate.value!!.minusDays(1)
 
     }
 

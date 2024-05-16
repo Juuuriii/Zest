@@ -35,7 +35,7 @@ class LoginFragment : Fragment() {
                 val email = binding.etEmailLogin.text.toString()
                 val password = binding.etPasswordLogin.text.toString()
 
-                viewModel.loginWithEmailAndPassword(email, password)
+                viewModel.login(email, password)
 
             }
 

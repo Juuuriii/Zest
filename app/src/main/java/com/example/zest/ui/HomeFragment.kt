@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.SnapHelper
 import com.example.zest.FirebaseViewModel
+import com.example.zest.MainActivity
 
 import com.example.zest.R
 import com.example.zest.data.adapter.QuoteAdapter
@@ -34,36 +35,56 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.username.observe(viewLifecycleOwner){
 
-            binding.tvUsername.text = it
+        setupOnClickListener()
+        setupObserver()
 
-        }
+    }
 
+    private fun setupOnClickListener() {
+        logOut()
+    }
 
+    private fun logOut() {
         binding.btnLogout.setOnClickListener {
 
             viewModel.logout()
 
         }
+    }
 
-        binding.cvProfile.setOnClickListener {
+    private fun setupObserver(){
 
-            viewModel.getUsername()
+        observeQuotes()
+        observeCurUser()
+        observeUserName()
+
+    }
+
+    private fun observeUserName() {
+
+        viewModel.getUsername()
+
+        viewModel.username.observe(viewLifecycleOwner){
+
+            binding.tvUsername.text = it
 
         }
+    }
 
+    private fun observeCurUser() {
         viewModel.curUser.observe(viewLifecycleOwner){
-
             if (it == null){
                 findNavController().navigate(R.id.welcomeFragment)
             }
-
         }
+    }
 
+    private fun observeQuotes() {
         viewModel.quotes.observe(viewLifecycleOwner){
 
             val helper: SnapHelper = PagerSnapHelper()
+
             helper.attachToRecyclerView(binding.rvQuote)
 
             binding.rvQuote.adapter = QuoteAdapter(it)

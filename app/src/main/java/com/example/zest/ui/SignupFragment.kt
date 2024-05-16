@@ -38,7 +38,7 @@ class SignupFragment : Fragment() {
             val email = binding.etEmailSignup.text.toString()
             val password = binding.etPasswordSignup.text.toString()
 
-            viewModel.registerWithEmailAndPassword(email, password, username) {
+            viewModel.register(email, password, username) {
 
                 findNavController().navigate(R.id.loginFragment)
 

@@ -10,6 +10,11 @@
         android:id="@+id/journalFragment"
         android:icon="@drawable/outline_edit_24"
         android:title="@string/journal" />
+
+    <item
+        android:id="@+id/placeholder"
+        android:title=""/>
+
     <item
         android:id="@+id/searchFragment"
         android:icon="@drawable/outline_search_24"

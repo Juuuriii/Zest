@@ -27,4 +27,7 @@
     <string name="exclamationmark">!</string>
     <string name="placeholder_date">11.11.2011</string>
     <string name="title">Title</string>
+    <string name="type_here">Type here...</string>
+    <string name="motivating_quotes">Motivating Quotes:</string>
+    <string name="entry">Entry</string>
 </resources>
