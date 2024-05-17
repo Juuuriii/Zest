@@ -192,7 +192,7 @@ class FirebaseViewModel : ViewModel() {
 
     val setCurEntry: (entry: Entry) -> Unit = {entry ->
 
-        _curEntry.postValue(entry)
+        _curEntry.value = entry
 
     }
 

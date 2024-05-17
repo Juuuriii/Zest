@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.floatingActionButton.setOnClickListener {
 
-            navHost.findNavController().navigate(R.id.entryEditFragment)
+            navHost.findNavController().navigate(R.id.entryAddFragment)
 
         }
     }
