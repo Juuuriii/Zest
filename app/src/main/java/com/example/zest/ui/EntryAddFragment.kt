@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.zest.FirebaseViewModel
+import com.example.zest.R
 import com.example.zest.databinding.FragmentEntryAddBinding
 
 
@@ -48,13 +49,10 @@ class EntryAddFragment : Fragment() {
             if(title.isNotEmpty() && text.isNotEmpty()){
 
                 viewModel.createEntry(title, text)
-                findNavController().navigateUp()
+                findNavController().navigate(R.id.journalFragment)
 
             }
-
-
         }
-
     }
 
     private fun setBackButtonOnClickListener() {

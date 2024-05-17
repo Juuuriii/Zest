@@ -10,6 +10,7 @@ import androidx.core.view.isGone
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.zest.FirebaseViewModel
+import com.example.zest.R
 import com.example.zest.data.model.Entry
 import com.example.zest.databinding.FragmentEntryEditBinding
 
@@ -67,7 +68,7 @@ class EntryEditFragment : Fragment() {
                         date = viewModel.curEntry.value!!.date
                     )
                 )
-                findNavController().navigateUp()
+                findNavController().navigate(R.id.journalFragment)
             } else {
 
 
