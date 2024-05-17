@@ -42,7 +42,7 @@
         tools:layout="@layout/fragment_calender" />
     <fragment
         android:id="@+id/entryEditFragment"
-        android:name="com.example.zest.ui.EntryEditFragment"
+        android:name="com.example.zest.ui.EntryAddFragment"
         android:label="fragment_entry_edit"
-        tools:layout="@layout/fragment_entry_edit" />
+        tools:layout="@layout/fragment_entry_add" />
 </navigation>

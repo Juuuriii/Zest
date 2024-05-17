@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.zest.data.Repository
-import com.example.zest.data.model.Day
 import com.example.zest.data.model.Entry
 import com.example.zest.data.model.ZestUser
 import com.example.zest.data.remote.QuoteApi
@@ -45,6 +44,11 @@ class FirebaseViewModel : ViewModel() {
 
     val curDate: LiveData<LocalDate>
         get() = _curDate
+
+    private var _curEntry = MutableLiveData<Entry>()
+
+    val curEntry: LiveData<Entry>
+        get() = _curEntry
 
     init {
         loadQuotes()
@@ -148,8 +152,6 @@ class FirebaseViewModel : ViewModel() {
         _curUser.value = firebaseAuth.currentUser
     }
 
-    //DATE
-
     fun resetDateToCurrentDate() {
 
         _curDate.value = LocalDate.now()
@@ -180,5 +182,31 @@ class FirebaseViewModel : ViewModel() {
 
     }
 
+
+    val deleteEntry : (time: String) -> Unit = {  time ->
+
+        _curDate.value = _curDate.value
+        getEntryRef(curDate.value.toString()).document(time).delete()
+
+    }
+
+    val setCurEntry: (entry: Entry) -> Unit = {entry ->
+
+        _curEntry.postValue(entry)
+
+    }
+
+    fun updateEntry(entry: Entry) {
+
+        getEntryRef(curDate.value.toString()).document(entry.time)
+            .update(
+                mapOf(
+                    "title" to entry.title,
+                    "text" to entry.text,
+                    "tags" to entry.tags
+                )
+            )
+
+    }
 
 }

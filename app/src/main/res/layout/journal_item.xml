@@ -7,7 +7,7 @@
     android:layout_marginHorizontal="16dp"
     android:layout_marginVertical="8dp"
 
-    android:backgroundTint="@color/primary_coral"
+    android:backgroundTint="#80F58252"
     app:strokeColor="@color/primary_taupe"
 
     >
@@ -38,19 +38,21 @@
                 style="@style/zest_long_button_style"/>
 
             <ImageButton
-                android:id="@+id/imageButton3"
+                android:id="@+id/ibCollapse"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:background="@drawable/edit_text_border"
+                android:background="#00FFFFFF"
+                app:tint="@color/primary_taupe"
                 app:srcCompat="@drawable/baseline_keyboard_arrow_up_24" />
 
             <ImageButton
-                android:id="@+id/imageButton4"
+                android:id="@+id/ibDelete"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginStart="8dp"
-                android:background="@drawable/edit_text_border"
-                app:srcCompat="@drawable/baseline_more_vert_24" />
+                android:background="#00FFFFFF"
+                app:srcCompat="@drawable/baseline_delete_forever_24"
+                app:tint="@color/primary_taupe" />
 
 
         </LinearLayout>
@@ -69,10 +71,12 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvTags"
             android:layout_marginTop="8dp"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="3"/>
+            app:spanCount="3"
+            tools:itemCount="3"
+            tools:listitem="@layout/tag_item"/>
 
 
 

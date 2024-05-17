@@ -8,7 +8,9 @@ import com.example.zest.databinding.JournalItemBinding
 
 class JournalEntryAdapter(
 
-    private val dataset: List<Entry>
+    private val dataset: List<Entry>,
+    private val deleteEntry: (String) -> Unit
+
 
 ):RecyclerView.Adapter<JournalEntryAdapter.ItemViewHolder>() {
 
@@ -28,6 +30,14 @@ class JournalEntryAdapter(
 
         holder.binding.tvEntryText.text = entry.text
         holder.binding.tvTitle.text = entry.title
+        holder.binding.rvTags.adapter = TagAdapter(entry.tags)
+
+
+        holder.binding.ibDelete.setOnClickListener {
+
+            deleteEntry(entry.time)
+
+        }
 
     }
 

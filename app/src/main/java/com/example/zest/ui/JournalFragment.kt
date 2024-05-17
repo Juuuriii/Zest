@@ -32,6 +32,8 @@ class JournalFragment : Fragment() {
         setupObservers()
         setupOnClickListener()
 
+
+
     }
 
     private fun setupObservers() {
@@ -43,16 +45,12 @@ class JournalFragment : Fragment() {
 
             binding.tvDate.text = TimeHandler().formatLocalDate(it.toString())
 
-
-
                 viewModel.getEntryRef(it.toString()).get().addOnSuccessListener { querySnapshot ->
-
-
 
                     val entryList = querySnapshot.map { it.toObject(Entry::class.java) }
 
                     if(entryList.isNotEmpty()){
-                        binding.rvEntries.adapter = JournalEntryAdapter(entryList)
+                        binding.rvEntries.adapter = JournalEntryAdapter(entryList, viewModel.deleteEntry)
 
                         binding.rvEntries.visibility = View.VISIBLE
                         binding.tvNoEntries.visibility = View.GONE
@@ -63,8 +61,6 @@ class JournalFragment : Fragment() {
                         binding.tvNoEntries.visibility = View.VISIBLE
 
                     }
-
-
 
                     Log.i("ΩgetEntries", " Success Result => ${entryList}")
 

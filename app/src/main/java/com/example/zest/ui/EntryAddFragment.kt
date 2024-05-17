@@ -8,13 +8,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.zest.FirebaseViewModel
-import com.example.zest.databinding.FragmentEntryEditBinding
+import com.example.zest.databinding.FragmentEntryAddBinding
 
 
-class EntryEditFragment : Fragment() {
+class EntryAddFragment : Fragment() {
 
 
-    private lateinit var binding: FragmentEntryEditBinding
+    private lateinit var binding: FragmentEntryAddBinding
 
     private val viewModel: FirebaseViewModel by activityViewModels()
 
@@ -22,7 +22,7 @@ class EntryEditFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentEntryEditBinding.inflate(inflater,container, false)
+        binding = FragmentEntryAddBinding.inflate(inflater,container, false)
         return binding.root
     }
 
@@ -30,10 +30,6 @@ class EntryEditFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupOnClickListener()
-
-
-
-
 
     }
 

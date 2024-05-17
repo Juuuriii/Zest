@@ -31,4 +31,5 @@
     <string name="motivating_quotes">Motivating Quotes:</string>
     <string name="entry">Entry</string>
     <string name="no_entries_on_this_day">No Entries on this Day</string>
+    <string name="tag">Tag</string>
 </resources>
