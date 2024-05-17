@@ -17,21 +17,37 @@ class SignupFragment : Fragment() {
 
     private lateinit var binding: FragmentSignupBinding
 
-    private  val viewModel: FirebaseViewModel by activityViewModels()
+    private val viewModel: FirebaseViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSignupBinding.inflate(inflater,container,false)
+        binding = FragmentSignupBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupOnClickListener()
+
+    }
 
 
+    private fun setupOnClickListener() {
+        setSignUpButtonOnClickListener()
+        setBackButtonOnClickListener()
+    }
 
+    private fun setBackButtonOnClickListener() {
+        binding.ibBack.setOnClickListener {
+
+            findNavController().navigateUp()
+
+        }
+    }
+
+    private fun setSignUpButtonOnClickListener() {
         binding.btnSignup.setOnClickListener {
 
             val username = binding.etUsernameSignup.text.toString()
@@ -45,18 +61,7 @@ class SignupFragment : Fragment() {
             }
 
         }
-
-
-
-
-        binding.ibBack.setOnClickListener {
-
-            findNavController().navigateUp()
-
-        }
-
     }
-
 
 
 }

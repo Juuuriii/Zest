@@ -38,25 +38,30 @@ class EntryEditFragment : Fragment() {
     }
 
     private fun setupOnClickListener(){
-        saveJournalEntry()
-        navigateBack()
+        setSaveButtonOnClickListener()
+        setBackButtonOnClickListener()
     }
 
-    private fun saveJournalEntry() {
+    private fun setSaveButtonOnClickListener() {
 
         binding.ibSave.setOnClickListener {
 
             val title = binding.etTitle.text.toString()
 
             val text = binding.etEntry.text.toString()
+            if(title.isNotEmpty() && text.isNotEmpty()){
 
-            viewModel.createEntry(title, text)
+                viewModel.createEntry(title, text)
+                findNavController().navigateUp()
+
+            }
+
 
         }
 
     }
 
-    private fun navigateBack() {
+    private fun setBackButtonOnClickListener() {
 
         binding.ibBack.setOnClickListener {
 

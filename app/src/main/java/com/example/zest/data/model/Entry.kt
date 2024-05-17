@@ -1,11 +1,6 @@
 package com.example.zest.data.model
 
-import com.example.zest.data.TimeHandler
-import com.google.firebase.firestore.DocumentId
-import com.google.type.DateTime
-import java.time.LocalDateTime
-import java.time.LocalTime
-import java.util.Calendar
+import com.example.zest.utils.TimeHandler
 
 data class Entry(
 

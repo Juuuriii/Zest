@@ -12,40 +12,59 @@ import com.example.zest.R
 import com.example.zest.databinding.FragmentWelcomeBinding
 
 
-class WelcomeFragment: Fragment() {
+class WelcomeFragment : Fragment() {
 
 
     private lateinit var binding: FragmentWelcomeBinding
-    private  val viewModel: FirebaseViewModel by activityViewModels()
+    private val viewModel: FirebaseViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentWelcomeBinding.inflate(inflater,container,false)
+        binding = FragmentWelcomeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.curUser.observe(viewLifecycleOwner){
-            if(it != null) {
+        setupObserver()
+        setupOnClickListener()
+
+    }
+
+    private fun setupObserver() {
+        observeCurrentUser()
+    }
+
+    private fun observeCurrentUser() {
+        viewModel.curUser.observe(viewLifecycleOwner) {
+            if (it != null) {
                 findNavController().navigate(R.id.homeFragment)
             }
 
         }
+    }
 
-        binding.tvLogin.setOnClickListener {
+    private fun setupOnClickListener() {
+        setLogInButtonClickListener()
+        setSignUpButtonOnClickListener()
+    }
 
-            findNavController().navigate(R.id.loginFragment)
-
-        }
-
+    private fun setSignUpButtonOnClickListener() {
         binding.btnSignup.setOnClickListener {
 
             findNavController().navigate(R.id.signupFragment)
+
+        }
+    }
+
+    private fun setLogInButtonClickListener() {
+        binding.tvLogin.setOnClickListener {
+
+            findNavController().navigate(R.id.loginFragment)
 
         }
     }

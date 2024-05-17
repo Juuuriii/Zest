@@ -30,4 +30,5 @@
     <string name="type_here">Type here...</string>
     <string name="motivating_quotes">Motivating Quotes:</string>
     <string name="entry">Entry</string>
+    <string name="no_entries_on_this_day">No Entries on this Day</string>
 </resources>

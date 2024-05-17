@@ -7,7 +7,7 @@ import java.time.LocalDate
 data class Day(
 
 
-    val date: String = LocalDate.now().toString()
+    var date: String = LocalDate.now().toString()
 
 
 )

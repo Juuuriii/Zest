@@ -1,4 +1,4 @@
-package com.example.zest.data
+package com.example.zest.utils
 
 import java.text.SimpleDateFormat
 import java.util.Date

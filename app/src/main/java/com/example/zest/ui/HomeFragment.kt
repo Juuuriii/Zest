@@ -10,7 +10,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.SnapHelper
 import com.example.zest.FirebaseViewModel
-import com.example.zest.MainActivity
 
 import com.example.zest.R
 import com.example.zest.data.adapter.QuoteAdapter
@@ -37,15 +36,15 @@ class HomeFragment : Fragment() {
 
 
         setupOnClickListener()
-        setupObserver()
+        setupObservers()
 
     }
 
     private fun setupOnClickListener() {
-        logOut()
+        setLogoutButtonOnClickListener()
     }
 
-    private fun logOut() {
+    private fun setLogoutButtonOnClickListener() {
         binding.btnLogout.setOnClickListener {
 
             viewModel.logout()
@@ -53,7 +52,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setupObserver(){
+    private fun setupObservers(){
 
         observeQuotes()
         observeCurUser()

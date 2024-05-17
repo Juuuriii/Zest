@@ -28,27 +28,45 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupObservers()
+        setupOnClickListener()
 
 
-            binding.btnLogin.setOnClickListener {
+    }
 
-                val email = binding.etEmailLogin.text.toString()
-                val password = binding.etPasswordLogin.text.toString()
+    private fun setupObservers() {
+        observeCurrentUser()
+    }
 
-                viewModel.login(email, password)
-
-            }
-
-
-            binding.ibBack.setOnClickListener {
-                findNavController().navigateUp()
-            }
-
+    private fun observeCurrentUser() {
         viewModel.curUser.observe(viewLifecycleOwner) {
             if (it != null) {
                 findNavController().navigate(R.id.homeFragment)
             }
         }
-
     }
+
+    private fun setupOnClickListener() {
+        setLoginButtonOnClickListener()
+        setBackButtonOnClickListener()
+    }
+
+    private fun setBackButtonOnClickListener() {
+        binding.ibBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
+    }
+
+    private fun setLoginButtonOnClickListener() {
+        binding.btnLogin.setOnClickListener {
+
+            val email = binding.etEmailLogin.text.toString()
+            val password = binding.etPasswordLogin.text.toString()
+
+            viewModel.login(email, password)
+
+        }
+    }
+
+
 }
