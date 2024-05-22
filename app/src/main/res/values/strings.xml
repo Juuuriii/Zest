@@ -11,7 +11,7 @@
     <string name="login">Login</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="logout">Logout</string>
-    <string name="zest">Zest</string>
+    <string name="zest">Z E S T.</string>
     <string name="hello_user">Hello User!</string>
     <string name="streak_placeholder">You\'re currently on a 7 day streak! Keep it going!</string>
     <string name="quote_of_the_day">Quotes of the Day:</string>
@@ -32,4 +32,8 @@
     <string name="entry">Entry</string>
     <string name="no_entries_on_this_day">No Entries on this Day</string>
     <string name="tag">Tag</string>
+    <string name="add_tag">Add Tag</string>
+    <string name="enter_tag_here">Enter Tag here...</string>
+    <string name="add">Add</string>
+    <string name="cancel">Cancel</string>
 </resources>

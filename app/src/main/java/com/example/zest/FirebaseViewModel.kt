@@ -1,9 +1,15 @@
 package com.example.zest
 
+import android.app.AlertDialog
+import android.app.Application
+import android.content.Context
 import android.util.Log
+import android.view.LayoutInflater
+import android.widget.Button
+import android.widget.EditText
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.zest.data.Repository
 import com.example.zest.data.model.Entry
@@ -20,7 +26,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
-class FirebaseViewModel : ViewModel() {
+class FirebaseViewModel(application: Application) : AndroidViewModel(application) {
 
     private val firebaseAuth = Firebase.auth
 
@@ -50,9 +56,9 @@ class FirebaseViewModel : ViewModel() {
     val curEntry: LiveData<Entry>
         get() = _curEntry
 
+
     init {
         loadQuotes()
-
     }
 
     private fun loadQuotes() {
@@ -63,8 +69,6 @@ class FirebaseViewModel : ViewModel() {
 
         }
     }
-
-
     fun register(email: String, pwd: String, username: String, completion: () -> Unit) {
         if (email.isNotBlank() && pwd.isNotBlank()) {
             firebaseAuth.createUserWithEmailAndPassword(email, pwd)
@@ -80,7 +84,6 @@ class FirebaseViewModel : ViewModel() {
                 }
         }
     }
-
     fun login(email: String, pwd: String) {
         if (email.isNotBlank() && pwd.isNotBlank()) {
             firebaseAuth.signInWithEmailAndPassword(email, pwd)
@@ -93,7 +96,6 @@ class FirebaseViewModel : ViewModel() {
                 }
         }
     }
-
     private fun createUser(username: String) {
 
         usersRef
@@ -114,18 +116,16 @@ class FirebaseViewModel : ViewModel() {
                 Log.w("Firestore", "Error adding document", e)
             }
     }
-
-    fun createEntry(title: String, text: String, date: String = curDate.value.toString()) {
+    fun createEntry(title: String, text: String, tags: MutableList<String>, date: String = curDate.value.toString()) {
         if (title.isNotEmpty() && text.isNotEmpty()) {
             usersRef.document(firebaseAuth.currentUser!!.uid)
                 .collection("journal")
                 .document(date)
                 .collection("entries")
                 .document(Entry().time)
-                .set(Entry(title = title, text = text))
+                .set(Entry(title = title, text = text, tags = tags))
         }
     }
-
     fun getUsername() {
 
         val docRef = firestoreDatabase.collection("users").document(firebaseAuth.currentUser!!.uid)
@@ -146,18 +146,15 @@ class FirebaseViewModel : ViewModel() {
             }
         }
     }
-
     fun logout() {
         firebaseAuth.signOut()
         _curUser.value = firebaseAuth.currentUser
     }
-
     fun resetDateToCurrentDate() {
 
         _curDate.value = LocalDate.now()
 
     }
-
     fun curDatePlusOne() {
 
         if (_curDate.value != LocalDate.now()) {
@@ -166,13 +163,11 @@ class FirebaseViewModel : ViewModel() {
 
         }
     }
-
     fun curDateMinusOne() {
 
         _curDate.value = _curDate.value!!.minusDays(1)
 
     }
-
     fun getEntryRef(date: String): CollectionReference {
 
        return usersRef.document(firebaseAuth.currentUser!!.uid)
@@ -181,7 +176,6 @@ class FirebaseViewModel : ViewModel() {
             .collection("entries")
 
     }
-
 
     val deleteEntry : (time: String) -> Unit = {  time ->
 
@@ -195,7 +189,6 @@ class FirebaseViewModel : ViewModel() {
         _curEntry.value = entry
 
     }
-
     fun updateEntry(entry: Entry) {
 
         getEntryRef(curDate.value.toString()).document(entry.time)
@@ -208,5 +201,45 @@ class FirebaseViewModel : ViewModel() {
             )
 
     }
+    fun setEmptyEntry(){
+        _curEntry.value = Entry()
+    }
 
+    val deleteTagTest: (position: Int) -> Unit = {position ->
+        _curEntry.value!!.tags.removeAt(position)
+        _curEntry.value = _curEntry.value
+        Log.i("ΩTags", "${_curEntry.value!!.tags}")
+    }
+
+    val addTag: (context: Context) -> Unit ={
+
+        val addTagAlertDialogView = LayoutInflater.from(it).inflate(R.layout.add_tag_dialog, null)
+
+        val addTagAlertDialogBuilder = AlertDialog.Builder(it).setView(addTagAlertDialogView).setTitle("Add Tag")
+
+        val addTagAlertDialog = addTagAlertDialogBuilder.show()
+
+        addTagAlertDialogView.findViewById<Button>(R.id.btnAdd).setOnClickListener {
+
+            addTagAlertDialog.dismiss()
+
+            val tag = addTagAlertDialogView.findViewById<EditText>(R.id.etTag).text.toString()
+
+            if(tag.isNotEmpty()){
+                _curEntry.value!!.tags.add(0,tag)
+                _curEntry.value = _curEntry.value
+                Log.i("ΩTags", "${_curEntry.value!!.tags}")
+            } else {
+
+                addTagAlertDialog.dismiss()
+            }
+
+        }
+        addTagAlertDialogView.findViewById<Button>(R.id.btnCancel).setOnClickListener{
+
+            addTagAlertDialog.dismiss()
+
+        }
+
+    }
 }

@@ -9,10 +9,10 @@ data class Entry(
 
     val text: String = "",
 
-    val tags: List<String> = listOf(),
+    var tags: MutableList<String> = mutableListOf(),
 
-    val time: String = TimeHandler().getDateTime(),
+    var time: String = TimeHandler().getDateTime(),
 
-    val date: String = LocalDate.now().toString()
+    var date: String = LocalDate.now().toString()
 
 )

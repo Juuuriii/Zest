@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.zest.FirebaseViewModel
 import com.example.zest.R
+import com.example.zest.data.adapter.TagEditAdapter
 import com.example.zest.data.model.Entry
 import com.example.zest.databinding.FragmentEntryEditBinding
 
@@ -43,8 +44,10 @@ class EntryEditFragment : Fragment() {
     private fun observeCurrentEntry() {
         viewModel.curEntry.observe(viewLifecycleOwner){
 
-            binding.etTitleEdit.setText(it.title)
-            binding.etEntryEdit.setText(it.text)
+            binding.etTitle.setText(it.title)
+            binding.etEntry.setText(it.text)
+
+            binding.rvTagsEdit.adapter = TagEditAdapter(it.tags.toList(), requireContext(), viewModel.deleteTagTest, viewModel.addTag)
 
         }
     }
@@ -58,21 +61,18 @@ class EntryEditFragment : Fragment() {
 
         binding.ibSave.setOnClickListener {
 
-            if(binding.etTitleEdit.text.isNotEmpty() && binding.etEntryEdit.text.isNotEmpty()) {
+            if(binding.etTitle.text.isNotEmpty() && binding.etEntry.text.isNotEmpty()) {
 
                 viewModel.updateEntry(
                     Entry(
-                        title = binding.etTitleEdit.text.toString(),
-                        text = binding.etEntryEdit.text.toString(),
+                        title = binding.etTitle.text.toString(),
+                        text = binding.etEntry.text.toString(),
+                        tags = viewModel.curEntry.value!!.tags,
                         time = viewModel.curEntry.value!!.time,
                         date = viewModel.curEntry.value!!.date
                     )
                 )
                 findNavController().navigate(R.id.journalFragment)
-            } else {
-
-
-
             }
         }
     }
