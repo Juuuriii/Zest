@@ -75,7 +75,7 @@ class TagEditAdapter(
 
         } else if (holder is AddViewHolder) {
 
-            holder.binding.root.setOnClickListener {
+            holder.binding.btnAddTag.setOnClickListener {
                 addTag(context)
             }
         }

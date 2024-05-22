@@ -1,12 +1,24 @@
 package com.example.zest
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.app.Application
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.telephony.TelephonyCallback.DisplayInfoListener
+import android.util.DisplayMetrics
 import android.util.Log
+import android.view.Display
 import android.view.LayoutInflater
+import android.view.View
+import android.view.WindowManager
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Spinner
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -24,9 +36,12 @@ import com.google.firebase.firestore.firestore
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.internal.toHexString
 import java.time.LocalDate
 
 class FirebaseViewModel(application: Application) : AndroidViewModel(application) {
+
+    private val tagList = mutableListOf("Work", "Food", "Tennis", "Games")
 
     private val firebaseAuth = Firebase.auth
 
@@ -205,7 +220,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
         _curEntry.value = Entry()
     }
 
-    val deleteTagTest: (position: Int) -> Unit = {position ->
+    val deleteTag: (position: Int) -> Unit = { position ->
         _curEntry.value!!.tags.removeAt(position)
         _curEntry.value = _curEntry.value
         Log.i("ΩTags", "${_curEntry.value!!.tags}")
@@ -215,9 +230,16 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
         val addTagAlertDialogView = LayoutInflater.from(it).inflate(R.layout.add_tag_dialog, null)
 
-        val addTagAlertDialogBuilder = AlertDialog.Builder(it).setView(addTagAlertDialogView).setTitle("Add Tag")
+        val addTagAlertDialogBuilder = AlertDialog.Builder(it).setView(addTagAlertDialogView)
 
         val addTagAlertDialog = addTagAlertDialogBuilder.show()
+
+
+        addTagAlertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+
+        val arrayAdapter = ArrayAdapter<String>(it,android.R.layout.simple_dropdown_item_1line, tagList)
+        addTagAlertDialog.findViewById<AutoCompleteTextView>(R.id.etTag).setAdapter(arrayAdapter)
 
         addTagAlertDialogView.findViewById<Button>(R.id.btnAdd).setOnClickListener {
 
@@ -225,16 +247,19 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
             val tag = addTagAlertDialogView.findViewById<EditText>(R.id.etTag).text.toString()
 
-            if(tag.isNotEmpty()){
+            if(tag.isNotEmpty() && !_curEntry.value!!.tags.contains(tag)){
+
                 _curEntry.value!!.tags.add(0,tag)
                 _curEntry.value = _curEntry.value
                 Log.i("ΩTags", "${_curEntry.value!!.tags}")
+
             } else {
 
                 addTagAlertDialog.dismiss()
-            }
 
+            }
         }
+
         addTagAlertDialogView.findViewById<Button>(R.id.btnCancel).setOnClickListener{
 
             addTagAlertDialog.dismiss()
