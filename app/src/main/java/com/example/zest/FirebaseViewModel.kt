@@ -71,6 +71,10 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
     val curEntry: LiveData<Entry>
         get() = _curEntry
 
+    private var _searchedEntries = MutableLiveData<List<Entry>>()
+
+    val searchedEntries: LiveData<List<Entry>>
+        get() = _searchedEntries
 
     init {
         loadQuotes()
@@ -267,4 +271,14 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
         }
 
     }
+
+    fun getEntriesSearch(input: String){
+
+        val entryList  = listOf<Entry>()
+
+
+
+    }
+
+
 }

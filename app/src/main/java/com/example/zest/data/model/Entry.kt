@@ -11,7 +11,7 @@ data class Entry(
 
     var tags: MutableList<String> = mutableListOf(),
 
-    var time: String = TimeHandler().getDateTime(),
+    var time: String = TimeHandler().getDateTimeHoursMinsSecs(),
 
     var date: String = LocalDate.now().toString()
 
