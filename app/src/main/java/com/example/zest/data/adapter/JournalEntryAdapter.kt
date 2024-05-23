@@ -36,7 +36,7 @@ class JournalEntryAdapter(
         holder.binding.tvTitle.text = entry.title
         holder.binding.rvTags.adapter = TagAdapter(entry.tags)
 
-        holder.binding.cvJournalEntry.setOnClickListener {
+        holder.binding.journalEntry.setOnClickListener {
 
             setCurEntry(entry)
             Log.i("ΩcurrentEntry", "${entry.title}")

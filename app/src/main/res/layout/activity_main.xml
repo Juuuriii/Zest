@@ -29,7 +29,7 @@
         android:background="@color/primary_coral"
         app:itemIconTint="@color/primary_taupe"
         app:itemTextColor="@color/primary_taupe"
-
+        android:isScrollContainer="false"
         android:theme="@style/Zest"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

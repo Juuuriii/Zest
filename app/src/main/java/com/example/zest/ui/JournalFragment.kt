@@ -33,7 +33,6 @@ class JournalFragment : Fragment() {
         setupOnClickListener()
 
 
-
     }
 
     private fun setupObservers() {
@@ -45,30 +44,31 @@ class JournalFragment : Fragment() {
 
             binding.tvDate.text = TimeHandler().formatLocalDate(it.toString())
 
-                viewModel.getEntryRef(it.toString()).get().addOnSuccessListener { querySnapshot ->
+            viewModel.getEntryRef(it.toString()).get().addOnSuccessListener { querySnapshot ->
 
-                    val entryList = querySnapshot.map { it.toObject(Entry::class.java) }
+                val entryList = querySnapshot.map { it.toObject(Entry::class.java) }
 
-                    if(entryList.isNotEmpty()){
-                        binding.rvEntries.adapter = JournalEntryAdapter(entryList, viewModel.deleteEntry, viewModel.setCurEntry)
+                if (entryList.isNotEmpty()) {
+                    binding.rvEntries.adapter =
+                        JournalEntryAdapter(entryList, viewModel.deleteEntry, viewModel.setCurEntry)
 
-                        binding.rvEntries.visibility = View.VISIBLE
-                        binding.tvNoEntries.visibility = View.GONE
+                    binding.rvEntries.visibility = View.VISIBLE
+                    binding.tvNoEntries.visibility = View.GONE
 
-                    } else {
+                } else {
 
-                        binding.rvEntries.visibility = View.GONE
-                        binding.tvNoEntries.visibility = View.VISIBLE
-
-                    }
-
-                    Log.i("ΩgetEntries", " Success Result => ${entryList}")
-
-                }.addOnFailureListener {
-
-                    Log.i("ΩgetEntries", "Fail Result => ${it}")
+                    binding.rvEntries.visibility = View.GONE
+                    binding.tvNoEntries.visibility = View.VISIBLE
 
                 }
+
+                Log.i("ΩgetEntries", " Success Result => $entryList")
+
+            }.addOnFailureListener {
+
+                Log.i("ΩgetEntries", "Fail Result => ${it.message}")
+
+            }
         }
     }
 

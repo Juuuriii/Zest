@@ -7,32 +7,35 @@
     app:cardElevation="0dp"
     android:elevation="0dp"
     app:strokeColor="#00F58252"
-    android:layout_marginHorizontal="4dp"
-    android:backgroundTint="#80F58252">
+    android:backgroundTint="#80F58252"
+    android:layout_marginHorizontal="4dp">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
+
         <TextView
             android:id="@+id/tvAuthor"
+            style="@style/zest_long_button_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/author"
-            style="@style/zest_long_button_style"
             android:layout_marginBottom="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/tvQuote"
+            android:text="@string/author"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvQuote" />
 
         <TextView
             android:id="@+id/tvQuote"
-            android:layout_width="300dp"
-            android:layout_marginHorizontal="25dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:minHeight="200dp"
-
             style="@style/zest_long_button_style"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="25dp"
+            android:gravity="center"
+
+            android:minHeight="200dp"
             android:text="@string/placeholder_quote"
 
             app:layout_constraintEnd_toEndOf="parent"

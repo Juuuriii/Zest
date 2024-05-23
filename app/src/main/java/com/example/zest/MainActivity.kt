@@ -1,14 +1,15 @@
 package com.example.zest
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import androidx.fragment.app.activityViewModels
-
+import android.view.WindowManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.zest.databinding.ActivityMainBinding
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 
 
 class MainActivity : AppCompatActivity() {
@@ -31,27 +32,33 @@ class MainActivity : AppCompatActivity() {
                 R.id.homeFragment -> {
                     binding.bottomNav.visibility = View.VISIBLE
                     binding.floatingActionButton.visibility = View.VISIBLE
+                    this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
                 }
 
 
                 R.id.searchFragment -> {
                     binding.bottomNav.visibility = View.VISIBLE
                     binding.floatingActionButton.visibility = View.VISIBLE
+                    this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
+
                 }
 
                 R.id.journalFragment -> {
                     binding.bottomNav.visibility = View.VISIBLE
                     binding.floatingActionButton.visibility = View.VISIBLE
+                    this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
                 }
 
                 R.id.calenderFragment -> {
                     binding.bottomNav.visibility = View.VISIBLE
                     binding.floatingActionButton.visibility = View.VISIBLE
+                    this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
                 }
 
                 else -> {
                     binding.bottomNav.visibility = View.GONE
                     binding.floatingActionButton.visibility = View.GONE
+                    this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
                 }
 
             }
@@ -62,5 +69,9 @@ class MainActivity : AppCompatActivity() {
             navHost.findNavController().navigate(R.id.entryAddFragment)
 
         }
+
+
+
+
     }
 }

@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/journalEntry"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="16dp"
     android:layout_marginVertical="8dp"
-    android:id="@+id/cvJournalEntry"
-    android:backgroundTint="#80F58252"
-    app:strokeColor="@color/primary_taupe">
+    android:background="@drawable/journalentrybg">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
-
+        android:padding="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <LinearLayout
@@ -26,22 +28,22 @@
 
             <TextView
                 android:id="@+id/tvTitle"
+                style="@style/zest_long_button_style"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:text="@string/title"
-                android:textSize="24sp"
-                android:textStyle="bold"
                 android:layout_weight="1"
                 android:gravity="center|start"
-                style="@style/zest_long_button_style"/>
+                android:text="@string/title"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
             <ImageButton
                 android:id="@+id/ibCollapse"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:background="#00FFFFFF"
-                app:tint="@color/primary_taupe"
-                app:srcCompat="@drawable/baseline_keyboard_arrow_up_24" />
+                app:srcCompat="@drawable/baseline_keyboard_arrow_up_24"
+                app:tint="@color/primary_taupe" />
 
             <ImageButton
                 android:id="@+id/ibDelete"
@@ -57,26 +59,23 @@
 
         <TextView
             android:id="@+id/tvEntryText"
+            android:textAlignment="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="56dp"
             android:layout_marginTop="8dp"
-
             android:background="#00FFFFFF"
-            android:gravity="start|top"
-             />
+            android:minHeight="56dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvTags"
-            android:layout_marginTop="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="3"
             tools:itemCount="3"
-            tools:listitem="@layout/tag_item"/>
-
+            tools:listitem="@layout/tag_item" />
 
 
     </LinearLayout>
-</com.google.android.material.card.MaterialCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

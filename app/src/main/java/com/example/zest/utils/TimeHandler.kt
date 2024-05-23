@@ -16,6 +16,7 @@ class TimeHandler() {
         val list = time.split(":")
 
         return list[0] + ":" + list[1]
+
     }
 
     fun formatLocalDate(date: String): String {

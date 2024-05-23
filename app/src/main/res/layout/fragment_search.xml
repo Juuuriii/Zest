@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primary_Alabaster"
+
+
     tools:context=".ui.SearchFragment">
 
     <LinearLayout
@@ -12,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:gravity="center"
+        android:background="@color/primary_Alabaster"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,7 +61,7 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="64dp"
+            android:layout_height="60dp"
             android:gravity="center"
             android:paddingHorizontal="16dp"
             android:background="@color/primary_Alabaster"
@@ -94,6 +96,7 @@
             app:layout_constraintTop_toBottomOf="@+id/searchView" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvSearch"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
