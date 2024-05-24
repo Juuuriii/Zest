@@ -72,7 +72,7 @@ class EntryAddFragment : Fragment() {
 
             if (title.isNotEmpty() && text.isNotEmpty()) {
 
-                viewModel.createEntry(title, text, tags)
+                viewModel.createEntry(title, text, tags, date = viewModel.curDate.value.toString())
                 findNavController().navigate(R.id.journalFragment)
 
             }

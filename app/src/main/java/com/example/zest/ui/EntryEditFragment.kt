@@ -37,6 +37,15 @@ class EntryEditFragment : Fragment() {
 
     private fun setupObservers() {
         observeCurrentEntry()
+        observeCurrentEntryTags()
+    }
+
+    private fun observeCurrentEntryTags() {
+        viewModel.curEntryTags.observe(viewLifecycleOwner){
+
+            binding.rvTagsEdit.adapter = TagEditAdapter(it, requireContext(), viewModel.deleteTag, viewModel.addTag)
+
+        }
     }
 
     private fun observeCurrentEntry() {
@@ -45,9 +54,8 @@ class EntryEditFragment : Fragment() {
             binding.etTitle.setText(it.title)
             binding.etEntry.setText(it.text)
 
-            binding.rvTagsEdit.adapter = TagEditAdapter(it.tags.toList(), requireContext(), viewModel.deleteTag, viewModel.addTag)
-
         }
+
     }
 
     private fun setupOnClickListener(){
@@ -59,17 +67,15 @@ class EntryEditFragment : Fragment() {
 
         binding.ibSave.setOnClickListener {
 
+            val newTitle = binding.etTitle.text.toString()
+
+            val newText = binding.etEntry.text.toString()
+
+            val newTags = viewModel.curEntryTags.value
+
             if(binding.etTitle.text.isNotEmpty() && binding.etEntry.text.isNotEmpty()) {
 
-                viewModel.updateEntry(
-                    Entry(
-                        title = binding.etTitle.text.toString(),
-                        text = binding.etEntry.text.toString(),
-                        tags = viewModel.curEntry.value!!.tags,
-                        time = viewModel.curEntry.value!!.time,
-                        date = viewModel.curEntry.value!!.date
-                    )
-                )
+                viewModel.updateEntry(newTitle, newText, newTags ?: mutableListOf())
                 findNavController().navigate(R.id.journalFragment)
             }
         }

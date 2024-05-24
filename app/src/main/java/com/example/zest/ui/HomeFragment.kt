@@ -38,7 +38,11 @@ class HomeFragment : Fragment() {
 
         setupOnClickListener()
         setupObservers()
+        binding.cvProfile.setOnClickListener {
 
+            viewModel.getAllEntries()
+
+        }
     }
 
     private fun setupOnClickListener() {

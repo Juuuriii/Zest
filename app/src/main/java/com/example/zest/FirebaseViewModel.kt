@@ -42,7 +42,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
         "Games"
     ) //TODO(Safe used tags for AutocompleteTextView)
 
-    private val firebaseAuth = Firebase.auth
+    val firebaseAuth = Firebase.auth
 
     private val firestoreDatabase = Firebase.firestore
 
@@ -70,14 +70,10 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
     val curEntry: LiveData<Entry>
         get() = _curEntry
 
-    private var _entryListOfDay = MutableLiveData<List<Entry>>()
+    private var _curEntryTags = MutableLiveData<MutableList<String>>()
 
-    val entryListOfDay: LiveData<List<Entry>>
-        get() = _entryListOfDay
-
-    private var _journalDays = MutableLiveData<List<JournalDay>>()
-    val journalDays: LiveData<List<JournalDay>>
-        get() = _journalDays
+    val curEntryTags: LiveData<MutableList<String>>
+        get() = _curEntryTags
 
     init {
         loadQuotes()
@@ -150,18 +146,21 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
     ) {
         if (title.isNotEmpty() && text.isNotEmpty()) {
 
-            usersRef.document(firebaseAuth.currentUser!!.uid)
-                .collection("journal")
-                .document(date)
-                .set(JournalDay(date))
-
 
             usersRef.document(firebaseAuth.currentUser!!.uid)
                 .collection("journal")
                 .document(date)
                 .collection("entries")
                 .document(Entry().time)
-                .set(Entry(title = title, text = text, tags = tags))
+                .set(
+                    Entry(
+                        title = title,
+                        text = text,
+                        tags = tags,
+                        date = date,
+                        userId = firebaseAuth.currentUser!!.uid
+                    )
+                )
         }
     }
 
@@ -231,29 +230,30 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
     val setCurEntry: (entry: Entry) -> Unit = { entry ->
 
         _curEntry.value = entry
+        _curEntryTags.value = entry.tags
 
     }
 
-    fun updateEntry(entry: Entry) {
+    fun updateEntry(title: String, text: String, tags: MutableList<String>) {
 
-        getEntryRef(curDate.value.toString()).document(entry.time)
+        getEntryRef(curDate.value.toString()).document(curEntry.value!!.time)
             .update(
                 mapOf(
-                    "title" to entry.title,
-                    "text" to entry.text,
-                    "tags" to entry.tags
+                    "title" to title,
+                    "text" to text,
+                    "tags" to tags
                 )
             )
 
     }
 
     fun setEmptyEntry() {
-        _curEntry.value = Entry()
+        _curEntry.value = Entry(userId = firebaseAuth.currentUser!!.uid)
     }
 
     val deleteTag: (position: Int) -> Unit = { position ->
-        _curEntry.value!!.tags.removeAt(position)
-        _curEntry.value = _curEntry.value
+        _curEntryTags.value!!.removeAt(position)
+        _curEntryTags.value = _curEntryTags.value
         Log.i("ΩTags", "${_curEntry.value!!.tags}")
     }
 
@@ -281,8 +281,8 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
             if (tag.isNotEmpty() && !_curEntry.value!!.tags.contains(tag)) {
 
-                _curEntry.value!!.tags.add(0, tag)
-                _curEntry.value = _curEntry.value
+                _curEntryTags.value!!.add(0, tag)
+                _curEntryTags.value = _curEntryTags.value
                 Log.i("ΩTags", "${_curEntry.value!!.tags}")
                 addTagAlertDialog.dismiss()
             } else {
@@ -300,32 +300,34 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
     }
 
-    fun getAllJournalDays() {
+
+    fun getAllEntries() {
 
         firestoreDatabase
-            .collection("users")
-            .document(firebaseAuth.currentUser!!.uid)
-            .collection("journal")
-            .get().addOnSuccessListener { querySnapshot ->
+            .collectionGroup("entries")
+            .whereEqualTo("userId", firebaseAuth.currentUser!!.uid)
+            .get()
+            .addOnSuccessListener { querySnapshot ->
 
-                _journalDays.value = querySnapshot.map { it.toObject(JournalDay::class.java) }
+                val allEntries = querySnapshot.map { it.toObject(Entry::class.java) }
 
-                Log.i("ΩJournalDays", "${_journalDays.value}")
+                allEntries.forEach {
+
+                    Log.i(
+                        "AllEntriesΩ",
+                        "${it.date} | ${it.time} | ${it.title} | ${it.text} | ${it.tags}"
+                    )
+
+                }
+
+            }.addOnFailureListener {
+
+                Log.i("AllEntriesΩ", "${it}")
+
             }
 
-    }
-
-    fun getEntryOfDay(date: String){
-
-        getEntryRef(date).get().addOnSuccessListener { querySnapshot ->
-
-            _entryListOfDay.value = querySnapshot.map { it.toObject(Entry::class.java) }
-
-        }
-
 
     }
-
 
 
 }

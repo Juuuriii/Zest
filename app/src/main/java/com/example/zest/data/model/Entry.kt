@@ -13,6 +13,8 @@ data class Entry(
 
     var time: String = TimeHandler().getDateTimeHoursMinsSecs(),
 
-    var date: String = LocalDate.now().toString()
+    var date: String = LocalDate.now().toString(),
+
+    val userId: String = ""
 
 )
