@@ -33,10 +33,31 @@ class JournalFragment : Fragment() {
         setupOnClickListener()
 
 
+
     }
 
     private fun setupObservers() {
         observeCurrentDate()
+        observeJournalDay()
+    }
+
+    private fun observeJournalDay() {
+        viewModel.journalDay.observe(viewLifecycleOwner){
+
+            if(it != null) {
+                binding.rvEntries.adapter = JournalEntryAdapter(it.entries, viewModel.deleteEntry, viewModel.setCurEntry)
+
+                if(it.entries.isEmpty()){
+                    binding.tvNoEntries.visibility = View.VISIBLE
+                } else {
+                    binding.tvNoEntries.visibility = View.INVISIBLE
+                }
+
+            }
+
+
+
+        }
     }
 
     private fun observeCurrentDate() {
@@ -44,31 +65,9 @@ class JournalFragment : Fragment() {
 
             binding.tvDate.text = TimeHandler().formatLocalDate(it.toString())
 
-            viewModel.getEntryRef(it.toString()).get().addOnSuccessListener { querySnapshot ->
+            viewModel.getJournalDay(viewModel.curDate.value.toString())
 
-                val entryList = querySnapshot.map { it.toObject(Entry::class.java) }
 
-                if (entryList.isNotEmpty()) {
-                    binding.rvEntries.adapter =
-                        JournalEntryAdapter(entryList, viewModel.deleteEntry, viewModel.setCurEntry)
-
-                    binding.rvEntries.visibility = View.VISIBLE
-                    binding.tvNoEntries.visibility = View.GONE
-
-                } else {
-
-                    binding.rvEntries.visibility = View.GONE
-                    binding.tvNoEntries.visibility = View.VISIBLE
-
-                }
-
-                Log.i("ΩgetEntries", " Success Result => $entryList")
-
-            }.addOnFailureListener {
-
-                Log.i("ΩgetEntries", "Fail Result => ${it.message}")
-
-            }
         }
     }
 

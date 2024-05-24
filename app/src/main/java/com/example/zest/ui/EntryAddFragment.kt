@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.zest.FirebaseViewModel
 import com.example.zest.R
 import com.example.zest.data.adapter.TagEditAdapter
+import com.example.zest.data.model.Entry
 import com.example.zest.databinding.FragmentEntryAddBinding
 
 
@@ -48,10 +49,10 @@ class EntryAddFragment : Fragment() {
     }
 
     private fun observeCurrentEntry() {
-        viewModel.curEntry.observe(viewLifecycleOwner) { entry ->
+        viewModel.curEntryTags.observe(viewLifecycleOwner) { entry ->
 
             binding.rvTagsEdit.adapter =
-                TagEditAdapter(entry.tags, requireContext() , viewModel.deleteTag, viewModel.addTag)
+                TagEditAdapter(entry, requireContext(), viewModel.deleteTag, viewModel.addTag)
 
         }
     }
@@ -68,11 +69,19 @@ class EntryAddFragment : Fragment() {
 
             val text = binding.etEntry.text.toString()
 
-            val tags = viewModel.curEntry.value!!.tags
+            val tags = viewModel.curEntryTags.value!!
 
             if (title.isNotEmpty() && text.isNotEmpty()) {
 
-                viewModel.createEntry(title, text, tags)
+                viewModel.createEntry(
+                    Entry(
+                        title = title,
+                        text = text,
+                        tags = tags,
+                        date = viewModel.curDate.value.toString()
+
+                    )
+                )
                 findNavController().navigate(R.id.journalFragment)
 
             }

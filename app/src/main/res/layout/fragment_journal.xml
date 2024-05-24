@@ -28,20 +28,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cvZestLogo"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginHorizontal="16dp"
-            android:backgroundTint="@color/primary_taupe"
-            app:cardElevation="0dp" />
-
         <TextView
             android:id="@+id/tvHeader"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
-
+            android:layout_marginStart="16dp"
             android:fontFamily="@font/dekko"
             android:gravity="center|start"
             android:text="@string/zest"

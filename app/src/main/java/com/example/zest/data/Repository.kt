@@ -27,8 +27,5 @@ class Repository(
             Log.e("QuoteApi", "${e.stackTrace}")
 
         }
-
-
     }
-
 }

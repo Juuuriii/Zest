@@ -1,5 +1,6 @@
 package com.example.zest.data.model
 
 data class JournalDay(
-    val date: String = ""
+    val date: String = "",
+    var entries: MutableList<Entry> = mutableListOf()
 )

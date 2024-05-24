@@ -37,6 +37,15 @@ class EntryEditFragment : Fragment() {
 
     private fun setupObservers() {
         observeCurrentEntry()
+        observeCurrentEntryTags()
+    }
+
+    private fun observeCurrentEntryTags() {
+        viewModel.curEntryTags.observe(viewLifecycleOwner){
+
+            binding.rvTagsEdit.adapter = TagEditAdapter(it, requireContext(), viewModel.deleteTag, viewModel.addTag)
+
+        }
     }
 
     private fun observeCurrentEntry() {
@@ -45,7 +54,7 @@ class EntryEditFragment : Fragment() {
             binding.etTitle.setText(it.title)
             binding.etEntry.setText(it.text)
 
-            binding.rvTagsEdit.adapter = TagEditAdapter(it.tags.toList(), requireContext(), viewModel.deleteTag, viewModel.addTag)
+
 
         }
     }
@@ -68,7 +77,7 @@ class EntryEditFragment : Fragment() {
                         tags = viewModel.curEntry.value!!.tags,
                         time = viewModel.curEntry.value!!.time,
                         date = viewModel.curEntry.value!!.date
-                    )
+                    ), viewModel.curEntryPosition.value!!
                 )
                 findNavController().navigate(R.id.journalFragment)
             }

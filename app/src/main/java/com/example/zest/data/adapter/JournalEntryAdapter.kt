@@ -12,8 +12,8 @@ import com.example.zest.databinding.JournalItemBinding
 class JournalEntryAdapter(
 
     private val dataset: List<Entry>,
-    private val deleteEntry: (String) -> Unit,
-    private val setCurEntry: (Entry) -> Unit
+    private val deleteEntry: (Int) -> Unit,
+    private val setCurEntry: (Entry, Int) -> Unit
 
 
 ):RecyclerView.Adapter<JournalEntryAdapter.ItemViewHolder>() {
@@ -38,7 +38,7 @@ class JournalEntryAdapter(
 
         holder.binding.journalEntry.setOnClickListener {
 
-            setCurEntry(entry)
+            setCurEntry(entry, position)
             Log.i("ΩcurrentEntry", "${entry.title}")
             holder.itemView.findNavController().navigate(R.id.entryEditFragment2)
 
@@ -47,7 +47,7 @@ class JournalEntryAdapter(
 
         holder.binding.ibDelete.setOnClickListener {
 
-            deleteEntry(entry.time)
+            deleteEntry(position)
 
         }
 

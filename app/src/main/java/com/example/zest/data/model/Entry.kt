@@ -1,6 +1,7 @@
 package com.example.zest.data.model
 
 import com.example.zest.utils.TimeHandler
+import com.google.firebase.firestore.DocumentId
 import java.time.LocalDate
 
 data class Entry(

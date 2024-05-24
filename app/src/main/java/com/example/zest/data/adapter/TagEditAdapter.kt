@@ -3,6 +3,7 @@ package com.example.zest.data.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.zest.databinding.TagEditAddbuttonItemBinding
@@ -12,7 +13,7 @@ class TagEditAdapter(
     private val tagList: List<String>,
     private val context: Context,
     private val deleteTag: (Int) -> Unit,
-    private val addTag: (Context) -> Unit
+    private val addTag: (Context, TagEditAdapter) -> Unit
 ) : RecyclerView.Adapter<ViewHolder>() {
 
     private val tagView = 1
@@ -76,7 +77,7 @@ class TagEditAdapter(
         } else if (holder is AddViewHolder) {
 
             holder.binding.btnAddTag.setOnClickListener {
-                addTag(context)
+                addTag(context, this)
             }
         }
     }
