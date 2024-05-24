@@ -31,8 +31,8 @@
                 android:id="@+id/tvTitleSearch"
                 style="@style/dekko_text_16"
                 android:layout_width="0dp"
+                android:textSize="24sp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_weight="1"
                 android:text="@string/title" />
 
@@ -59,7 +59,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/placeholder_text"
-            android:textAlignment="center"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:maxHeight="150dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
