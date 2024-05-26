@@ -17,7 +17,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.zest.data.Repository
 import com.example.zest.data.model.Entry
-import com.example.zest.data.model.JournalDay
 import com.example.zest.data.model.ZestUser
 import com.example.zest.data.remote.QuoteApi
 import com.google.firebase.Firebase
@@ -30,7 +29,6 @@ import com.google.firebase.firestore.toObject
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import java.time.LocalDate
 
 class FirebaseViewModel(application: Application) : AndroidViewModel(application) {
@@ -64,6 +62,11 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
     val curDate: LiveData<LocalDate>
         get() = _curDate
+
+    private var _entriesOfCurDate = MutableLiveData<List<Entry>>()
+
+    val entriesOfCurDate: LiveData<List<Entry>>
+        get() = _entriesOfCurDate
 
     private var _curEntry = MutableLiveData<Entry>()
 
@@ -145,6 +148,17 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
         date: String = curDate.value.toString()
     ) {
         if (title.isNotEmpty() && text.isNotEmpty()) {
+
+            usersRef
+                .document(firebaseAuth.currentUser!!.uid)
+                .collection("journal")
+                .document(date)
+                .set(
+                    mapOf(
+                        "date" to date
+                    )
+                )
+
 
 
             usersRef.document(firebaseAuth.currentUser!!.uid)
@@ -300,6 +314,42 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
     }
 
+
+    fun getEntriesOfDay(date: String){
+
+        Log.i(
+            "entriesOfCurrentDateΩ",
+            "getEntriesOfDay called => date: $date"
+        )
+        var searchTerm = "2024"
+
+        firestoreDatabase
+            .collectionGroup("entries")
+            .whereEqualTo("userId", firebaseAuth.currentUser!!.uid)
+            .whereGreaterThanOrEqualTo("date", searchTerm)
+            .whereLessThan("date", "$searchTerm\\uf8ff")
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+
+                _entriesOfCurDate.value = querySnapshot.map { it.toObject(Entry::class.java) }
+
+                _entriesOfCurDate.value!!.forEach {
+
+                    Log.i(
+                        "entriesOfCurrentDateΩ",
+                        "${it.date} | ${it.time} | ${it.title} | ${it.text} | ${it.tags}"
+                    )
+
+                }
+            }.addOnFailureListener {
+                Log.i(
+                    "entriesOfCurrentDateΩ",
+                    "${it.message}"
+                )
+
+            }
+
+    }
 
     fun getAllEntries() {
 

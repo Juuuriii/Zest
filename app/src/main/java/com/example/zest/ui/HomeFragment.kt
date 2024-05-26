@@ -40,7 +40,7 @@ class HomeFragment : Fragment() {
         setupObservers()
         binding.cvProfile.setOnClickListener {
 
-            viewModel.getAllEntries()
+            viewModel.getEntriesOfDay(viewModel.curDate.value.toString())
 
         }
     }

@@ -6,10 +6,10 @@
     android:layout_height="match_parent"
     android:background="@color/primary_Alabaster">
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnFacebookLogin"
         style="@style/zest_long_button_style"
-
+        android:layout_marginBottom="16dp"
 
         android:text="@string/continue_with_facebook"
         app:layout_constraintBottom_toTopOf="@+id/tvLogin"
@@ -18,31 +18,58 @@
 
     <TextView
         android:id="@+id/tvLogin"
-        style="@style/zest_long_button_style"
+        android:fontFamily="@font/dekko"
+        android:layout_width="160dp"
+        android:layout_height="48dp"
         android:gravity="center"
+        android:textSize="16sp"
         android:layout_marginBottom="64dp"
         android:text="@string/log_in"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnGoogleLogin"
         style="@style/zest_long_button_style"
+        android:layout_marginBottom="16dp"
 
         android:text="@string/continue_with_google"
         app:layout_constraintBottom_toTopOf="@+id/btnFacebookLogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnSignup"
         style="@style/zest_long_button_style"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/zest_button_bg"
         android:layout_height="48dp"
         android:text="@string/sign_up"
         app:layout_constraintBottom_toTopOf="@+id/btnGoogleLogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         />
+
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        app:layout_constraintBottom_toTopOf="@+id/tvLogo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/zestlogo" />
+
+    <TextView
+        android:id="@+id/tvLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:fontFamily="@font/dekko"
+        android:text="@string/z_e_s_t"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnSignup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
