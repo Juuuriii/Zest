@@ -30,4 +30,11 @@
         <item name="android:textSize">18sp</item>
     </style>
 
+    <style name="zest_bottomNav" parent="Widget.Design.BottomNavigationView">
+
+        <item name="android:fontFamily">@font/dekko</item>
+        <item name="android:textStyle">bold</item>
+
+    </style>
+
 </resources>

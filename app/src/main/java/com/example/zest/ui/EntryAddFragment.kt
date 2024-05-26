@@ -44,14 +44,14 @@ class EntryAddFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        observeCurrentEntry()
+        observeCurrentEntryTags()
     }
 
-    private fun observeCurrentEntry() {
-        viewModel.curEntry.observe(viewLifecycleOwner) { entry ->
+    private fun observeCurrentEntryTags() {
+        viewModel.curEntryTags.observe(viewLifecycleOwner) { entry ->
 
             binding.rvTagsEdit.adapter =
-                TagEditAdapter(entry.tags, requireContext() , viewModel.deleteTag, viewModel.addTag)
+                TagEditAdapter(entry, requireContext() , viewModel.deleteTag, viewModel.addTag)
 
         }
     }
@@ -68,7 +68,7 @@ class EntryAddFragment : Fragment() {
 
             val text = binding.etEntry.text.toString()
 
-            val tags = viewModel.curEntry.value!!.tags
+            val tags = viewModel.curEntryTags.value!!
 
             if (title.isNotEmpty() && text.isNotEmpty()) {
 

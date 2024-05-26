@@ -8,19 +8,42 @@
     tools:context=".MainActivity">
 
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/primary_coral"
+        android:background="@drawable/edit_text_bg"
         android:clickable="true"
-
-        android:src="@android:drawable/ic_input_add"
+        app:elevation="0dp"
+        app:strokeColor="@color/primary_taupe"
+        app:strokeWidth="3dp"
         app:layout_constraintBottom_toBottomOf="@+id/bottomNav"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/bottomNav"
-     />
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            android:background="@color/primary_coral">
+
+            <ImageView
+
+                android:id="@+id/ivAdd"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/small__" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
@@ -29,7 +52,13 @@
         android:background="@color/primary_coral"
         app:itemIconTint="@color/primary_taupe"
         app:itemTextColor="@color/primary_taupe"
-        android:isScrollContainer="false"
+        app:itemIconSize="40dp"
+        app:labelVisibilityMode="labeled"
+        app:itemTextAppearanceActiveBoldEnabled="true"
+        app:itemTextAppearanceInactive="@style/zest_bottomNav"
+        app:itemTextAppearanceActive="@style/zest_bottomNav"
+        app:elevation="-1dp"
+        app:itemBackground="@color/primary_coral"
         android:theme="@style/Zest"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

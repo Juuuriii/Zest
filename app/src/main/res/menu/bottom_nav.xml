@@ -4,11 +4,11 @@
 
     <item
         android:id="@+id/homeFragment"
-        android:icon="@drawable/outline_home_24"
+        android:icon="@drawable/home"
         android:title="@string/home" />
     <item
         android:id="@+id/journalFragment"
-        android:icon="@drawable/outline_edit_24"
+        android:icon="@drawable/small_pencil_icon"
         android:title="@string/journal" />
 
     <item
@@ -17,11 +17,11 @@
 
     <item
         android:id="@+id/searchFragment"
-        android:icon="@drawable/outline_search_24"
+        android:icon="@drawable/search"
         android:title="@string/search" />
     <item
         android:id="@+id/calenderFragment"
-        android:icon="@drawable/outline_calendar_month_24"
+        android:icon="@drawable/calendar_icon"
         android:title="@string/calendar" />
 
 

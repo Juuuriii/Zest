@@ -263,6 +263,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
     fun setEmptyEntry() {
         _curEntry.value = Entry(userId = firebaseAuth.currentUser!!.uid)
+        _curEntryTags.value = mutableListOf<String>()
     }
 
     val deleteTag: (position: Int) -> Unit = { position ->
@@ -295,7 +296,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
             if (tag.isNotEmpty() && !_curEntry.value!!.tags.contains(tag)) {
 
-                _curEntryTags.value!!.add(0, tag)
+                _curEntryTags.value?.add(0, tag) ?: mutableListOf<String>()
                 _curEntryTags.value = _curEntryTags.value
                 Log.i("ΩTags", "${_curEntry.value!!.tags}")
                 addTagAlertDialog.dismiss()
