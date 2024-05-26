@@ -2,12 +2,14 @@ package com.example.zest.data.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.zest.R
 import com.example.zest.data.model.Entry
 import com.example.zest.databinding.JournalItemBinding
+import com.example.zest.utils.TimeHandler
 
 class JournalEntryAdapter(
 
@@ -32,11 +34,13 @@ class JournalEntryAdapter(
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val entry = dataset[position]
 
+        holder.binding.tvTime.text = TimeHandler().formatDateTimeHoursMins(entry.time)
         holder.binding.tvEntryText.text = entry.text
         holder.binding.tvTitle.text = entry.title
         holder.binding.rvTags.adapter = TagAdapter(entry.tags)
 
-        holder.binding.journalEntry.setOnClickListener {
+
+        holder.binding.ibEdit.setOnClickListener {
 
             setCurEntry(entry)
             Log.i("ΩcurrentEntry", "${entry.title}")

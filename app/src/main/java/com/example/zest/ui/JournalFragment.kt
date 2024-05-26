@@ -42,7 +42,7 @@ class JournalFragment : Fragment() {
     private fun observeCurrentDate() {
         viewModel.curDate.observe(viewLifecycleOwner) {
 
-            binding.tvDate.text = TimeHandler().formatLocalDate(it.toString())
+            binding.tvDate.text = TimeHandler().formatDateDayMonthNameYear(it.toString())
 
             viewModel.getEntryRef(it.toString()).get().addOnSuccessListener { querySnapshot ->
 

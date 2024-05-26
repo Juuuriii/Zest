@@ -26,4 +26,39 @@ class TimeHandler() {
         return list[2] + "." + list[1] + "." + list[0]
     }
 
+    fun formatDateDayMonthNameYear(date: String): String {
+
+        val list = date.split("-")
+
+        return when(list[1]){
+
+            "01" -> {list[2] + "  January  " + list[0]}
+
+            "02" -> {list[2] + "  February  " + list[0]}
+
+            "03" -> {list[2] + "  March  " + list[0]}
+
+            "04" -> {list[2] + "  April  " + list[0]}
+
+            "05" -> {list[2] + "  May  " + list[0]}
+
+            "06" -> {list[2] + "  June  " + list[0]}
+
+            "07" -> {list[2] + "  July  " + list[0]}
+
+            "08" -> {list[2] + "  August  " + list[0]}
+
+            "09" -> {list[2] + "  September  " + list[0]}
+
+            "10" -> {list[2] + "  October  " + list[0]}
+
+            "11" -> {list[2] + "  November  " + list[0]}
+
+            "12" -> {list[2] + "  December  " + list[0]}
+
+            else -> {"Invalid Date"}
+        }
+
+    }
+
 }
