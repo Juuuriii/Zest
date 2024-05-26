@@ -9,11 +9,8 @@
 
     <ImageButton
         android:id="@+id/ibBack"
-        android:scaleType="fitCenter"
-        android:layout_margin="8dp"
-        android:padding="8dp"
         style="@style/zest_imageButton_style"
-        android:background="#00FFFFFF"
+        android:layout_margin="8dp"
         android:src="@drawable/back_arrow"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -43,10 +40,10 @@
 
     <LinearLayout
         android:id="@+id/linearLayout4"
-        android:layout_marginTop="32dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="32dp"
 
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -94,7 +91,6 @@
             app:layout_constraintTop_toBottomOf="@+id/tvLogo">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginBottom="32dp"
@@ -108,12 +104,12 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etEmailLogin"
-                    android:padding="0dp"
-                    android:fontFamily="@font/dekko"
-                    android:inputType="textEmailAddress"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:hint="@string/email" />
+                    android:fontFamily="@font/dekko"
+                    android:hint="@string/email"
+                    android:inputType="textEmailAddress"
+                    android:padding="0dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -122,19 +118,19 @@
                 android:background="@drawable/edit_text_bg"
                 app:boxBackgroundMode="none"
                 app:hintEnabled="false"
-                app:passwordToggleEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+                app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPasswordLogin"
-                    android:padding="0dp"
-                    android:fontFamily="@font/dekko"
-                    android:inputType="textPassword"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:hint="@string/password" />
+                    android:fontFamily="@font/dekko"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:padding="0dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
@@ -151,8 +147,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

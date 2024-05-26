@@ -55,6 +55,24 @@ class MainActivity : AppCompatActivity() {
                     this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
                 }
 
+                R.id.signupFragment -> {
+
+                    binding.bottomNav.visibility = View.GONE
+                    binding.floatingActionButton.visibility = View.GONE
+                    this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+
+
+                }
+
+                R.id.loginFragment -> {
+
+                    binding.bottomNav.visibility = View.GONE
+                    binding.floatingActionButton.visibility = View.GONE
+                    this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+
+
+                }
+
                 else -> {
                     binding.bottomNav.visibility = View.GONE
                     binding.floatingActionButton.visibility = View.GONE
