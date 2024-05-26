@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/home_bg_test"
+    android:background="@drawable/homebackground2"
     tools:context=".ui.HomeFragment">
 
     <LinearLayout
