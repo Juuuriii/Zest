@@ -38,24 +38,21 @@ class HomeFragment : Fragment() {
 
         setupOnClickListener()
         setupObservers()
-        binding.cvProfile.setOnClickListener {
 
-            viewModel.getEntriesOfDay(viewModel.curDate.value.toString())
-
-        }
     }
 
     private fun setupOnClickListener() {
-        setLogoutButtonOnClickListener()
+        setOnProfileClickListener()
     }
 
-    private fun setLogoutButtonOnClickListener() {
-        binding.btnLogout.setOnClickListener {
+    private fun setOnProfileClickListener() {
+        binding.cvProfile.setOnClickListener {
 
-            viewModel.logout()
+            findNavController().navigate(R.id.settingsFragment)
 
         }
     }
+
 
     private fun setupObservers(){
 
