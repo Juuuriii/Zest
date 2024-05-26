@@ -2,7 +2,7 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="40dp"
-    android:backgroundTint="#80F58252"
+    android:backgroundTint="#00FFFFFF"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="8dp"
     android:elevation="0dp"
@@ -12,29 +12,31 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="8dp"
+
         android:layout_gravity="center">
 
         <ImageButton
             android:id="@+id/ibDeleteTag"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:background="#00FFFFFF"
+            android:rotation="45"
+            android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tvTag"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/baseline_close_24"
+            app:srcCompat="@drawable/small__"
             app:tint="@color/primary_taupe" />
 
         <TextView
             android:id="@+id/tvTag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="8dp"
+            android:layout_marginStart="8dp"
             android:text="@string/tag"
+            style="@style/dekko_text_18"
             app:layout_constraintBottom_toBottomOf="parent"
-
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
