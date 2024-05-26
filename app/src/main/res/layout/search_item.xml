@@ -29,7 +29,7 @@
 
             <TextView
                 android:id="@+id/tvTitleSearch"
-                style="@style/dekko_text_18"
+                style="@style/dekko_text_16"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -38,14 +38,14 @@
 
             <TextView
                 android:id="@+id/tvDateSearch"
-                style="@style/dekko_text_18"
+                style="@style/dekko_text_16"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/placeholder_date" />
 
             <TextView
                 android:id="@+id/tvTimeSearch"
-                style="@style/dekko_text_18"
+                style="@style/dekko_text_16"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -54,7 +54,7 @@
 
         <TextView
             android:id="@+id/tvTextSearch"
-            style="@style/dekko_text_18"
+            style="@style/dekko_text_16"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"

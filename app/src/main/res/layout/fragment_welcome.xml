@@ -10,7 +10,6 @@
         android:id="@+id/btnFacebookLogin"
         style="@style/zest_long_button_style"
         android:layout_marginBottom="16dp"
-
         android:text="@string/continue_with_facebook"
         app:layout_constraintBottom_toTopOf="@+id/tvLogin"
         app:layout_constraintEnd_toEndOf="parent"
@@ -18,13 +17,13 @@
 
     <TextView
         android:id="@+id/tvLogin"
-        android:fontFamily="@font/dekko"
         android:layout_width="160dp"
         android:layout_height="48dp"
-        android:gravity="center"
-        android:textSize="16sp"
         android:layout_marginBottom="64dp"
+        android:fontFamily="@font/dekko"
+        android:gravity="center"
         android:text="@string/log_in"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -33,7 +32,6 @@
         android:id="@+id/btnGoogleLogin"
         style="@style/zest_long_button_style"
         android:layout_marginBottom="16dp"
-
         android:text="@string/continue_with_google"
         app:layout_constraintBottom_toTopOf="@+id/btnFacebookLogin"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,14 +40,12 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnSignup"
         style="@style/zest_long_button_style"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/zest_button_bg"
         android:layout_height="48dp"
-        android:text="@string/sign_up"
+        android:layout_marginBottom="16dp"
+        android:text="Sign up"
         app:layout_constraintBottom_toTopOf="@+id/btnGoogleLogin"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/ivLogo"

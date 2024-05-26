@@ -6,17 +6,25 @@
         <item name="android:background">@drawable/zest_button_bg</item>
         <item name="android:layout_width">176dp</item>
         <item name="android:layout_height">48dp</item>
-       <item name="android:textSize">16sp</item>
+        <item name="textAllCaps">false</item>
+       <item name="android:textSize">18sp</item>
+    </style>
 
+    <style name="zest_imageButton_style">
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_width">48dp</item>
+    </style>
+
+    <style name="dekko_text_16">
+        <item name="fontFamily">@font/dekko</item>
+        <item name="android:textColor">@color/primary_taupe</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="dekko_text_18">
-
         <item name="fontFamily">@font/dekko</item>
         <item name="android:textColor">@color/primary_taupe</item>
         <item name="android:textSize">18sp</item>
-
-
     </style>
 
 </resources>
