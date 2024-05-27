@@ -234,10 +234,30 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
     }
 
-    val deleteEntry: (time: String) -> Unit = { time ->
+    val deleteEntry: (time: String, context: Context) -> Unit = { time, context ->
 
-        _curDate.value = _curDate.value
-        getEntryRef(curDate.value.toString()).document(time).delete()
+        val deleteEntryDialogView = LayoutInflater.from(context).inflate(R.layout.delete_entry_dialog, null)
+
+        val deleteEntryDialogBuilder = AlertDialog.Builder(context).setView(deleteEntryDialogView)
+
+        val deleteEntryDialog = deleteEntryDialogBuilder.show()
+
+        deleteEntryDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        deleteEntryDialogView.findViewById<Button>(R.id.btnDelete_deleteEntryDialog).setOnClickListener {
+
+            _curDate.value = _curDate.value
+            getEntryRef(curDate.value.toString()).document(time).delete()
+            deleteEntryDialog.dismiss()
+
+        }
+
+        deleteEntryDialogView.findViewById<Button>(R.id.btnCancel_deleteEntryDialog).setOnClickListener {
+
+            deleteEntryDialog.dismiss()
+        }
+
+
 
     }
 
@@ -288,7 +308,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
             ArrayAdapter<String>(it, android.R.layout.simple_dropdown_item_1line, tagList)
         addTagAlertDialog.findViewById<AutoCompleteTextView>(R.id.etTag).setAdapter(arrayAdapter)
 
-        addTagAlertDialogView.findViewById<Button>(R.id.btnAdd).setOnClickListener {
+        addTagAlertDialogView.findViewById<Button>(R.id.btnAdd_addTagDialog).setOnClickListener {
 
             addTagAlertDialog.dismiss()
 
@@ -307,7 +327,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
             }
         }
 
-        addTagAlertDialogView.findViewById<Button>(R.id.btnCancel).setOnClickListener {
+        addTagAlertDialogView.findViewById<Button>(R.id.btnCancel_addTagDialog).setOnClickListener {
 
             addTagAlertDialog.dismiss()
 

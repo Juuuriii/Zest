@@ -1,5 +1,6 @@
 package com.example.zest.data.adapter
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +15,8 @@ import com.example.zest.utils.TimeHandler
 class JournalEntryAdapter(
 
     private val dataset: List<Entry>,
-    private val deleteEntry: (String) -> Unit,
+    private val context: Context,
+    private val deleteEntry: (String, Context) -> Unit,
     private val setCurEntry: (Entry) -> Unit
 
 
@@ -51,7 +53,7 @@ class JournalEntryAdapter(
 
         holder.binding.ibDelete.setOnClickListener {
 
-            deleteEntry(entry.time)
+            deleteEntry(entry.time, context)
 
         }
 

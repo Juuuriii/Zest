@@ -50,7 +50,7 @@ class JournalFragment : Fragment() {
 
                 if (entryList.isNotEmpty()) {
                     binding.rvEntries.adapter =
-                        JournalEntryAdapter(entryList, viewModel.deleteEntry, viewModel.setCurEntry)
+                        JournalEntryAdapter(entryList,requireContext() ,viewModel.deleteEntry, viewModel.setCurEntry)
 
                     binding.rvEntries.visibility = View.VISIBLE
                     binding.tvNoEntries.visibility = View.GONE

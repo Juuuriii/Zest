@@ -40,4 +40,6 @@
     <string name="placeholder_time">00:00</string>
     <string name="placeholder_text">...content content content content content content content content content content content content content content content content content content...</string>
     <string name="z_e_s_t">Z E S T.</string>
+    <string name="delete">Delete</string>
+    <string name="are_you_sure_you_want_to_delete_this_entry">Are you sure you want to delete this Entry?</string>
 </resources>
