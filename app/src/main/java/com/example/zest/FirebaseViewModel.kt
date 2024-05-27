@@ -305,7 +305,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
 
         val arrayAdapter =
-            ArrayAdapter<String>(it, android.R.layout.simple_dropdown_item_1line, tagList)
+            ArrayAdapter<String>(it, R.layout.autocomplete_text_item,R.id.tvAutoCompleteItem , tagList)
         addTagAlertDialog.findViewById<AutoCompleteTextView>(R.id.etTag).setAdapter(arrayAdapter)
 
         addTagAlertDialogView.findViewById<Button>(R.id.btnAdd_addTagDialog).setOnClickListener {
