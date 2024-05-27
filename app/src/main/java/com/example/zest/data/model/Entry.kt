@@ -16,6 +16,12 @@ data class Entry(
 
     var date: String = LocalDate.now().toString(),
 
+    val day : String = LocalDate.now().dayOfMonth.toString(),
+
+    val month: String = LocalDate.now().month.toString(),
+
+    val year: String = LocalDate.now().year.toString(),
+
     val userId: String = ""
 
 )

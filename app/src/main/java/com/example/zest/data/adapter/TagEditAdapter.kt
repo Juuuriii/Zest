@@ -43,17 +43,17 @@ class TagEditAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        if (viewType == tagView) {
+        return if (viewType == tagView) {
             val binding =
                 TagEditItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            return TagViewHolder(binding)
+            TagViewHolder(binding)
         } else {
             val binding = TagEditAddbuttonItemBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
             )
-            return AddViewHolder(binding)
+            AddViewHolder(binding)
         }
     }
 

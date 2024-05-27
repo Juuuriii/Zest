@@ -1,6 +1,7 @@
 package com.example.zest.utils
 
 import java.text.SimpleDateFormat
+import java.time.YearMonth
 import java.util.Date
 import java.util.Locale
 
@@ -58,6 +59,42 @@ class TimeHandler() {
 
             else -> {"Invalid Date"}
         }
+
+    }
+
+    fun formatYearMonth(yearMonth: YearMonth): String{
+
+        val list = yearMonth.toString().split("-")
+
+       return when(list[1]) {
+
+           "01" -> {"January " + list[0]}
+
+           "02" -> {"February " + list[0]}
+
+           "03" -> {"March " + list[0]}
+
+           "04" -> {"April  " + list[0]}
+
+           "05" -> {"May  " + list[0]}
+
+           "06" -> {"June  " + list[0]}
+
+           "07" -> {"July  " + list[0]}
+
+           "08" -> {"August  " + list[0]}
+
+           "09" -> {"September  " + list[0]}
+
+           "10" -> {"October  " + list[0]}
+
+           "11" -> {"November  " + list[0]}
+
+           "12" -> {"December  " + list[0]}
+
+           else -> {"  "}
+       }
+
 
     }
 

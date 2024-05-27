@@ -1,9 +1,7 @@
 package com.example.zest
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.app.Application
-import android.app.DatePickerDialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -18,6 +16,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.zest.data.Repository
+import com.example.zest.data.model.CalendarDay
 import com.example.zest.data.model.Entry
 import com.example.zest.data.model.ZestUser
 import com.example.zest.data.remote.QuoteApi
@@ -31,8 +30,8 @@ import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.YearMonth
 import java.time.ZoneId
-import java.util.Calendar
 import java.util.Date
 
 class FirebaseViewModel(application: Application) : AndroidViewModel(application) {
@@ -67,10 +66,20 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
     val curDate: LiveData<LocalDate>
         get() = _curDate
 
-    private var _entriesOfCurDate = MutableLiveData<List<Entry>>()
+    private var _curCalendarMonth = MutableLiveData<YearMonth>(YearMonth.from(LocalDate.now()))
 
-    val entriesOfCurDate: LiveData<List<Entry>>
-        get() = _entriesOfCurDate
+    val curCalendarMonth: LiveData<YearMonth>
+        get() = _curCalendarMonth
+
+    private var _curCalenderMonthDays = MutableLiveData<List<CalendarDay>>()
+
+    val curCalenderMonthDays: LiveData<List<CalendarDay>>
+        get() = _curCalenderMonthDays
+
+    private var _entriesOfSelectedMonth = MutableLiveData<List<Entry>>()
+
+    val entriesOfSelectedMonth: LiveData<List<Entry>>
+        get() = _entriesOfSelectedMonth
 
     private var _curEntry = MutableLiveData<Entry>()
 
@@ -84,6 +93,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
     init {
         loadQuotes()
+        getEntriesOfMonth(curCalendarMonth.value!!)
     }
 
     private fun loadQuotes() {
@@ -149,14 +159,14 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
         title: String,
         text: String,
         tags: MutableList<String>,
-        date: String = curDate.value.toString()
+        date: LocalDate = curDate.value!!
     ) {
         if (title.isNotEmpty() && text.isNotEmpty()) {
 
             usersRef
                 .document(firebaseAuth.currentUser!!.uid)
                 .collection("journal")
-                .document(date)
+                .document(date.toString())
                 .set(
                     mapOf(
                         "date" to date
@@ -167,7 +177,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
             usersRef.document(firebaseAuth.currentUser!!.uid)
                 .collection("journal")
-                .document(date)
+                .document(date.toString())
                 .collection("entries")
                 .document(Entry().time)
                 .set(
@@ -175,7 +185,10 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
                         title = title,
                         text = text,
                         tags = tags,
-                        date = date,
+                        date = date.toString(),
+                        day = date.dayOfMonth.toString(),
+                        month = date.month.value.toString(),
+                        year = date.year.toString(),
                         userId = firebaseAuth.currentUser!!.uid
                     )
                 )
@@ -240,7 +253,8 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
     val deleteEntry: (time: String, context: Context) -> Unit = { time, context ->
 
-        val deleteEntryDialogView = LayoutInflater.from(context).inflate(R.layout.delete_entry_dialog, null)
+        val deleteEntryDialogView =
+            LayoutInflater.from(context).inflate(R.layout.delete_entry_dialog, null)
 
         val deleteEntryDialogBuilder = AlertDialog.Builder(context).setView(deleteEntryDialogView)
 
@@ -248,19 +262,20 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
         deleteEntryDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        deleteEntryDialogView.findViewById<Button>(R.id.btnDelete_deleteEntryDialog).setOnClickListener {
+        deleteEntryDialogView.findViewById<Button>(R.id.btnDelete_deleteEntryDialog)
+            .setOnClickListener {
 
-            _curDate.value = _curDate.value
-            getEntryRef(curDate.value.toString()).document(time).delete()
-            deleteEntryDialog.dismiss()
+                _curDate.value = _curDate.value
+                getEntryRef(curDate.value.toString()).document(time).delete()
+                deleteEntryDialog.dismiss()
 
-        }
+            }
 
-        deleteEntryDialogView.findViewById<Button>(R.id.btnCancel_deleteEntryDialog).setOnClickListener {
+        deleteEntryDialogView.findViewById<Button>(R.id.btnCancel_deleteEntryDialog)
+            .setOnClickListener {
 
-            deleteEntryDialog.dismiss()
-        }
-
+                deleteEntryDialog.dismiss()
+            }
 
 
     }
@@ -282,7 +297,6 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
                     "tags" to tags
                 )
             )
-
     }
 
     fun setEmptyEntry() {
@@ -309,7 +323,12 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
 
         val arrayAdapter =
-            ArrayAdapter<String>(it, R.layout.autocomplete_text_item,R.id.tvAutoCompleteItem , tagList)
+            ArrayAdapter<String>(
+                it,
+                R.layout.autocomplete_text_item,
+                R.id.tvAutoCompleteItem,
+                tagList
+            )
         addTagAlertDialog.findViewById<AutoCompleteTextView>(R.id.etTag).setAdapter(arrayAdapter)
 
         addTagAlertDialogView.findViewById<Button>(R.id.btnAdd_addTagDialog).setOnClickListener {
@@ -340,7 +359,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
     }
 
 
-    fun datePicker(activity: MainActivity){
+    fun datePicker(activity: MainActivity) {
 
         val datePicker = MaterialDatePicker.Builder.datePicker()
             .setTheme(R.style.ThemeOverlay_App_MaterialCalendar)
@@ -350,7 +369,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
             val date = Date(it).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
 
-            if (date > LocalDate.now()){
+            if (date > LocalDate.now()) {
 
                 _curDate.value = LocalDate.now()
 
@@ -365,40 +384,102 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
     }
 
-    fun getEntriesOfDay(date: String){
+    val setCurDate : (localDate: LocalDate) -> Unit = {
 
-        Log.i(
-            "entriesOfCurrentDateΩ",
-            "getEntriesOfDay called => date: $date"
-        )
-        var searchTerm = "2024"
+        _curDate.value = it
+
+    }
+
+    private fun getDaysOfMonth(yearMonth: YearMonth): MutableList<CalendarDay> {
+
+
+        Log.i("ΩCalendar", "$yearMonth")
+        val daysInMonthList = mutableListOf<CalendarDay>()
+
+        val daysInMonth = yearMonth.lengthOfMonth()
+
+        val firstOfMonth = yearMonth.atDay(1)
+
+        val dayOfWeek = firstOfMonth.dayOfWeek.value - 1
+
+        (1..42).forEach {
+            if (it <= dayOfWeek || it > daysInMonth + dayOfWeek) {
+                daysInMonthList.add(CalendarDay("", "", "",false))
+            } else {
+
+                daysInMonthList.add(
+                    CalendarDay(
+                        (it - dayOfWeek).toString(),
+                        yearMonth.month.value.toString(),
+                        yearMonth.year.toString(),
+                        false
+                    )
+                )
+            }
+        }
+
+        Log.i("ΩCalendar", "$daysInMonthList")
+
+        return daysInMonthList
+
+    }
+
+    fun nextCurrentMonth() {
+
+        _curCalendarMonth.value = _curCalendarMonth.value?.plusMonths(1)
+        getEntriesOfMonth(_curCalendarMonth.value!!)
+    }
+
+    fun previousCurrentMonth() {
+
+        _curCalendarMonth.value = _curCalendarMonth.value?.minusMonths(1)
+        getEntriesOfMonth(_curCalendarMonth.value!!)
+    }
+
+    fun setCurrentCalendarMonth() {
+
+        _curCalendarMonth.value = YearMonth.from(LocalDate.now())
+        getEntriesOfMonth(_curCalendarMonth.value!!)
+
+    }
+
+
+    private fun getEntriesOfMonth(yearMonth: YearMonth) {
 
         firestoreDatabase
             .collectionGroup("entries")
             .whereEqualTo("userId", firebaseAuth.currentUser!!.uid)
-            .whereGreaterThanOrEqualTo("date", searchTerm)
-            .whereLessThan("date", "$searchTerm\\uf8ff")
+            .whereEqualTo("month", yearMonth.month.value.toString())
             .get()
             .addOnSuccessListener { querySnapshot ->
 
-                _entriesOfCurDate.value = querySnapshot.map { it.toObject(Entry::class.java) }
+                _entriesOfSelectedMonth.value = querySnapshot.map { it.toObject(Entry::class.java) }
 
-                _entriesOfCurDate.value!!.forEach {
+
+                val calendarDays =  getDaysOfMonth(yearMonth)
+
+               calendarDays.forEach{calendarDay ->
+
+                    calendarDay.hasEntry = _entriesOfSelectedMonth.value!!.any { it.day == calendarDay.day }
+
+                }
+
+                _curCalenderMonthDays.value = calendarDays
+
+
+                _entriesOfSelectedMonth.value!!.forEach {
 
                     Log.i(
-                        "entriesOfCurrentDateΩ",
+                        "entriesOfSelectedMonthΩ",
                         "${it.date} | ${it.time} | ${it.title} | ${it.text} | ${it.tags}"
                     )
-
                 }
             }.addOnFailureListener {
                 Log.i(
-                    "entriesOfCurrentDateΩ",
+                    "entriesOfSelectedMonthΩ",
                     "${it.message}"
                 )
-
             }
-
     }
 
     fun getAllEntries() {

@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.zest.FirebaseViewModel
 import com.example.zest.R
 import com.example.zest.databinding.FragmentSettingsBinding
+import java.time.LocalDate
 
 
 class SettingsFragment : Fragment() {
@@ -29,6 +30,8 @@ class SettingsFragment : Fragment() {
 
 
         binding.btnLogout.setOnClickListener {
+
+
 
             viewModel.logout()
             findNavController().navigate(R.id.welcomeFragment)
