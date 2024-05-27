@@ -13,7 +13,7 @@ class TagEditAdapter(
     private val tagList: List<String>,
     private val context: Context,
     private val deleteTag: (Int) -> Unit,
-    private val addTag: (Context, TagEditAdapter) -> Unit
+    private val addTag: (Context) -> Unit
 ) : RecyclerView.Adapter<ViewHolder>() {
 
     private val tagView = 1
@@ -77,7 +77,7 @@ class TagEditAdapter(
         } else if (holder is AddViewHolder) {
 
             holder.binding.btnAddTag.setOnClickListener {
-                addTag(context, this)
+                addTag(context)
             }
         }
     }

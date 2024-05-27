@@ -1,7 +1,9 @@
 package com.example.zest
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.app.Application
+import android.app.DatePickerDialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -19,17 +21,19 @@ import com.example.zest.data.Repository
 import com.example.zest.data.model.Entry
 import com.example.zest.data.model.ZestUser
 import com.example.zest.data.remote.QuoteApi
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.Source
 import com.google.firebase.firestore.firestore
-import com.google.firebase.firestore.toObject
-
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.ZoneId
+import java.util.Calendar
+import java.util.Date
 
 class FirebaseViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -335,6 +339,31 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
     }
 
+
+    fun datePicker(activity: MainActivity){
+
+        val datePicker = MaterialDatePicker.Builder.datePicker()
+            .setTheme(R.style.ThemeOverlay_App_MaterialCalendar)
+            .build()
+
+        datePicker.addOnPositiveButtonClickListener {
+
+            val date = Date(it).toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+
+            if (date > LocalDate.now()){
+
+                _curDate.value = LocalDate.now()
+
+            } else {
+
+                _curDate.value = date
+
+            }
+        }
+
+        datePicker.show(activity.supportFragmentManager, "materialDatePicker")
+
+    }
 
     fun getEntriesOfDay(date: String){
 

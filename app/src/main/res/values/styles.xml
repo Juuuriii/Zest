@@ -57,4 +57,21 @@
 
     </style>
 
+    <style name="ThemeOverlay.App.MaterialCalendar" parent="ThemeOverlay.Material3.MaterialCalendar">
+
+
+        <item name="colorPrimary">@color/primary_coral</item>
+        <item name="colorOnPrimary">@color/primary_taupe</item>
+        <item name="android:textColorSecondary">#E30000</item>
+        <item name="android:background">@color/primary_Alabaster</item>
+        <item name="fontFamily">@font/dekko</item>
+
+
+
+
+
+
+    </style>
+
+
 </resources>

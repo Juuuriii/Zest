@@ -21,8 +21,8 @@
         android:title="@string/search" />
     <item
         android:id="@+id/calenderFragment"
-        android:icon="@drawable/calendar_icon"
-        android:title="@string/calendar" />
+        android:icon="@drawable/stats"
+        android:title="@string/stats" />
 
 
 </menu>

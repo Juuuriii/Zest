@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.example.zest.FirebaseViewModel
+import com.example.zest.MainActivity
 import com.example.zest.data.adapter.JournalEntryAdapter
 import com.example.zest.data.model.Entry
 import com.example.zest.utils.TimeHandler
@@ -31,7 +32,11 @@ class JournalFragment : Fragment() {
 
         setupObservers()
         setupOnClickListener()
+        binding.tvDate.setOnClickListener {
 
+            viewModel.datePicker(requireActivity() as MainActivity)
+
+        }
 
     }
 
