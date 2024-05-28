@@ -3,7 +3,7 @@
     <style name="zest_long_button_style">
         <item name="fontFamily">@font/dekko</item>
         <item name="android:textColor">@color/primary_taupe</item>
-        <item name="android:background">@drawable/zest_button_bg</item>
+        <item name="android:background">@drawable/bg_button</item>
         <item name="android:layout_width">176dp</item>
         <item name="android:layout_height">48dp</item>
         <item name="textAllCaps">false</item>
@@ -50,6 +50,18 @@
         <item name="android:textSize">24sp</item>
     </style>
 
+    <style name="dekko_text_28">
+        <item name="fontFamily">@font/dekko</item>
+        <item name="android:textColor">@color/primary_taupe</item>
+        <item name="android:textSize">28sp</item>
+    </style>
+
+    <style name="dekko_text_32">
+        <item name="fontFamily">@font/dekko</item>
+        <item name="android:textColor">@color/primary_taupe</item>
+        <item name="android:textSize">32sp</item>
+    </style>
+
     <style name="zest_bottomNav" parent="Widget.Design.BottomNavigationView">
 
         <item name="android:fontFamily">@font/dekko</item>
@@ -58,20 +70,16 @@
     </style>
 
     <style name="ThemeOverlay.App.MaterialCalendar" parent="ThemeOverlay.Material3.MaterialCalendar">
-
-
         <item name="colorPrimary">@color/primary_coral</item>
         <item name="colorOnPrimary">@color/primary_taupe</item>
         <item name="android:textColorSecondary">#E30000</item>
         <item name="android:background">@color/primary_Alabaster</item>
         <item name="fontFamily">@font/dekko</item>
-
-
-
-
-
-
     </style>
 
+    <style name="zest_toolbar_style" parent="ThemeOverlay.MaterialComponents.Toolbar.Primary">
+
+        <item name="fontFamily">@font/dekko</item>
+    </style>
 
 </resources>

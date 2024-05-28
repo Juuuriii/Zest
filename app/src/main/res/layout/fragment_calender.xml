@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/stats_bg_100"
+    android:background="@drawable/bg_fragment_calendar"
     tools:context=".ui.CalenderFragment">
 
     <com.google.android.material.card.MaterialCardView
@@ -31,7 +31,7 @@
             <ImageButton
                 android:id="@+id/ibMonthBack"
                 style="@style/zest_imageButton_style"
-                android:src="@drawable/arrow" />
+                android:src="@drawable/icon_arrow" />
 
             <TextView
                 android:id="@+id/tvDateCalendar"
@@ -46,7 +46,7 @@
                 android:id="@+id/ibMonthForward"
                 style="@style/zest_imageButton_style"
                 android:rotationY="180"
-                android:src="@drawable/arrow" />
+                android:src="@drawable/icon_arrow" />
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
@@ -134,7 +134,7 @@
         android:id="@+id/rvCalendar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="136dp"
+
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="7"
         tools:listitem="@layout/calendar_item"

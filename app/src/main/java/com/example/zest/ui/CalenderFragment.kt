@@ -74,7 +74,7 @@ class CalenderFragment : Fragment() {
 
         viewModel.curCalenderMonthDays.observe(viewLifecycleOwner){
 
-            binding.rvCalendar.adapter = CalendarAdapter(it, viewModel.setCurDate)
+            binding.rvCalendar.adapter = CalendarAdapter(it, viewModel.setCurDate, viewModel.curCalendarMonth)
 
         }
 

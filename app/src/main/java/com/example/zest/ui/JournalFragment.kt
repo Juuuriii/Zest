@@ -7,8 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.example.zest.FirebaseViewModel
 import com.example.zest.MainActivity
+import com.example.zest.R
 import com.example.zest.data.adapter.JournalEntryAdapter
 import com.example.zest.data.model.Entry
 import com.example.zest.utils.TimeHandler
@@ -77,6 +79,15 @@ class JournalFragment : Fragment() {
         setNextDateButtonOnClickListener()
         setPreviousDateButtonOnClickListener()
         setDarePickerButtonOnClickListener()
+        setOnTvDateOnClickListener()
+    }
+
+    private fun setOnTvDateOnClickListener() {
+        binding.tvDate.setOnClickListener {
+
+            findNavController().navigate(R.id.calenderFragment)
+
+        }
     }
 
     private fun setDarePickerButtonOnClickListener() {

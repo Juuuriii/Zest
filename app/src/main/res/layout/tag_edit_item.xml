@@ -26,7 +26,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tvTag"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/small__"
+            app:srcCompat="@drawable/icon_big_plus"
             app:tint="@color/primary_taupe" />
 
         <TextView

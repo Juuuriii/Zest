@@ -29,9 +29,13 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
+        setBackgroundAplha()
 
 
+    }
 
+    private fun setBackgroundAplha() {
+        binding.clSearchScreen.background.alpha = (255 * 0.6).toInt()
     }
 
 

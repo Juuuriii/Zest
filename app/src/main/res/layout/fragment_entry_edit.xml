@@ -33,7 +33,7 @@
             android:id="@+id/ibBack"
             android:layout_margin="8dp"
             style="@style/zest_imageButton_style"
-            android:src="@drawable/back_arrow"
+            android:src="@drawable/icon_back_arrow"
             app:tint="@color/primary_taupe" />
 
 
@@ -48,7 +48,7 @@
             android:id="@+id/ibSave"
             android:layout_margin="8dp"
             style="@style/zest_imageButton_style"
-            android:src="@drawable/confirm" />
+            android:src="@drawable/icon_confirm" />
     </LinearLayout>
 
     <EditText

@@ -54,7 +54,7 @@
         app:layout_constraintBottom_toTopOf="@+id/tvLogo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/zestlogo" />
+        app:srcCompat="@drawable/logo_zest" />
 
     <TextView
         android:id="@+id/tvLogo"

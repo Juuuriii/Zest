@@ -23,7 +23,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/small__"
+            app:srcCompat="@drawable/icon_big_plus"
             app:tint="@color/primary_taupe" />
 
         <TextView

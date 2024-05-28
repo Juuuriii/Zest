@@ -1,64 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/clSearchScreen"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
-
+    android:background="@drawable/bg_fragment_search"
     tools:context=".ui.SearchFragment">
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:background="@color/primary_Alabaster"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-
-        <TextView
-            android:id="@+id/tvHeader"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="16dp"
-            android:layout_weight="1"
-
-            android:fontFamily="@font/dekko"
-            android:gravity="center|start"
-            android:text="@string/zest"
-            android:textSize="32sp" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cvProfile"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginHorizontal="16dp"
-            android:backgroundTint="@color/primary_taupe"
-            app:cardCornerRadius="45dp"
-            app:cardElevation="0dp" />
-
-
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@drawable/bgsearchfragment"
+
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:background="@color/primary_Alabaster"
             android:gravity="center"
+            android:background="@color/primary_Alabaster"
             android:paddingHorizontal="16dp">
 
             <SearchView

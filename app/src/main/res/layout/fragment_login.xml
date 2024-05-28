@@ -11,7 +11,7 @@
         android:id="@+id/ibBack"
         style="@style/zest_imageButton_style"
         android:layout_margin="8dp"
-        android:src="@drawable/back_arrow"
+        android:src="@drawable/icon_back_arrow"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/primary_taupe" />
@@ -24,7 +24,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/zestlogo" />
+        app:srcCompat="@drawable/logo_zest" />
 
     <TextView
         android:id="@+id/tvLogo"
@@ -94,7 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginBottom="32dp"
-                android:background="@drawable/edit_text_bg"
+                android:background="@drawable/bg_edit_text"
                 app:boxBackgroundMode="none"
 
                 app:hintEnabled="false"
@@ -115,7 +115,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:background="@drawable/edit_text_bg"
+                android:background="@drawable/bg_edit_text"
                 app:boxBackgroundMode="none"
                 app:hintEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"

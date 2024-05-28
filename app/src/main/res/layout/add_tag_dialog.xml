@@ -7,7 +7,7 @@
     android:paddingVertical="32dp"
     android:layout_marginHorizontal="64dp"
     android:paddingHorizontal="48dp"
-    android:background="@drawable/dialog_background"
+    android:background="@drawable/bg_alert_dialog"
     >
 
         <Button
@@ -29,7 +29,7 @@
             android:fontFamily="@font/dekko"
             android:layout_marginTop="24dp"
             android:gravity="center"
-            android:background="@drawable/edit_text_bg"
+            android:background="@drawable/bg_edit_text"
             android:completionThreshold="0"
             android:inputType="text"
             android:hint="@string/enter_tag_here"

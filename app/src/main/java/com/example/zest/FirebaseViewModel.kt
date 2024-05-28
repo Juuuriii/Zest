@@ -450,6 +450,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
             .collectionGroup("entries")
             .whereEqualTo("userId", firebaseAuth.currentUser!!.uid)
             .whereEqualTo("month", yearMonth.month.value.toString())
+            .whereEqualTo("year", yearMonth.year.toString())
             .get()
             .addOnSuccessListener { querySnapshot ->
 

@@ -36,21 +36,16 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupOnClickListener()
+        setBackGroundAlpha()
+
+
+
         setupObservers()
 
     }
 
-    private fun setupOnClickListener() {
-        setOnProfileClickListener()
-    }
-
-    private fun setOnProfileClickListener() {
-        binding.cvProfile.setOnClickListener {
-
-            findNavController().navigate(R.id.settingsFragment)
-
-        }
+    private fun setBackGroundAlpha() {
+        binding.clHomeScreen.background.alpha = (255 * 0.6).toInt()
     }
 
 
