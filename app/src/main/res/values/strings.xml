@@ -45,4 +45,6 @@
     <string name="stats">Stats</string>
     <string name="december_2024">December 2024</string>
     <string name="account_settings">Account Settings</string>
+    <string name="placeholder_email">placeholder@email.com</string>
+    <string name="placeholder_password">**********</string>
 </resources>
