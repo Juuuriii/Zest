@@ -42,7 +42,7 @@ class CalendarAdapter(
 
         if (day.isToday) {
 
-            isTodayView
+           return isTodayView
 
         }
 

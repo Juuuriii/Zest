@@ -411,7 +411,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
                 if(it <= 31){
 
-                    isToday = yearMonth.atDay(it) == LocalDate.now()
+                    isToday = yearMonth.atDay(it - dayOfWeek) == LocalDate.now()
                 }
 
                 daysInMonthList.add(
