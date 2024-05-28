@@ -29,14 +29,7 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        binding.btnLogout.setOnClickListener {
 
-
-
-            viewModel.logout()
-            findNavController().navigate(R.id.welcomeFragment)
-
-        }
 
 
     }

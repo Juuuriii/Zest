@@ -4,15 +4,190 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/primary_Alabaster"
     tools:context=".ui.SettingsFragment">
-
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnLogout"
-        style="@style/zest_long_button_style"
-        android:text="@string/logout"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/ibBack"
+            android:layout_margin="8dp"
+            style="@style/zest_imageButton_style"
+            android:src="@drawable/icon_back_arrow"
+            app:tint="@color/primary_taupe" />
+
+
+
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitStart"
+        android:src="@drawable/bg_fragment_account_settings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+    <TextView
+        android:id="@+id/tvAccountSettings"
+        style="@style/dekko_text_24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/account_settings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:layout_marginTop="24dp"
+
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvAccountSettings">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clipChildren="false">
+
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cvProfilePicture"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+
+                android:backgroundTint="@color/primary_Alabaster"
+                app:cardCornerRadius="90dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:strokeColor="@color/primary_taupe"
+                app:strokeWidth="3dp">
+
+
+                <ImageView
+                    android:id="@+id/ivProfilePic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_profile" />
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <ImageButton
+                android:id="@+id/ibAddProfilePic"
+                style="@style/zest_imageButton_style"
+                android:src="@drawable/icon_add_profilepic"
+                android:layout_marginBottom="-4dp"
+                android:layout_marginEnd="-4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/dekko_text_16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/username" />
+
+            <TextView
+                style="@style/dekko_text_16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/email" />
+
+            <TextView
+                style="@style/dekko_text_16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/password" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/dekko_text_16"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginVertical="4dp"
+                    android:background="@drawable/bg_edit_text"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:paddingHorizontal="16dp"
+                    android:text="Name"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <TextView
+                style="@style/dekko_text_16"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginVertical="4dp"
+                android:background="@drawable/bg_edit_text"
+                android:ems="10"
+                android:gravity="center"
+                android:paddingHorizontal="16dp"
+                android:text="Name" />
+
+            <TextView
+                style="@style/dekko_text_16"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginVertical="4dp"
+                android:background="@drawable/bg_edit_text"
+                android:ems="10"
+                android:gravity="center"
+                android:paddingHorizontal="16dp"
+                android:text="Name" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
