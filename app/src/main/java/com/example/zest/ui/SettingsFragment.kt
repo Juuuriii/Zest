@@ -70,7 +70,7 @@ class SettingsFragment : Fragment() {
 
 
             val intent =
-                Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             changeImage.launch(intent)
 
 
