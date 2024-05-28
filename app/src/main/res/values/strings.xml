@@ -47,4 +47,5 @@
     <string name="account_settings">Account Settings</string>
     <string name="placeholder_email">placeholder@email.com</string>
     <string name="placeholder_password">**********</string>
+    <string name="preferences">Preferences</string>
 </resources>

@@ -29,33 +29,44 @@
 
         <ImageButton
             android:id="@+id/ibBack"
-            android:layout_margin="8dp"
             style="@style/zest_imageButton_style"
+            android:layout_margin="8dp"
             android:src="@drawable/icon_back_arrow"
             app:tint="@color/primary_taupe" />
 
 
-
-
     </LinearLayout>
+
 
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="match_parent"
         android:layout_height="324dp"
-        android:scaleType="fitStart"
         android:layout_marginTop="-16dp"
-        android:src="@drawable/bg_fragment_account_settings"
+        android:scaleType="fitCenter"
+        android:src="@drawable/bg_fragment_account2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvAccountSettings" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="324dp"
+        android:layout_marginTop="-16dp"
+        android:scaleType="fitStart"
+        android:src="@drawable/bg_fragment_account_settings2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvAccountSettings" />
+
 
     <TextView
         android:id="@+id/tvAccountSettings"
         style="@style/dekko_text_24"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+
         android:text="@string/account_settings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -65,9 +76,7 @@
     <LinearLayout
         android:id="@+id/linearLayout6"
         android:layout_width="match_parent"
-
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:gravity="center"
@@ -86,11 +95,11 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cvProfilePicture"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
 
                 android:backgroundTint="@color/primary_Alabaster"
-                app:cardCornerRadius="90dp"
+                app:cardCornerRadius="180dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -101,9 +110,9 @@
 
                 <ImageView
                     android:id="@+id/ivProfilePic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/icon_profile" />
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/icon_stats" />
 
 
             </com.google.android.material.card.MaterialCardView>
@@ -111,8 +120,10 @@
             <ImageButton
                 android:id="@+id/ibAddProfilePic"
                 style="@style/zest_imageButton_style"
-                android:layout_marginEnd="-4dp"
-                android:layout_marginBottom="-4dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="16dp"
+                android:padding="0dp"
                 android:src="@drawable/icon_add_profilepic"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
@@ -121,11 +132,25 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="24dp"
+        android:clipToPadding="false"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView4">
+
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-
-            android:layout_marginHorizontal="16dp"
             android:orientation="vertical">
 
             <TextView
@@ -151,18 +176,27 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/password" />
+
+
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_marginStart="32dp"
             android:clipChildren="false"
-            android:orientation="vertical">
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            android:paddingEnd="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageView4">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginVertical="12dp"
+                android:background="@color/primary_Alabaster"
                 android:clipChildren="false">
 
 
@@ -171,9 +205,10 @@
                     style="@style/dekko_text_16"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:layout_marginVertical="8dp"
+
                     android:background="@drawable/bg_edit_text"
                     android:gravity="center"
+
                     android:paddingHorizontal="16dp"
                     android:text="@string/username"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -187,6 +222,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginEnd="-8dp"
+                    android:layout_marginBottom="-8dp"
                     android:padding="0dp"
                     android:src="@drawable/icon_edit_account"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -198,6 +234,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginVertical="12dp"
+                android:background="@color/primary_Alabaster"
                 android:clipChildren="false">
 
 
@@ -206,7 +244,7 @@
                     style="@style/dekko_text_16"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:layout_marginVertical="8dp"
+
                     android:background="@drawable/bg_edit_text"
                     android:gravity="center"
                     android:paddingHorizontal="4dp"
@@ -221,8 +259,8 @@
                     style="@style/zest_imageButton_style"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-
                     android:layout_marginEnd="-8dp"
+                    android:layout_marginBottom="-8dp"
                     android:padding="0dp"
                     android:src="@drawable/icon_edit_account"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -233,6 +271,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginVertical="12dp"
+                android:background="@color/primary_Alabaster"
                 android:clipChildren="false">
 
 
@@ -241,7 +281,7 @@
                     style="@style/dekko_text_16"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:layout_marginVertical="8dp"
+
                     android:background="@drawable/bg_edit_text"
                     android:gravity="center"
                     android:paddingHorizontal="16dp"
@@ -257,6 +297,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_marginEnd="-8dp"
+                    android:layout_marginBottom="-8dp"
                     android:padding="0dp"
                     android:src="@drawable/icon_edit_account"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -266,20 +307,21 @@
 
         </LinearLayout>
 
+
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <TextView
+        android:id="@+id/tvLogin"
+        android:layout_width="160dp"
+        android:layout_height="48dp"
+        android:fontFamily="@font/dekko"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="@string/logout"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3">
-
-
-
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout7" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
