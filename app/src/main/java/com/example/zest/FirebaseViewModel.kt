@@ -1,16 +1,23 @@
 package com.example.zest
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.app.Application
 import android.content.Context
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -27,6 +34,7 @@ import com.google.firebase.auth.auth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.Source
 import com.google.firebase.firestore.firestore
+import com.google.firebase.storage.storage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -43,9 +51,11 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
         "Games"
     ) //TODO(Safe used tags for AutocompleteTextView)
 
-    val firebaseAuth = Firebase.auth
+     val firebaseAuth = Firebase.auth
 
     private val firestoreDatabase = Firebase.firestore
+
+    val firebaseStorage = Firebase.storage
 
     private val usersRef = firestoreDatabase.collection("users")
 
@@ -91,7 +101,13 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
     val curEntryTags: LiveData<MutableList<String>>
         get() = _curEntryTags
 
+    private var _profilePic = MutableLiveData<Bitmap>()
+
+    val profilePic: LiveData<Bitmap>
+        get() = _profilePic
+
     init {
+
         loadQuotes()
         getEntriesOfMonth(curCalendarMonth.value!!)
     }
@@ -384,7 +400,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
     }
 
-    val setCurDate : (localDate: LocalDate) -> Unit = {
+    val setCurDate: (localDate: LocalDate) -> Unit = {
 
         _curDate.value = it
 
@@ -404,12 +420,12 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
         (1..42).forEach {
             if (it <= dayOfWeek || it > daysInMonth + dayOfWeek) {
-                daysInMonthList.add(CalendarDay("", "", "",false, false))
+                daysInMonthList.add(CalendarDay("", "", "", false, false))
             } else {
 
                 var isToday = false
 
-                if(it <= 31){
+                if (it <= 31) {
 
                     isToday = yearMonth.atDay(it - dayOfWeek) == LocalDate.now()
                 }
@@ -465,11 +481,12 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
                 _entriesOfSelectedMonth.value = querySnapshot.map { it.toObject(Entry::class.java) }
 
 
-                val calendarDays =  getDaysOfMonth(yearMonth)
+                val calendarDays = getDaysOfMonth(yearMonth)
 
-               calendarDays.forEach{calendarDay ->
+                calendarDays.forEach { calendarDay ->
 
-                    calendarDay.hasEntry = _entriesOfSelectedMonth.value!!.any { it.day == calendarDay.day }
+                    calendarDay.hasEntry =
+                        _entriesOfSelectedMonth.value!!.any { it.day == calendarDay.day }
 
                 }
 
@@ -519,8 +536,37 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
     }
 
+    fun uploadProfilePicture(uri: Uri){
+
+        firebaseStorage.getReference("Users/${firebaseAuth.currentUser!!.uid}/profilePic").putFile(uri)
+
+    }
+
+    fun loadProfilePicture() {
+
+       val storageRef = firebaseStorage
+            .reference
+            .child("Users/${firebaseAuth.currentUser!!.uid}/profilePic")
+
+        val ONE_GIGABYTE: Long = 1024 * 1024 * 1024
+
+       storageRef.getBytes(ONE_GIGABYTE).addOnSuccessListener {
+
+          val image = BitmapFactory.decodeByteArray(it,0,it.size)
+
+          _profilePic.value = image
+
+       }
+
+
+    }
+
 
 }
+
+
+
+
 
 
 
