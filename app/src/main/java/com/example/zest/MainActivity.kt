@@ -90,11 +90,7 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                binding.fragmentContainerView.findNavController().navigateUp()
-            }
-        })
+
 
 
 

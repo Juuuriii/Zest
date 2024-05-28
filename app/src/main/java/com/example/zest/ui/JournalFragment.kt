@@ -32,11 +32,7 @@ class JournalFragment : Fragment() {
 
         setupObservers()
         setupOnClickListener()
-        binding.tvDate.setOnClickListener {
 
-            viewModel.datePicker(requireActivity() as MainActivity)
-
-        }
 
     }
 
@@ -80,6 +76,15 @@ class JournalFragment : Fragment() {
     private fun setupOnClickListener() {
         setNextDateButtonOnClickListener()
         setPreviousDateButtonOnClickListener()
+        setDarePickerButtonOnClickListener()
+    }
+
+    private fun setDarePickerButtonOnClickListener() {
+        binding.ibDatePicker.setOnClickListener {
+
+            viewModel.datePicker(requireActivity() as MainActivity)
+
+        }
     }
 
     private fun setPreviousDateButtonOnClickListener() {
