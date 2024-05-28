@@ -27,8 +27,13 @@ class QuoteAdapter(
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
 
         val quote = quoteList[position]
-        holder.binding.tvQuote.text = quote.text
-        holder.binding.tvAuthor.text = quote.author
+
+        val author = " - " + quote.author
+
+        val quoteText = "\"" + quote.text + "\""
+
+        holder.binding.tvQuote.text = quoteText
+        holder.binding.tvAuthor.text = author
 
     }
 

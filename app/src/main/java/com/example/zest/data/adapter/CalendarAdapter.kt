@@ -10,6 +10,7 @@ import com.example.zest.R
 import com.example.zest.data.model.CalendarDay
 import com.example.zest.databinding.CalendarItemBinding
 import com.example.zest.databinding.CalendarItemEntryBinding
+import com.example.zest.databinding.CalenderItemTodayBinding
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
@@ -24,15 +25,26 @@ class CalendarAdapter(
 
     private val withEntryView = 2
 
+    private val isTodayView = 3
+
     inner class WithoutEntryViewHolder(val binding: CalendarItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     inner class WithEntryViewHolder(val binding: CalendarItemEntryBinding) :
         RecyclerView.ViewHolder(binding.root)
 
+    inner class IsTodayViewHolder(val binding: CalenderItemTodayBinding) :
+        RecyclerView.ViewHolder(binding.root)
+
     override fun getItemViewType(position: Int): Int {
 
         val day = dataset[position]
+
+        if (day.isToday) {
+
+            isTodayView
+
+        }
 
         return if (day.hasEntry) {
             withEntryView
@@ -48,11 +60,16 @@ class CalendarAdapter(
                 CalendarItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             WithoutEntryViewHolder(binding)
 
-        } else {
+        } else if (viewType == withEntryView) {
 
             val binding =
                 CalendarItemEntryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             WithEntryViewHolder(binding)
+        } else {
+            val binding =
+                CalenderItemTodayBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            IsTodayViewHolder(binding)
+
         }
 
 
@@ -96,6 +113,19 @@ class CalendarAdapter(
 
                 }
             }
+        } else if (holder is IsTodayViewHolder) {
+            holder.binding.tvDay.text = day.day
+
+            holder.binding.tvDay.setOnClickListener {
+
+                if (LocalDate.now() >= date) {
+                    setCurDate(date)
+                    holder.itemView.findNavController().navigate(R.id.journalFragment)
+
+                }
+            }
+
+
         }
     }
 

@@ -184,6 +184,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
+            android:background="@color/primary_Alabaster"
             android:clipChildren="false"
             android:clipToPadding="false"
             android:orientation="vertical"

@@ -404,15 +404,23 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
         (1..42).forEach {
             if (it <= dayOfWeek || it > daysInMonth + dayOfWeek) {
-                daysInMonthList.add(CalendarDay("", "", "",false))
+                daysInMonthList.add(CalendarDay("", "", "",false, false))
             } else {
+
+                var isToday = false
+
+                if(it <= 31){
+
+                    isToday = yearMonth.atDay(it) == LocalDate.now()
+                }
 
                 daysInMonthList.add(
                     CalendarDay(
                         (it - dayOfWeek).toString(),
                         yearMonth.month.value.toString(),
                         yearMonth.year.toString(),
-                        false
+                        false,
+                        isToday
                     )
                 )
             }

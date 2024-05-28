@@ -48,4 +48,5 @@
     <string name="placeholder_email">placeholder@email.com</string>
     <string name="placeholder_password">**********</string>
     <string name="preferences">Preferences</string>
+    <string name="motivational_quotes">Motivational Quotes</string>
 </resources>

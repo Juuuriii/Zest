@@ -7,6 +7,7 @@ data class CalendarDay(
     val day: String,
     val month: String,
     val year: String,
-    var hasEntry: Boolean
+    var hasEntry: Boolean,
+    var isToday: Boolean
 
 )
