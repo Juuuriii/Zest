@@ -7,7 +7,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -30,19 +30,13 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        installSplashScreen()
-
-        val viewModel =
-            ViewModelProvider(this)[FirebaseViewModel::class.java]
 
 
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         val toolbar = binding.materialToolbar
         setSupportActionBar(toolbar)
@@ -56,8 +50,6 @@ class MainActivity : AppCompatActivity() {
         onBackPressedDispatcher()
         setupOnClickListeners()
 
-        viewModel.profilePic.observe(this, Observer {
-            binding.ibProfile.setImageBitmap(it)})
 
     }
 
@@ -75,12 +67,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setFabOnClickListener() {
-        binding.floatingActionButton.setOnClickListener {
+   private fun setFabOnClickListener() {
+      /*  binding.floatingActionButton.setOnClickListener {
 
             binding.fragmentContainerView.findNavController().navigate(R.id.entryAddFragment)
 
-        }
+        }*/
     }
 
     private fun onDestinationChangeListener(navHost: NavHostFragment){
@@ -89,7 +81,7 @@ class MainActivity : AppCompatActivity() {
             when (destination.id) {
                 R.id.homeFragment -> {
                     binding.bottomNav.visibility = View.VISIBLE
-                    binding.floatingActionButton.visibility = View.VISIBLE
+                  //  binding.floatingActionButton.visibility = View.VISIBLE
                     binding.materialToolbar.visibility = View.VISIBLE
                     binding.materialToolbar.setBackgroundColor(resources.getColor(R.color.primary_Alabaster))
                     this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
@@ -97,7 +89,7 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.searchFragment -> {
                     binding.bottomNav.visibility = View.VISIBLE
-                    binding.floatingActionButton.visibility = View.VISIBLE
+                //    binding.floatingActionButton.visibility = View.VISIBLE
                     binding.materialToolbar.visibility = View.VISIBLE
                     binding.materialToolbar.setBackgroundColor(resources.getColor(R.color.primary_Alabaster))
                     this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
@@ -106,7 +98,7 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.journalFragment -> {
                     binding.bottomNav.visibility = View.VISIBLE
-                    binding.floatingActionButton.visibility = View.VISIBLE
+                  //  binding.floatingActionButton.visibility = View.VISIBLE
                     binding.materialToolbar.visibility = View.VISIBLE
                     binding.materialToolbar.setBackgroundColor(resources.getColor(R.color.primary_coral))
                     this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
@@ -114,7 +106,7 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.calenderFragment -> {
                     binding.bottomNav.visibility = View.VISIBLE
-                    binding.floatingActionButton.visibility = View.VISIBLE
+                 //   binding.floatingActionButton.visibility = View.VISIBLE
                     binding.materialToolbar.visibility = View.VISIBLE
                     binding.materialToolbar.setBackgroundColor(resources.getColor(R.color.primary_Alabaster))
                     this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
@@ -123,7 +115,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.signupFragment -> {
 
                     binding.bottomNav.visibility = View.GONE
-                    binding.floatingActionButton.visibility = View.GONE
+                  //  binding.floatingActionButton.visibility = View.GONE
                     binding.materialToolbar.visibility = View.GONE
                     binding.materialToolbar.setBackgroundColor(resources.getColor(R.color.primary_Alabaster))
                     this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
@@ -134,7 +126,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.loginFragment -> {
 
                     binding.bottomNav.visibility = View.GONE
-                    binding.floatingActionButton.visibility = View.GONE
+                 //   binding.floatingActionButton.visibility = View.GONE
                     binding.materialToolbar.visibility = View.GONE
                     binding.materialToolbar.setBackgroundColor(resources.getColor(R.color.primary_Alabaster))
                     this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
@@ -144,7 +136,7 @@ class MainActivity : AppCompatActivity() {
 
                 else -> {
                     binding.bottomNav.visibility = View.GONE
-                    binding.floatingActionButton.visibility = View.GONE
+                  //  binding.floatingActionButton.visibility = View.GONE
                     binding.materialToolbar.visibility = View.GONE
                     binding.materialToolbar.setBackgroundColor(resources.getColor(R.color.primary_Alabaster))
                     this.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)

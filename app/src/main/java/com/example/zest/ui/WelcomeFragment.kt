@@ -44,7 +44,6 @@ class WelcomeFragment : Fragment() {
             if (it != null) {
                 findNavController().navigate(R.id.homeFragment)
             }
-
         }
     }
 

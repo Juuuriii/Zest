@@ -1,22 +1,12 @@
 package com.example.zest
 
-import android.app.AlertDialog
-import android.app.Application
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.util.Log
-import android.view.LayoutInflater
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.Button
-import android.widget.EditText
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.zest.data.Repository
 import com.example.zest.data.model.CalendarDay
@@ -37,7 +27,7 @@ import java.time.YearMonth
 import java.time.ZoneId
 import java.util.Date
 
-class FirebaseViewModel(application: Application) : AndroidViewModel(application) {
+class FirebaseViewModel : ViewModel() {
 
     private val tagList = mutableListOf(
         "Work",
@@ -46,15 +36,15 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
         "Games"
     ) //TODO(Safe used tags for AutocompleteTextView)
 
-    val firebaseAuth = Firebase.auth
+    private val firebaseAuth = Firebase.auth
 
     private val firestoreDatabase = Firebase.firestore
 
-    val firebaseStorage = Firebase.storage
+    private val firebaseStorage = Firebase.storage
 
-    private val userID = firebaseAuth.currentUser!!.uid
 
-    private val userRef = firestoreDatabase.collection("users").document(userID)
+
+
 
     private val repository = Repository(QuoteApi)
 
@@ -112,8 +102,8 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
         get() = _profilePic
 
     init {
-        loadQuotes()
-        getEntriesOfMonth(curCalendarMonth.value!!)
+       // loadQuotes()
+      //  getEntriesOfMonth(curCalendarMonth.value!!)
 
     }
 
@@ -133,7 +123,9 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
                 .addOnCompleteListener { authResult ->
                     if (authResult.isSuccessful) {
 
+
                         createUser(username)
+
                         completion()
 
                     } else {
@@ -158,7 +150,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
     private fun createUser(username: String) {
 
-        userRef
+        firestoreDatabase.collection("users").document(firebaseAuth.currentUser!!.uid)
             .set(
                 ZestUser(
                     username = username,
@@ -171,6 +163,8 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
             }
     }
 
+
+
     fun createEntry(
         title: String,
         text: String,
@@ -179,7 +173,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
     ) {
         if (title.isNotEmpty() && text.isNotEmpty()) {
 
-            userRef
+            firestoreDatabase.collection("users").document(firebaseAuth.currentUser!!.uid)
                 .collection("journal")
                 .document(date.toString())
                 .set(
@@ -188,7 +182,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
                     )
                 )
 
-            userRef
+            firestoreDatabase.collection("users").document(firebaseAuth.currentUser!!.uid)
                 .collection("journal")
                 .document(date.toString())
                 .collection("entries")
@@ -210,7 +204,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
     fun getUser() {
 
-        userRef.addSnapshotListener { value, error ->
+        firestoreDatabase.collection("users").document(firebaseAuth.currentUser!!.uid).addSnapshotListener { value, error ->
             _curUserProfile.value = value?.toObject(ZestUser::class.java)
         }
         loadProfilePicture()
@@ -219,7 +213,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
     fun changeUserName(newName: String) {
 
-        userRef
+        firestoreDatabase.collection("users").document(firebaseAuth.currentUser!!.uid)
             .update("username", newName)
 
     }
@@ -247,7 +241,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
     }
 
     private fun getEntryRef(date: String): CollectionReference {
-        return userRef
+        return firestoreDatabase.collection("users").document(firebaseAuth.currentUser!!.uid)
             .collection("journal")
             .document(date)
             .collection("entries")
@@ -445,7 +439,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
         val path = "Users/${firebaseAuth.currentUser!!.uid}/profilePic"
 
-        userRef.update("profilePicPath", path)
+        firestoreDatabase.collection("users").document(firebaseAuth.currentUser!!.uid).update("profilePicPath", path)
 
         firebaseStorage.getReference(path)
             .putFile(uri).addOnCompleteListener {
