@@ -29,11 +29,11 @@ class SignupFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupOnClickListener()
+        setupOnClickListeners()
 
     }
 
-    private fun setupOnClickListener() {
+    private fun setupOnClickListeners() {
         setSignUpButtonOnClickListener()
         setBackButtonOnClickListener()
     }

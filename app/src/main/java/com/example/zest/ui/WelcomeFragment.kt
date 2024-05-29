@@ -31,7 +31,7 @@ class WelcomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupObserver()
-        setupOnClickListener()
+        setupOnClickListeners()
 
     }
 
@@ -48,7 +48,7 @@ class WelcomeFragment : Fragment() {
         }
     }
 
-    private fun setupOnClickListener() {
+    private fun setupOnClickListeners() {
         setLogInButtonClickListener()
         setSignUpButtonOnClickListener()
     }

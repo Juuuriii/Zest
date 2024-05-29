@@ -29,7 +29,7 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupObservers()
-        setupOnClickListener()
+        setupOnClickListeners()
 
 
     }
@@ -46,7 +46,7 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun setupOnClickListener() {
+    private fun setupOnClickListeners() {
         setLoginButtonOnClickListener()
         setBackButtonOnClickListener()
     }

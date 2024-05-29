@@ -44,6 +44,8 @@ android {
 
 dependencies {
 
+    implementation ("androidx.lifecycle:lifecycle-extensions:2.2.0")
+
     implementation ("androidx.core:core-splashscreen:1.0.1")
 
     implementation ("androidx.activity:activity:1.9.0")

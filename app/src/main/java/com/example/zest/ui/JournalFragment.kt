@@ -1,7 +1,6 @@
 package com.example.zest.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +11,6 @@ import com.example.zest.FirebaseViewModel
 import com.example.zest.MainActivity
 import com.example.zest.R
 import com.example.zest.data.adapter.JournalEntryAdapter
-import com.example.zest.data.model.Entry
 import com.example.zest.utils.TimeHandler
 import com.example.zest.databinding.FragmentJournalBinding
 import java.time.LocalDate
@@ -33,11 +31,16 @@ class JournalFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getEntriesOfDay(viewModel.curDate.value!!)
+
+        setupView()
         setupObservers()
-        setupOnClickListener()
+        setupOnClickListeners()
 
 
+    }
+
+    private fun setupView() {
+        viewModel.getEntriesOfDay(viewModel.curDate.value!!)
     }
 
     private fun setupObservers() {
@@ -71,7 +74,7 @@ class JournalFragment : Fragment() {
         }
     }
 
-    private fun setupOnClickListener() {
+    private fun setupOnClickListeners() {
         setNextDateButtonOnClickListener()
         setPreviousDateButtonOnClickListener()
         setDarePickerButtonOnClickListener()

@@ -34,7 +34,7 @@ class EntryAddFragment : Fragment() {
 
         setupView()
         setupObservers()
-        setupOnClickListener()
+        setupOnClickListeners()
 
 
     }
@@ -56,7 +56,7 @@ class EntryAddFragment : Fragment() {
         }
     }
 
-    private fun setupOnClickListener() {
+    private fun setupOnClickListeners() {
         setSaveButtonOnClickListener()
         setBackButtonOnClickListener()
     }

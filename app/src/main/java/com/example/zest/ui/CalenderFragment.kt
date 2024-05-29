@@ -6,14 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.viewModelScope
 import com.example.zest.FirebaseViewModel
 import com.example.zest.data.adapter.CalendarAdapter
 import com.example.zest.databinding.FragmentCalenderBinding
 import com.example.zest.utils.TimeHandler
-import kotlinx.coroutines.launch
-import java.time.LocalDate
-import java.time.YearMonth
 
 
 class CalenderFragment : Fragment() {
@@ -36,7 +32,7 @@ class CalenderFragment : Fragment() {
 
         setupView()
         setupObservers()
-        setupOnClickListener()
+        setupOnClickListeners()
 
     }
 
@@ -44,7 +40,7 @@ class CalenderFragment : Fragment() {
         viewModel.setCurrentCalendarMonth()
     }
 
-    private fun setupOnClickListener() {
+    private fun setupOnClickListeners() {
         setNextMonthButtonListener()
         setPreviousMonthButtonListener()
     }

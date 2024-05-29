@@ -211,17 +211,10 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
     fun getUser() {
 
         userRef.addSnapshotListener { value, error ->
-
             _curUserProfile.value = value?.toObject(ZestUser::class.java)
-
         }
         loadProfilePicture()
-        /*userRef
-            .get().addOnSuccessListener {
-                _curUserProfile.value = it.toObject(ZestUser::class.java)
-            }
 
-        loadProfilePicture()*/
     }
 
     fun changeUserName(newName: String) {

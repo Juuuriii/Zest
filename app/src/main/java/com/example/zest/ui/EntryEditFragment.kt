@@ -10,7 +10,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.zest.FirebaseViewModel
 import com.example.zest.R
 import com.example.zest.data.adapter.TagEditAdapter
-import com.example.zest.data.model.Entry
 import com.example.zest.databinding.FragmentEntryEditBinding
 
 
@@ -31,7 +30,7 @@ class EntryEditFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupObservers()
-        setupOnClickListener()
+        setupOnClickListeners()
 
     }
 
@@ -59,7 +58,7 @@ class EntryEditFragment : Fragment() {
 
     }
 
-    private fun setupOnClickListener() {
+    private fun setupOnClickListeners() {
         setSaveButtonOnClickListener()
         setBackButtonOnClickListener()
     }
