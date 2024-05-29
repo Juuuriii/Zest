@@ -68,11 +68,11 @@ class MainActivity : AppCompatActivity() {
     }
 
    private fun setFabOnClickListener() {
-      /*  binding.floatingActionButton.setOnClickListener {
+        binding.floatingActionButton.setOnClickListener {
 
             binding.fragmentContainerView.findNavController().navigate(R.id.entryAddFragment)
 
-        }*/
+        }
     }
 
     private fun onDestinationChangeListener(navHost: NavHostFragment){

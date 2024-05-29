@@ -37,6 +37,7 @@ class CalenderFragment : Fragment() {
     }
 
     private fun setupView() {
+        viewModel.getEntriesOfMonth(viewModel.curCalendarMonth.value!!)
         viewModel.setCurrentCalendarMonth()
     }
 

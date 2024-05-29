@@ -34,10 +34,13 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         setBackGroundAlpha()
         setupObservers()
 
     }
+
+
 
     private fun setBackGroundAlpha() {
         binding.clHomeScreen.background.alpha = (255 * 0.6).toInt()
@@ -73,9 +76,9 @@ class HomeFragment : Fragment() {
     private fun observeQuotes() {
         viewModel.quotes.observe(viewLifecycleOwner){
 
-            val helper: SnapHelper = PagerSnapHelper()
 
-            helper.attachToRecyclerView(binding.rvQuote)
+
+            PagerSnapHelper().attachToRecyclerView(binding.rvQuote)
 
             binding.rvQuote.adapter = QuoteAdapter(it)
 

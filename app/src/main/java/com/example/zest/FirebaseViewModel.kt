@@ -42,10 +42,6 @@ class FirebaseViewModel : ViewModel() {
 
     private val firebaseStorage = Firebase.storage
 
-
-
-
-
     private val repository = Repository(QuoteApi)
 
     val quotes = repository.quoteList
@@ -102,13 +98,9 @@ class FirebaseViewModel : ViewModel() {
         get() = _profilePic
 
     init {
-       // loadQuotes()
-      //  getEntriesOfMonth(curCalendarMonth.value!!)
-
+        loadQuotes()
     }
-
-
-    private fun loadQuotes() {
+    fun loadQuotes() {
 
         viewModelScope.launch(Dispatchers.IO) {
 
@@ -150,7 +142,8 @@ class FirebaseViewModel : ViewModel() {
 
     private fun createUser(username: String) {
 
-        firestoreDatabase.collection("users").document(firebaseAuth.currentUser!!.uid)
+        firestoreDatabase.collection("users")
+            .document(firebaseAuth.currentUser!!.uid)
             .set(
                 ZestUser(
                     username = username,
@@ -173,7 +166,8 @@ class FirebaseViewModel : ViewModel() {
     ) {
         if (title.isNotEmpty() && text.isNotEmpty()) {
 
-            firestoreDatabase.collection("users").document(firebaseAuth.currentUser!!.uid)
+            firestoreDatabase.collection("users")
+                .document(firebaseAuth.currentUser!!.uid)
                 .collection("journal")
                 .document(date.toString())
                 .set(
@@ -182,7 +176,8 @@ class FirebaseViewModel : ViewModel() {
                     )
                 )
 
-            firestoreDatabase.collection("users").document(firebaseAuth.currentUser!!.uid)
+            firestoreDatabase.collection("users")
+                .document(firebaseAuth.currentUser!!.uid)
                 .collection("journal")
                 .document(date.toString())
                 .collection("entries")
@@ -241,7 +236,8 @@ class FirebaseViewModel : ViewModel() {
     }
 
     private fun getEntryRef(date: String): CollectionReference {
-        return firestoreDatabase.collection("users").document(firebaseAuth.currentUser!!.uid)
+        return firestoreDatabase.collection("users")
+            .document(firebaseAuth.currentUser!!.uid)
             .collection("journal")
             .document(date)
             .collection("entries")
@@ -385,7 +381,7 @@ class FirebaseViewModel : ViewModel() {
 
     }
 
-    private fun getEntriesOfMonth(yearMonth: YearMonth) {
+     fun getEntriesOfMonth(yearMonth: YearMonth) {
 
         val query = firestoreDatabase
             .collectionGroup("entries")

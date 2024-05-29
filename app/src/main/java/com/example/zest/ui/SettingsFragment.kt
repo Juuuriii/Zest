@@ -122,6 +122,7 @@ class SettingsFragment : Fragment() {
     private fun setLogoutButtonOnClickListener() {
         binding.tvLogout.setOnClickListener {
             viewModel.logout()
+            findNavController().navigate(R.id.welcomeFragment)
         }
     }
 
