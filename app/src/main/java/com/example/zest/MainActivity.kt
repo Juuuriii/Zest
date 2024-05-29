@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
+        val viewModel = ViewModelProvider(this)[FirebaseViewModel::class.java]
 
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -49,7 +50,13 @@ class MainActivity : AppCompatActivity() {
         onDestinationChangeListener(navHost)
         onBackPressedDispatcher()
         setupOnClickListeners()
+        viewModel.profilePic.observe(this, Observer {
 
+            if (it != null){
+                binding.ibProfile.setImageBitmap(it)
+            }
+
+        })
 
     }
 
