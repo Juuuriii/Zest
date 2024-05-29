@@ -66,17 +66,20 @@ class CalenderFragment : Fragment() {
     }
 
     private fun setupObservers() {
+        observeCurrentCalendarMonthDays()
         observeCurrentCalendarMonth()
     }
 
-    private fun observeCurrentCalendarMonth() {
-
-
+    private fun observeCurrentCalendarMonthDays() {
         viewModel.curCalenderMonthDays.observe(viewLifecycleOwner){
 
             binding.rvCalendar.adapter = CalendarAdapter(it, viewModel.setCurDate, viewModel.curCalendarMonth)
 
         }
+    }
+
+    private fun observeCurrentCalendarMonth() {
+
 
         viewModel.curCalendarMonth.observe(viewLifecycleOwner){
 

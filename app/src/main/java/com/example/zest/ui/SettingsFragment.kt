@@ -19,6 +19,7 @@ import com.example.zest.R
 import com.example.zest.databinding.FragmentSettingsBinding
 import java.time.LocalDate
 
+//TODO(clean up code)
 
 class SettingsFragment : Fragment() {
 
@@ -35,11 +36,9 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.profilePic.observe(viewLifecycleOwner){
+        setupObservers()
+        setupOnClickListeners()
 
-            binding.ivProfilePic.load(it)
-
-        }
 
         var imageUri: Uri
 
@@ -54,12 +53,7 @@ class SettingsFragment : Fragment() {
                         )
                         imageUri = it1
 
-                        viewModel
-                            .firebaseStorage
-                            .getReference("Users/${viewModel.firebaseAuth.currentUser!!.uid}/profilePic")
-                            .putFile(imageUri)
-
-
+                        viewModel.uploadProfilePicture(it1)
 
                     }
                 }
@@ -70,18 +64,52 @@ class SettingsFragment : Fragment() {
 
 
             val intent =
-                Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             changeImage.launch(intent)
 
 
         }
 
-        binding.tvLogin.setOnClickListener {
 
-            viewModel.loadProfilePicture()
+
+    }
+
+    private fun setupOnClickListeners() {
+       setBackButtonOnClickListener()
+        setLogoutButtonOnClickListener()
+    }
+
+    private fun setLogoutButtonOnClickListener() {
+        binding.tvLogout.setOnClickListener {
+            viewModel.logout()
+        }
+    }
+
+    private fun setBackButtonOnClickListener() {
+        binding.ibBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
+    }
+
+    private fun setupObservers() {
+        observeProfilePicture()
+        observeUserProfile()
+    }
+
+    private fun observeUserProfile() {
+        viewModel.curUserProfile.observe(viewLifecycleOwner){
+
+            binding.tvUsername.text = it.username
+
+            binding.tvEmail.text = it.userEmail
 
         }
+    }
 
+    private fun observeProfilePicture() {
+        viewModel.profilePic.observe(viewLifecycleOwner){
+            binding.ivProfilePic.load(it)
+        }
     }
 
 

@@ -5,6 +5,7 @@ data class ZestUser(
     val username: String = "",
     val userId: String = "",
     val userEmail: String = "",
+    val profilePicPath: String = "",
     val usedTags: MutableList<String> = mutableListOf()
 
 )

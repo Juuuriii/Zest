@@ -312,7 +312,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tvLogin"
+        android:id="@+id/tvLogout"
         android:layout_width="160dp"
         android:layout_height="48dp"
         android:fontFamily="@font/dekko"

@@ -1,23 +1,19 @@
 package com.example.zest
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.app.Application
 import android.content.Context
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
-import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -32,7 +28,6 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.Source
 import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.storage
 import kotlinx.coroutines.Dispatchers
@@ -51,25 +46,28 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
         "Games"
     ) //TODO(Safe used tags for AutocompleteTextView)
 
-     val firebaseAuth = Firebase.auth
+    val firebaseAuth = Firebase.auth
 
     private val firestoreDatabase = Firebase.firestore
 
     val firebaseStorage = Firebase.storage
 
-    private val usersRef = firestoreDatabase.collection("users")
+    private val userID = firebaseAuth.currentUser!!.uid
+
+    private val userRef = firestoreDatabase.collection("users").document(userID)
 
     private val repository = Repository(QuoteApi)
 
     val quotes = repository.quoteList
 
+
     private var _curUser = MutableLiveData<FirebaseUser?>(firebaseAuth.currentUser)
     val curUser: LiveData<FirebaseUser?>
         get() = _curUser
 
-    private var _username = MutableLiveData<String>()
-    val username: LiveData<String>
-        get() = _username
+    private var _curUserProfile = MutableLiveData<ZestUser>()
+    val curUserProfile: LiveData<ZestUser>
+        get() = _curUserProfile
 
     private var _curDate = MutableLiveData<LocalDate>(LocalDate.now())
 
@@ -86,9 +84,16 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
     val curCalenderMonthDays: LiveData<List<CalendarDay>>
         get() = _curCalenderMonthDays
 
+
+    private var _entriesOfSelectedDay = MutableLiveData<List<Entry>>()
+
+    val entriesOfSelectedDay: LiveData<List<Entry>>
+        get() = _entriesOfSelectedDay
+
+
     private var _entriesOfSelectedMonth = MutableLiveData<List<Entry>>()
 
-    val entriesOfSelectedMonth: LiveData<List<Entry>>
+    private val entriesOfSelectedMonth: LiveData<List<Entry>>
         get() = _entriesOfSelectedMonth
 
     private var _curEntry = MutableLiveData<Entry>()
@@ -107,9 +112,9 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
         get() = _profilePic
 
     init {
-
         loadQuotes()
         getEntriesOfMonth(curCalendarMonth.value!!)
+
     }
 
     private fun loadQuotes() {
@@ -152,8 +157,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
     private fun createUser(username: String) {
 
-        usersRef
-            .document(firebaseAuth.currentUser!!.uid)
+        userRef
             .set(
                 ZestUser(
                     username = username,
@@ -161,13 +165,8 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
                     userEmail = firebaseAuth.currentUser?.email ?: ""
                 )
             )
-            .addOnSuccessListener {
-                Log.d(
-                    "Firestore", "DocumentSnapshot added with ID: ${firebaseAuth.currentUser!!.uid}"
-                )
-            }
-            .addOnFailureListener { e ->
-                Log.w("Firestore", "Error adding document", e)
+            .addOnFailureListener { exception ->
+                Log.w("createUser", "$exception")
             }
     }
 
@@ -179,8 +178,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
     ) {
         if (title.isNotEmpty() && text.isNotEmpty()) {
 
-            usersRef
-                .document(firebaseAuth.currentUser!!.uid)
+            userRef
                 .collection("journal")
                 .document(date.toString())
                 .set(
@@ -189,9 +187,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
                     )
                 )
 
-
-
-            usersRef.document(firebaseAuth.currentUser!!.uid)
+            userRef
                 .collection("journal")
                 .document(date.toString())
                 .collection("entries")
@@ -211,36 +207,20 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    fun getUsername() {
-
-        val docRef = firestoreDatabase.collection("users").document(firebaseAuth.currentUser!!.uid)
-
-        val source = Source.CACHE
-
-        docRef.get(source).addOnCompleteListener() { task ->
-            if (task.isSuccessful) {
-
-                val document = task.result
-
-                _username.value = document.data?.get("username").toString()
-
-            } else {
-
-                Log.d("ΩFirestoreUsername", "Cached get failed: ", task.exception)
-
+    fun getUser() {
+        userRef
+            .get().addOnSuccessListener {
+                _curUserProfile.value = it.toObject(ZestUser::class.java)
             }
-        }
+
+        loadProfilePicture()
+
+
     }
 
     fun logout() {
         firebaseAuth.signOut()
         _curUser.value = firebaseAuth.currentUser
-    }
-
-    fun resetDateToCurrentDate() {
-
-        _curDate.value = LocalDate.now()
-
     }
 
     fun curDatePlusOne() {
@@ -250,31 +230,37 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
             _curDate.value = _curDate.value!!.plusDays(1)
 
         }
+        getEntriesOfDay(curDate.value!!)
     }
 
     fun curDateMinusOne() {
 
         _curDate.value = _curDate.value!!.minusDays(1)
-
+        getEntriesOfDay(curDate.value!!)
     }
 
-    fun getEntryRef(date: String): CollectionReference {
-
-        return usersRef.document(firebaseAuth.currentUser!!.uid)
+    private fun getEntryRef(date: String): CollectionReference {
+        return userRef
             .collection("journal")
             .document(date)
             .collection("entries")
-
     }
 
     val deleteEntry: (time: String, context: Context) -> Unit = { time, context ->
 
         val deleteEntryDialogView =
-            LayoutInflater.from(context).inflate(R.layout.delete_entry_dialog, null)
+            LayoutInflater
+                .from(context)
+                .inflate(R.layout.delete_entry_dialog, null)
 
-        val deleteEntryDialogBuilder = AlertDialog.Builder(context).setView(deleteEntryDialogView)
+        val deleteEntryDialogBuilder =
+            AlertDialog
+                .Builder(context)
+                .setView(deleteEntryDialogView)
 
-        val deleteEntryDialog = deleteEntryDialogBuilder.show()
+        val deleteEntryDialog =
+            deleteEntryDialogBuilder
+                .show()
 
         deleteEntryDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
@@ -283,6 +269,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
                 _curDate.value = _curDate.value
                 getEntryRef(curDate.value.toString()).document(time).delete()
+                getEntriesOfDay(curDate.value!!)
                 deleteEntryDialog.dismiss()
 
             }
@@ -323,7 +310,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
     val deleteTag: (position: Int) -> Unit = { position ->
         _curEntryTags.value!!.removeAt(position)
         _curEntryTags.value = _curEntryTags.value
-        Log.i("ΩTags", "${_curEntry.value!!.tags}")
+
     }
 
     val addTag: (context: Context) -> Unit = {
@@ -374,7 +361,6 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
     }
 
-
     fun datePicker(activity: MainActivity) {
 
         val datePicker = MaterialDatePicker.Builder.datePicker()
@@ -403,6 +389,25 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
     val setCurDate: (localDate: LocalDate) -> Unit = {
 
         _curDate.value = it
+
+    }
+
+    fun nextCurrentMonth() {
+
+        _curCalendarMonth.value = _curCalendarMonth.value?.plusMonths(1)
+        getEntriesOfMonth(_curCalendarMonth.value!!)
+    }
+
+    fun previousCurrentMonth() {
+
+        _curCalendarMonth.value = _curCalendarMonth.value?.minusMonths(1)
+        getEntriesOfMonth(_curCalendarMonth.value!!)
+    }
+
+    fun setCurrentCalendarMonth() {
+
+        _curCalendarMonth.value = YearMonth.from(LocalDate.now())
+        getEntriesOfMonth(_curCalendarMonth.value!!)
 
     }
 
@@ -448,33 +453,16 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
     }
 
-    fun nextCurrentMonth() {
-
-        _curCalendarMonth.value = _curCalendarMonth.value?.plusMonths(1)
-        getEntriesOfMonth(_curCalendarMonth.value!!)
-    }
-
-    fun previousCurrentMonth() {
-
-        _curCalendarMonth.value = _curCalendarMonth.value?.minusMonths(1)
-        getEntriesOfMonth(_curCalendarMonth.value!!)
-    }
-
-    fun setCurrentCalendarMonth() {
-
-        _curCalendarMonth.value = YearMonth.from(LocalDate.now())
-        getEntriesOfMonth(_curCalendarMonth.value!!)
-
-    }
-
-
     private fun getEntriesOfMonth(yearMonth: YearMonth) {
 
-        firestoreDatabase
+        val query = firestoreDatabase
             .collectionGroup("entries")
             .whereEqualTo("userId", firebaseAuth.currentUser!!.uid)
             .whereEqualTo("month", yearMonth.month.value.toString())
             .whereEqualTo("year", yearMonth.year.toString())
+
+
+        query
             .get()
             .addOnSuccessListener { querySnapshot ->
 
@@ -484,28 +472,68 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
                 val calendarDays = getDaysOfMonth(yearMonth)
 
                 calendarDays.forEach { calendarDay ->
-
                     calendarDay.hasEntry =
-                        _entriesOfSelectedMonth.value!!.any { it.day == calendarDay.day }
-
+                        entriesOfSelectedMonth.value!!.any { it.day == calendarDay.day }
                 }
-
                 _curCalenderMonthDays.value = calendarDays
 
-
-                _entriesOfSelectedMonth.value!!.forEach {
-
-                    Log.i(
-                        "entriesOfSelectedMonthΩ",
-                        "${it.date} | ${it.time} | ${it.title} | ${it.text} | ${it.tags}"
-                    )
-                }
-            }.addOnFailureListener {
-                Log.i(
-                    "entriesOfSelectedMonthΩ",
-                    "${it.message}"
-                )
             }
+            .addOnFailureListener { exception ->
+                Log.e("getEntriesOfMonth", "$exception")
+            }
+    }
+
+    fun getEntriesOfDay(date: LocalDate) {
+
+        val query = firestoreDatabase
+            .collectionGroup("entries")
+            .whereEqualTo("userId", firebaseAuth.currentUser!!.uid)
+            .whereEqualTo("date", date.toString())
+        query
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+
+                _entriesOfSelectedDay.value = querySnapshot.map { it.toObject(Entry::class.java) }
+
+            }
+            .addOnFailureListener { exception ->
+                Log.e("getEntriesOfDay", "$exception")
+            }
+    }
+
+    fun uploadProfilePicture(uri: Uri) {
+
+        val path = "Users/${firebaseAuth.currentUser!!.uid}/profilePic"
+
+        userRef.update("profilePicPath", path)
+
+        firebaseStorage.getReference(path)
+            .putFile(uri).addOnCompleteListener {
+
+                loadProfilePicture()
+
+            }
+
+    }
+
+    private fun loadProfilePicture() {
+
+        val storageRef = firebaseStorage
+            .reference
+            .child("Users/${firebaseAuth.currentUser!!.uid}/profilePic")
+
+
+        val maxDownloadSizeBytes: Long = 1024 * 1024 * 10
+
+        storageRef.getBytes(maxDownloadSizeBytes).addOnCompleteListener {
+
+            val image = BitmapFactory.decodeByteArray(it.result,0,it.result.size)
+            _profilePic.value = image
+
+        }
+
+
+
     }
 
     fun getAllEntries() {
@@ -535,33 +563,6 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
 
     }
-
-    fun uploadProfilePicture(uri: Uri){
-
-        firebaseStorage.getReference("Users/${firebaseAuth.currentUser!!.uid}/profilePic").putFile(uri)
-
-    }
-
-    fun loadProfilePicture() {
-
-       val storageRef = firebaseStorage
-            .reference
-            .child("Users/${firebaseAuth.currentUser!!.uid}/profilePic")
-
-        val ONE_GIGABYTE: Long = 1024 * 1024 * 1024
-
-       storageRef.getBytes(ONE_GIGABYTE).addOnSuccessListener {
-
-          val image = BitmapFactory.decodeByteArray(it,0,it.size)
-
-          _profilePic.value = image
-
-       }
-
-
-    }
-
-
 }
 
 

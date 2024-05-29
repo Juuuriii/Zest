@@ -42,7 +42,7 @@ class CalendarAdapter(
 
         if (day.isToday) {
 
-           return isTodayView
+            return isTodayView
 
         }
 
@@ -55,24 +55,39 @@ class CalendarAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return if (viewType == withoutEntryView) {
-            val binding =
-                CalendarItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            WithoutEntryViewHolder(binding)
 
-        } else if (viewType == withEntryView) {
+        return when (viewType) {
 
-            val binding =
-                CalendarItemEntryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            WithEntryViewHolder(binding)
-        } else {
-            val binding =
-                CalenderItemTodayBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            IsTodayViewHolder(binding)
+            withEntryView -> {
+                val binding =
+                    CalendarItemEntryBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
+                WithEntryViewHolder(binding)
+            }
 
+            withoutEntryView -> {
+                val binding =
+                    CalendarItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                WithoutEntryViewHolder(binding)
+            }
+
+            else -> {
+                val binding =
+                    CalenderItemTodayBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
+                IsTodayViewHolder(binding)
+            }
         }
+    }
 
-
+    override fun getItemCount(): Int {
+        return dataset.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -86,52 +101,52 @@ class CalendarAdapter(
             curCalendarMonth.value!!.atDay(1)
         }
 
+        when (holder) {
 
-        if (holder is WithoutEntryViewHolder) {
+            is WithoutEntryViewHolder -> {
 
-            holder.binding.tvDay.text = day.day
+                holder.binding.tvDay.text = day.day
 
-            holder.binding.tvDay.setOnClickListener {
+                holder.binding.tvDay.setOnClickListener {
 
+                    if (LocalDate.now() >= date) {
+                        setCurDate(date)
+                        holder.itemView.findNavController().navigate(R.id.journalFragment)
+                    }
+                }
 
-                if (LocalDate.now() >= date) {
-                    setCurDate(date)
-                    holder.itemView.findNavController().navigate(R.id.journalFragment)
+            }
 
+            is WithEntryViewHolder -> {
+                holder.binding.tvDay.text = day.day
+
+                holder.binding.tvDay.setOnClickListener {
+
+                    if (LocalDate.now() >= date) {
+                        setCurDate(date)
+                        holder.itemView.findNavController().navigate(R.id.journalFragment)
+                    }
                 }
             }
 
-        } else if (holder is WithEntryViewHolder) {
+            is IsTodayViewHolder -> {
+                holder.binding.tvDay.text = day.day
 
-            holder.binding.tvDay.text = day.day
+                holder.binding.tvDay.setOnClickListener {
 
-            holder.binding.tvDay.setOnClickListener {
+                    if (LocalDate.now() >= date) {
+                        setCurDate(date)
+                        holder.itemView.findNavController().navigate(R.id.journalFragment)
 
-                if (LocalDate.now() >= date) {
-                    setCurDate(date)
-                    holder.itemView.findNavController().navigate(R.id.journalFragment)
-
+                    }
                 }
             }
-        } else if (holder is IsTodayViewHolder) {
-            holder.binding.tvDay.text = day.day
-
-            holder.binding.tvDay.setOnClickListener {
-
-                if (LocalDate.now() >= date) {
-                    setCurDate(date)
-                    holder.itemView.findNavController().navigate(R.id.journalFragment)
-
-                }
-            }
-
 
         }
+
     }
 
-    override fun getItemCount(): Int {
-        return dataset.size
-    }
+
 
 
 }

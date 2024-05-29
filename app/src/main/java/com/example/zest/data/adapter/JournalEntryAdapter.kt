@@ -45,9 +45,7 @@ class JournalEntryAdapter(
         holder.binding.ibEdit.setOnClickListener {
 
             setCurEntry(entry)
-            Log.i("ΩcurrentEntry", "${entry.title}")
             holder.itemView.findNavController().navigate(R.id.entryEditFragment2)
-
 
         }
 
@@ -56,7 +54,5 @@ class JournalEntryAdapter(
             deleteEntry(entry.time, context)
 
         }
-
     }
-
 }

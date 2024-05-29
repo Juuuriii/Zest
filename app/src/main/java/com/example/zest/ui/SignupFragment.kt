@@ -33,7 +33,6 @@ class SignupFragment : Fragment() {
 
     }
 
-
     private fun setupOnClickListener() {
         setSignUpButtonOnClickListener()
         setBackButtonOnClickListener()

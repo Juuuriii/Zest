@@ -71,9 +71,7 @@ class TagEditAdapter(
             holder.binding.ibDeleteTag.setOnClickListener {
 
                 deleteTag(position)
-
             }
-
         } else if (holder is AddViewHolder) {
 
             holder.binding.btnAddTag.setOnClickListener {

@@ -15,6 +15,8 @@ import com.example.zest.data.adapter.JournalEntryAdapter
 import com.example.zest.data.model.Entry
 import com.example.zest.utils.TimeHandler
 import com.example.zest.databinding.FragmentJournalBinding
+import java.time.LocalDate
+
 
 
 class JournalFragment : Fragment() {
@@ -31,7 +33,7 @@ class JournalFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        viewModel.getEntriesOfDay(viewModel.curDate.value!!)
         setupObservers()
         setupOnClickListener()
 
@@ -40,6 +42,25 @@ class JournalFragment : Fragment() {
 
     private fun setupObservers() {
         observeCurrentDate()
+        observeEntriesOfSelectedDay()
+    }
+
+    private fun observeEntriesOfSelectedDay() {
+        viewModel.entriesOfSelectedDay.observe(viewLifecycleOwner){
+            if (it.isNotEmpty()) {
+                binding.rvEntries.adapter =
+                    JournalEntryAdapter(it,requireContext() ,viewModel.deleteEntry, viewModel.setCurEntry)
+
+                binding.rvEntries.visibility = View.VISIBLE
+                binding.tvNoEntries.visibility = View.GONE
+
+            } else {
+
+                binding.rvEntries.visibility = View.GONE
+                binding.tvNoEntries.visibility = View.VISIBLE
+
+            }
+        }
     }
 
     private fun observeCurrentDate() {
@@ -47,31 +68,6 @@ class JournalFragment : Fragment() {
 
             binding.tvDate.text = TimeHandler().formatDateDayMonthNameYear(it.toString())
 
-            viewModel.getEntryRef(it.toString()).get().addOnSuccessListener { querySnapshot ->
-
-                val entryList = querySnapshot.map { it.toObject(Entry::class.java) }
-
-                if (entryList.isNotEmpty()) {
-                    binding.rvEntries.adapter =
-                        JournalEntryAdapter(entryList,requireContext() ,viewModel.deleteEntry, viewModel.setCurEntry)
-
-                    binding.rvEntries.visibility = View.VISIBLE
-                    binding.tvNoEntries.visibility = View.GONE
-
-                } else {
-
-                    binding.rvEntries.visibility = View.GONE
-                    binding.tvNoEntries.visibility = View.VISIBLE
-
-                }
-
-                Log.i("ΩgetEntries", " Success Result => $entryList")
-
-            }.addOnFailureListener {
-
-                Log.i("ΩgetEntries", "Fail Result => ${it.message}")
-
-            }
         }
     }
 
@@ -116,7 +112,7 @@ class JournalFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        viewModel.resetDateToCurrentDate()
+        viewModel.setCurDate(LocalDate.now())
 
     }
 

@@ -22,7 +22,7 @@ class EntryEditFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentEntryEditBinding.inflate(inflater,container,false)
+        binding = FragmentEntryEditBinding.inflate(inflater, container, false)
         return binding.root
 
     }
@@ -41,15 +41,16 @@ class EntryEditFragment : Fragment() {
     }
 
     private fun observeCurrentEntryTags() {
-        viewModel.curEntryTags.observe(viewLifecycleOwner){
+        viewModel.curEntryTags.observe(viewLifecycleOwner) {
 
-            binding.rvTagsEdit.adapter = TagEditAdapter(it, requireContext(), viewModel.deleteTag, viewModel.addTag)
+            binding.rvTagsEdit.adapter =
+                TagEditAdapter(it, requireContext(), viewModel.deleteTag, viewModel.addTag)
 
         }
     }
 
     private fun observeCurrentEntry() {
-        viewModel.curEntry.observe(viewLifecycleOwner){
+        viewModel.curEntry.observe(viewLifecycleOwner) {
 
             binding.etTitle.setText(it.title)
             binding.etEntry.setText(it.text)
@@ -58,7 +59,7 @@ class EntryEditFragment : Fragment() {
 
     }
 
-    private fun setupOnClickListener(){
+    private fun setupOnClickListener() {
         setSaveButtonOnClickListener()
         setBackButtonOnClickListener()
     }
@@ -73,7 +74,7 @@ class EntryEditFragment : Fragment() {
 
             val newTags = viewModel.curEntryTags.value
 
-            if(binding.etTitle.text.isNotEmpty() && binding.etEntry.text.isNotEmpty()) {
+            if (binding.etTitle.text.isNotEmpty() && binding.etEntry.text.isNotEmpty()) {
 
                 viewModel.updateEntry(newTitle, newText, newTags ?: mutableListOf())
                 findNavController().navigate(R.id.journalFragment)
