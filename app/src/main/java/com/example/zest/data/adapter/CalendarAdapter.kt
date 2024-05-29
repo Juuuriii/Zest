@@ -8,17 +8,17 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.zest.R
 import com.example.zest.data.model.CalendarDay
-import com.example.zest.databinding.CalendarItemBinding
-import com.example.zest.databinding.CalendarItemEntryBinding
-import com.example.zest.databinding.CalenderItemTodayBinding
+import com.example.zest.databinding.ItemCalendarTodayBinding
+import com.example.zest.databinding.ItemCalendarBinding
+import com.example.zest.databinding.ItemCalendarEntryBinding
 import java.time.LocalDate
 import java.time.YearMonth
-import java.time.format.DateTimeFormatter
+
 
 class CalendarAdapter(
     private val dataset: List<CalendarDay>,
     val setCurDate: (localDate: LocalDate) -> Unit,
-    val curCalendarMonth: LiveData<YearMonth>
+    private val curCalendarMonth: LiveData<YearMonth>
 ) : RecyclerView.Adapter<ViewHolder>() {
 
     private val withoutEntryView = 1
@@ -27,13 +27,13 @@ class CalendarAdapter(
 
     private val isTodayView = 3
 
-    inner class WithoutEntryViewHolder(val binding: CalendarItemBinding) :
+    inner class WithoutEntryViewHolder(val binding: ItemCalendarBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    inner class WithEntryViewHolder(val binding: CalendarItemEntryBinding) :
+    inner class WithEntryViewHolder(val binding: ItemCalendarEntryBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    inner class IsTodayViewHolder(val binding: CalenderItemTodayBinding) :
+    inner class IsTodayViewHolder(val binding: ItemCalendarTodayBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun getItemViewType(position: Int): Int {
@@ -60,7 +60,7 @@ class CalendarAdapter(
 
             withEntryView -> {
                 val binding =
-                    CalendarItemEntryBinding.inflate(
+                    ItemCalendarEntryBinding.inflate(
                         LayoutInflater.from(parent.context),
                         parent,
                         false
@@ -70,13 +70,13 @@ class CalendarAdapter(
 
             withoutEntryView -> {
                 val binding =
-                    CalendarItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                    ItemCalendarBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 WithoutEntryViewHolder(binding)
             }
 
             else -> {
                 val binding =
-                    CalenderItemTodayBinding.inflate(
+                    ItemCalendarTodayBinding.inflate(
                         LayoutInflater.from(parent.context),
                         parent,
                         false

@@ -137,7 +137,7 @@
 
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="7"
-        tools:listitem="@layout/calendar_item"
+        tools:listitem="@layout/item_calendar"
         tools:itemCount="31"
         android:layout_marginHorizontal="16dp"
         app:layout_constraintBottom_toBottomOf="parent"

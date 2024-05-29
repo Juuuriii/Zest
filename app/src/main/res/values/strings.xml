@@ -49,4 +49,6 @@
     <string name="placeholder_password">**********</string>
     <string name="preferences">Preferences</string>
     <string name="motivational_quotes">Motivational Quotes</string>
+    <string name="enter_new_username_here">Enter new Username here...</string>
+    <string name="save">Save</string>
 </resources>

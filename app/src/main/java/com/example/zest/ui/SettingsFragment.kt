@@ -1,7 +1,10 @@
 package com.example.zest.ui
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -9,6 +12,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -16,6 +21,8 @@ import coil.load
 import com.example.zest.FirebaseViewModel
 import com.example.zest.MainActivity
 import com.example.zest.R
+import com.example.zest.databinding.DialogDeleteEntryBinding
+import com.example.zest.databinding.DialogChangeUsernameBinding
 import com.example.zest.databinding.FragmentSettingsBinding
 import java.time.LocalDate
 
@@ -40,27 +47,24 @@ class SettingsFragment : Fragment() {
         setupOnClickListeners()
 
 
-        var imageUri: Uri
 
         val changeImage =
             registerForActivityResult(
                 ActivityResultContracts.StartActivityForResult()
-            ) {
-                if (it.resultCode == Activity.RESULT_OK) {
-                    it.data?.data?.let { it1 ->
+            ) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    result.data?.data?.let { uri ->
                         requireContext().contentResolver.takePersistableUriPermission(
-                            it1, Intent.FLAG_GRANT_READ_URI_PERMISSION
+                            uri, Intent.FLAG_GRANT_READ_URI_PERMISSION
                         )
-                        imageUri = it1
 
-                        viewModel.uploadProfilePicture(it1)
+                        viewModel.uploadProfilePicture(uri)
 
                     }
                 }
             }
 
         binding.ibAddProfilePic.setOnClickListener {
-
 
 
             val intent =
@@ -71,12 +75,48 @@ class SettingsFragment : Fragment() {
         }
 
 
+    }
+
+
+
+    private fun changeUsernameDialog() {
+
+        val changeUsernameDialogBinding = DialogChangeUsernameBinding.inflate(layoutInflater)
+
+        val changeUsernameDialog = AlertDialog.Builder(requireContext()).setView(changeUsernameDialogBinding.root).show()
+
+        changeUsernameDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        changeUsernameDialogBinding.btnSave.setOnClickListener {
+
+            val newUsername = changeUsernameDialogBinding.etUsername.text.toString()
+
+            if(newUsername != "") {
+
+                viewModel.changeUserName(newUsername)
+                changeUsernameDialog.dismiss()
+
+            } else {
+
+                changeUsernameDialog.dismiss()
+
+            }
+
+        }
 
     }
 
+
     private fun setupOnClickListeners() {
-       setBackButtonOnClickListener()
+        setBackButtonOnClickListener()
         setLogoutButtonOnClickListener()
+        setOnUsernameOnClickListener()
+    }
+
+    private fun setOnUsernameOnClickListener() {
+        binding.tvUsername.setOnClickListener {
+            changeUsernameDialog()
+        }
     }
 
     private fun setLogoutButtonOnClickListener() {
@@ -97,7 +137,7 @@ class SettingsFragment : Fragment() {
     }
 
     private fun observeUserProfile() {
-        viewModel.curUserProfile.observe(viewLifecycleOwner){
+        viewModel.curUserProfile.observe(viewLifecycleOwner) {
 
             binding.tvUsername.text = it.username
 
@@ -107,7 +147,7 @@ class SettingsFragment : Fragment() {
     }
 
     private fun observeProfilePicture() {
-        viewModel.profilePic.observe(viewLifecycleOwner){
+        viewModel.profilePic.observe(viewLifecycleOwner) {
             binding.ivProfilePic.load(it)
         }
     }

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:paddingVertical="32dp"
+    android:layout_marginHorizontal="64dp"
+    android:paddingHorizontal="48dp"
+    android:background="@drawable/bg_alert_dialog"
+    >
+
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/zest_text_button"
+        android:layout_marginTop="16dp"
+        android:text="@string/cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etUsername" />
+
+    <AutoCompleteTextView
+        android:id="@+id/etUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:paddingHorizontal="16dp"
+        android:ems="10"
+        android:fontFamily="@font/dekko"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:background="@drawable/bg_edit_text"
+        android:completionThreshold="0"
+        android:inputType="text"
+        android:hint="@string/enter_new_username_here"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/zest_text_button"
+        android:layout_marginTop="16dp"
+        android:text="@string/save"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etUsername" />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

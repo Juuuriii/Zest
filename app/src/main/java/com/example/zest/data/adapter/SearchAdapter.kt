@@ -4,17 +4,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.zest.data.model.Entry
-import com.example.zest.databinding.SearchItemBinding
+import com.example.zest.databinding.ItemSearchBinding
 import com.example.zest.utils.TimeHandler
 
 class SearchAdapter(
     private val dataset: List<Entry>
 ): RecyclerView.Adapter<SearchAdapter.ItemViewHolder>() {
 
-    inner class ItemViewHolder(val binding: SearchItemBinding): RecyclerView.ViewHolder(binding.root)
+    inner class ItemViewHolder(val binding: ItemSearchBinding): RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        val binding = SearchItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemSearchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ItemViewHolder(binding)
     }
 

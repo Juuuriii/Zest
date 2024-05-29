@@ -89,7 +89,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView"
 
-        tools:listitem="@layout/journal_item" />
+        tools:listitem="@layout/item_journal" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

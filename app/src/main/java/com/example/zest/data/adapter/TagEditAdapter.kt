@@ -1,29 +1,34 @@
 package com.example.zest.data.adapter
 
+import android.app.AlertDialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.example.zest.databinding.TagEditAddbuttonItemBinding
-import com.example.zest.databinding.TagEditItemBinding
+import com.example.zest.databinding.DialogAddTagBinding
+import com.example.zest.databinding.DialogDeleteEntryBinding
+import com.example.zest.databinding.ItemEditAddbuttonItemBinding
+import com.example.zest.databinding.ItemEditTagBinding
 
 class TagEditAdapter(
     private val tagList: List<String>,
     private val context: Context,
     private val deleteTag: (Int) -> Unit,
-    private val addTag: (Context) -> Unit
+    private val addTag: (String) -> Unit
 ) : RecyclerView.Adapter<ViewHolder>() {
 
     private val tagView = 1
 
     private val addView = 2
 
-    inner class TagViewHolder(val binding: TagEditItemBinding) :
+    inner class TagViewHolder(val binding: ItemEditTagBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    inner class AddViewHolder(val binding: TagEditAddbuttonItemBinding) :
+    inner class AddViewHolder(val binding: ItemEditAddbuttonItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     private val dataset: MutableList<String> = tagList.toMutableList()
@@ -45,10 +50,10 @@ class TagEditAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return if (viewType == tagView) {
             val binding =
-                TagEditItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                ItemEditTagBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             TagViewHolder(binding)
         } else {
-            val binding = TagEditAddbuttonItemBinding.inflate(
+            val binding = ItemEditAddbuttonItemBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -75,10 +80,34 @@ class TagEditAdapter(
         } else if (holder is AddViewHolder) {
 
             holder.binding.btnAddTag.setOnClickListener {
-                addTag(context)
+                addTagDialog()
             }
         }
     }
 
+    private fun addTagDialog(){
+
+        val addTagDialogBinding = DialogAddTagBinding.inflate(LayoutInflater.from(context))
+
+        val addTagDialog = AlertDialog.Builder(context).setView(addTagDialogBinding.root).show()
+
+        addTagDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        addTagDialogBinding.btnAddAddTagDialog.setOnClickListener {
+
+            val tag = addTagDialogBinding.etTag.text.toString()
+
+            addTag(tag)
+
+            addTagDialog.dismiss()
+        }
+        addTagDialogBinding.btnCancelAddTagDialog.setOnClickListener {
+
+            addTagDialog.dismiss()
+
+        }
+
+
+    }
 
 }

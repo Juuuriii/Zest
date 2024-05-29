@@ -117,6 +117,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
     }
 
+
     private fun loadQuotes() {
 
         viewModelScope.launch(Dispatchers.IO) {
@@ -208,13 +209,25 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun getUser() {
-        userRef
+
+        userRef.addSnapshotListener { value, error ->
+
+            _curUserProfile.value = value?.toObject(ZestUser::class.java)
+
+        }
+        loadProfilePicture()
+        /*userRef
             .get().addOnSuccessListener {
                 _curUserProfile.value = it.toObject(ZestUser::class.java)
             }
 
-        loadProfilePicture()
+        loadProfilePicture()*/
+    }
 
+    fun changeUserName(newName: String) {
+
+        userRef
+            .update("username", newName)
 
     }
 
@@ -222,6 +235,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
         firebaseAuth.signOut()
         _curUser.value = firebaseAuth.currentUser
     }
+
 
     fun curDatePlusOne() {
 
@@ -246,41 +260,12 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
             .collection("entries")
     }
 
-    val deleteEntry: (time: String, context: Context) -> Unit = { time, context ->
+    val deleteEntry: (time: String) -> Unit = { time ->
 
-        val deleteEntryDialogView =
-            LayoutInflater
-                .from(context)
-                .inflate(R.layout.delete_entry_dialog, null)
 
-        val deleteEntryDialogBuilder =
-            AlertDialog
-                .Builder(context)
-                .setView(deleteEntryDialogView)
-
-        val deleteEntryDialog =
-            deleteEntryDialogBuilder
-                .show()
-
-        deleteEntryDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-        deleteEntryDialogView.findViewById<Button>(R.id.btnDelete_deleteEntryDialog)
-            .setOnClickListener {
-
-                _curDate.value = _curDate.value
                 getEntryRef(curDate.value.toString()).document(time).delete()
                 getEntriesOfDay(curDate.value!!)
-                deleteEntryDialog.dismiss()
-
-            }
-
-        deleteEntryDialogView.findViewById<Button>(R.id.btnCancel_deleteEntryDialog)
-            .setOnClickListener {
-
-                deleteEntryDialog.dismiss()
-            }
-
-
+                _curDate.value = _curDate.value
     }
 
     val setCurEntry: (entry: Entry) -> Unit = { entry ->
@@ -289,7 +274,6 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
         _curEntryTags.value = entry.tags
 
     }
-
     fun updateEntry(title: String, text: String, tags: MutableList<String>) {
 
         getEntryRef(curDate.value.toString()).document(curEntry.value!!.time)
@@ -301,7 +285,6 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
                 )
             )
     }
-
     fun setEmptyEntry() {
         _curEntry.value = Entry(userId = firebaseAuth.currentUser!!.uid)
         _curEntryTags.value = mutableListOf<String>()
@@ -313,52 +296,14 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
     }
 
-    val addTag: (context: Context) -> Unit = {
+    val addTag: (tag: String) -> Unit = { tag ->
 
-        val addTagAlertDialogView = LayoutInflater.from(it).inflate(R.layout.add_tag_dialog, null)
-
-        val addTagAlertDialogBuilder = AlertDialog.Builder(it).setView(addTagAlertDialogView)
-
-        val addTagAlertDialog = addTagAlertDialogBuilder.show()
-
-
-        addTagAlertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-
-        val arrayAdapter =
-            ArrayAdapter<String>(
-                it,
-                R.layout.autocomplete_text_item,
-                R.id.tvAutoCompleteItem,
-                tagList
-            )
-        addTagAlertDialog.findViewById<AutoCompleteTextView>(R.id.etTag).setAdapter(arrayAdapter)
-
-        addTagAlertDialogView.findViewById<Button>(R.id.btnAdd_addTagDialog).setOnClickListener {
-
-            addTagAlertDialog.dismiss()
-
-            val tag = addTagAlertDialogView.findViewById<EditText>(R.id.etTag).text.toString()
-
-            if (tag.isNotEmpty() && !_curEntry.value!!.tags.contains(tag)) {
-
-                _curEntryTags.value?.add(0, tag) ?: mutableListOf<String>()
-                _curEntryTags.value = _curEntryTags.value
-                Log.i("ΩTags", "${_curEntry.value!!.tags}")
-                addTagAlertDialog.dismiss()
-            } else {
-
-                addTagAlertDialog.dismiss()
-
-            }
-        }
-
-        addTagAlertDialogView.findViewById<Button>(R.id.btnCancel_addTagDialog).setOnClickListener {
-
-            addTagAlertDialog.dismiss()
+        if (tag != "" && !_curEntry.value!!.tags.contains(tag)) {
+            _curEntryTags.value?.add(0, tag) ?: mutableListOf<String>()
+            _curEntryTags.value = _curEntryTags.value
+            Log.i("ΩTags", "${_curEntry.value!!.tags}")
 
         }
-
     }
 
     fun datePicker(activity: MainActivity) {
@@ -466,7 +411,8 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
             .get()
             .addOnSuccessListener { querySnapshot ->
 
-                _entriesOfSelectedMonth.value = querySnapshot.map { it.toObject(Entry::class.java) }
+                _entriesOfSelectedMonth.value =
+                    querySnapshot.map { it.toObject(Entry::class.java) }
 
 
                 val calendarDays = getDaysOfMonth(yearMonth)
@@ -493,7 +439,8 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
             .get()
             .addOnSuccessListener { querySnapshot ->
 
-                _entriesOfSelectedDay.value = querySnapshot.map { it.toObject(Entry::class.java) }
+                _entriesOfSelectedDay.value =
+                    querySnapshot.map { it.toObject(Entry::class.java) }
 
             }
             .addOnFailureListener { exception ->
@@ -527,11 +474,10 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
         storageRef.getBytes(maxDownloadSizeBytes).addOnCompleteListener {
 
-            val image = BitmapFactory.decodeByteArray(it.result,0,it.result.size)
+            val image = BitmapFactory.decodeByteArray(it.result, 0, it.result.size)
             _profilePic.value = image
 
         }
-
 
 
     }
@@ -563,7 +509,9 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
 
     }
+
 }
+
 
 
 

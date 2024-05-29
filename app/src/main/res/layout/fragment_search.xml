@@ -64,7 +64,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2"
             tools:itemCount="10"
-            tools:listitem="@layout/search_item" />
+            tools:listitem="@layout/item_search" />
 
 
     </LinearLayout>

@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import android.widget.Adapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.zest.data.model.Quote
-import com.example.zest.databinding.QuoteItemBinding
+import com.example.zest.databinding.ItemQuoteBinding
 
 class QuoteAdapter(
 
@@ -13,10 +13,10 @@ class QuoteAdapter(
 
 ): RecyclerView.Adapter<QuoteAdapter.ItemViewHolder>() {
 
-    inner class ItemViewHolder(val binding: QuoteItemBinding): RecyclerView.ViewHolder(binding.root)
+    inner class ItemViewHolder(val binding: ItemQuoteBinding): RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        val binding = QuoteItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemQuoteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ItemViewHolder(binding)
     }
 
