@@ -41,7 +41,7 @@ class WelcomeFragment : Fragment() {
 
     private fun observeCurrentUser() {
         viewModel.curUser.observe(viewLifecycleOwner) {
-            if (it != null) {
+            if (it != null && it.isEmailVerified) {
                 findNavController().navigate(R.id.homeFragment)
             }
         }

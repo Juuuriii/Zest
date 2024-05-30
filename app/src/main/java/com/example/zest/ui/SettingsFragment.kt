@@ -43,6 +43,12 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.tvPassword.setOnClickListener {
+
+            viewModel.resetPassword()
+
+        }
+
         setupObservers()
         setupOnClickListeners()
 

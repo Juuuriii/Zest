@@ -119,7 +119,8 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
                 .addOnCompleteListener { authResult ->
                     if (authResult.isSuccessful) {
 
-                        sendEmailVerification()
+                        firebaseAuth.currentUser!!.sendEmailVerification()
+
                         createUser(username)
                         logout()
                         completion()
@@ -176,9 +177,9 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
             }
     }
 
-    private fun sendEmailVerification() {
+    fun resetPassword() {
 
-        firebaseAuth.currentUser!!.sendEmailVerification()
+        firebaseAuth.sendPasswordResetEmail(firebaseAuth.currentUser!!.email.toString())
 
     }
 
@@ -374,7 +375,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
     private fun getDaysOfMonth(yearMonth: YearMonth): MutableList<CalendarDay> {
 
 
-        Log.i("ΩCalendar", "$yearMonth")
+
         val daysInMonthList = mutableListOf<CalendarDay>()
 
         val daysInMonth = yearMonth.lengthOfMonth()
@@ -390,9 +391,11 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
                 var isToday = false
 
-                if (it <= 31) {
+                if (it <= 31 + dayOfWeek) {
 
                     isToday = yearMonth.atDay(it - dayOfWeek) == LocalDate.now()
+                    Log.i("ΩCalendar", "Day: ${it - dayOfWeek} - isToday: $isToday")
+
                 }
 
                 daysInMonthList.add(
@@ -406,9 +409,6 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
                 )
             }
         }
-
-        Log.i("ΩCalendar", "$daysInMonthList")
-
         return daysInMonthList
 
     }
