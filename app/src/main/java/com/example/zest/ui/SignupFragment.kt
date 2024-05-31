@@ -50,7 +50,7 @@ class SignupFragment : Fragment() {
         }
     }
 
-    fun verifyEmailDialog() {
+    private fun verifyEmailDialog() {
 
         val verifyEmailDialogBinding = DialogVerifyEmailBinding.inflate(layoutInflater)
 

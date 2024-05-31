@@ -110,6 +110,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
     init {
 
         loadQuotes()
+        getUser()
 
     }
 
@@ -151,8 +152,8 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
                         if (firebaseAuth.currentUser!!.isEmailVerified) {
 
                             _curUser.value = firebaseAuth.currentUser
-                            checkEmailProfile()
 
+                            getUser()
                         } else {
 
                             Toast.makeText(
@@ -298,7 +299,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
 
                     loadProfilePicture(_curUserProfile.value!!.profilePicPath)
-
+                    checkEmailProfile()
 
                 }
         } else {
@@ -311,11 +312,12 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
     fun changeUserName(newName: String) {
 
-
+        firestoreDatabase.collection("users").document(firebaseAuth.currentUser!!.uid)
+            .update("username", newName)
 
     }
 
-    fun checkEmailProfile() {
+    private fun checkEmailProfile() {
 
         if (curUser.value!!.email != curUserProfile.value!!.userEmail) {
 

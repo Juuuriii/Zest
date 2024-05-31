@@ -1,6 +1,7 @@
 package com.example.zest.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -50,6 +51,17 @@ class LoginFragment : Fragment() {
     private fun setupOnClickListeners() {
         setLoginButtonOnClickListener()
         setBackButtonOnClickListener()
+        setForgotPasswordOnClickListener()
+    }
+
+    private fun setForgotPasswordOnClickListener() {
+        binding.ivLogo.setOnClickListener {
+
+            Log.i("navForgotPassword", "click")
+
+            findNavController().navigate(R.id.forgotPasswordFragment)
+
+        }
     }
 
     private fun setBackButtonOnClickListener() {
