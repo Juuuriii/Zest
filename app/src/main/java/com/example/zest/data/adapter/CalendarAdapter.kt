@@ -11,6 +11,7 @@ import com.example.zest.data.model.CalendarDay
 import com.example.zest.databinding.ItemCalendarTodayBinding
 import com.example.zest.databinding.ItemCalendarBinding
 import com.example.zest.databinding.ItemCalendarEntryBinding
+import com.example.zest.databinding.ItemCalendarTodayEntryBinding
 import java.time.LocalDate
 import java.time.YearMonth
 
@@ -27,6 +28,8 @@ class CalendarAdapter(
 
     private val isTodayView = 3
 
+    private val isTodayEntryView = 4
+
     inner class WithoutEntryViewHolder(val binding: ItemCalendarBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -36,9 +39,19 @@ class CalendarAdapter(
     inner class IsTodayViewHolder(val binding: ItemCalendarTodayBinding) :
         RecyclerView.ViewHolder(binding.root)
 
+    inner class IsTodayEntryViewHolder(val binding: ItemCalendarTodayEntryBinding) :
+        RecyclerView.ViewHolder(binding.root)
+
     override fun getItemViewType(position: Int): Int {
 
         val day = dataset[position]
+
+
+        if (day.isToday && day.hasEntry) {
+
+            return isTodayEntryView
+
+        }
 
         if (day.isToday) {
 
@@ -74,6 +87,14 @@ class CalendarAdapter(
                 WithoutEntryViewHolder(binding)
             }
 
+
+            isTodayEntryView -> {
+
+                val binding = ItemCalendarTodayEntryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                return IsTodayEntryViewHolder(binding)
+
+            }
+
             else -> {
                 val binding =
                     ItemCalendarTodayBinding.inflate(
@@ -94,6 +115,8 @@ class CalendarAdapter(
 
 
         val day = dataset[position]
+
+
 
         val date: LocalDate = if (day.day != "") {
             curCalendarMonth.value!!.atDay(day.day.toInt())
@@ -142,11 +165,23 @@ class CalendarAdapter(
                 }
             }
 
+            is IsTodayEntryViewHolder -> {
+                holder.binding.tvDay.text = day.day
+
+                holder.binding.tvDay.setOnClickListener {
+
+                    if (LocalDate.now() >= date) {
+                        setCurDate(date)
+                        holder.itemView.findNavController().navigate(R.id.journalFragment)
+
+                    }
+                }
+
+            }
+
         }
 
     }
-
-
 
 
 }

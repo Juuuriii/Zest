@@ -1,5 +1,8 @@
 package com.example.zest.ui
 
+import android.app.AlertDialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +12,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.zest.FirebaseViewModel
 import com.example.zest.R
+import com.example.zest.databinding.DialogVerifyEmailBinding
 import com.example.zest.databinding.FragmentWelcomeBinding
 
 
@@ -34,6 +38,8 @@ class WelcomeFragment : Fragment() {
         setupOnClickListeners()
 
     }
+
+
 
     private fun setupObserver() {
         observeCurrentUser()

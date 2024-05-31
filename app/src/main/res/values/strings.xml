@@ -51,4 +51,6 @@
     <string name="motivational_quotes">Motivational Quotes</string>
     <string name="enter_new_username_here">Enter new Username here...</string>
     <string name="save">Save</string>
+    <string name="close">Close</string>
+    <string name="reset_password_dialog">We send you an email to change your password.</string>
 </resources>

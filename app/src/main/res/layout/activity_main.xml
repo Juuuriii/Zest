@@ -105,7 +105,7 @@
 
                 <ImageButton
                     android:id="@+id/ibProfile"
-                    android:scaleType="fitCenter"
+                    android:scaleType="centerCrop"
                     android:background="@color/primary_Alabaster"
                     android:layout_width="48dp"
                     android:layout_height="48dp"

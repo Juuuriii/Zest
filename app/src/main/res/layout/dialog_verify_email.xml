@@ -10,42 +10,31 @@
     >
 
     <Button
-        android:id="@+id/btnCancel_deleteEntryDialog"
+        android:id="@+id/btnClose"
+        style="@style/zest_text_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/zest_text_button"
         android:layout_marginTop="16dp"
-        android:text="@string/cancel"
+        android:text="@string/close"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvText" />
 
     <TextView
         android:id="@+id/tvText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="16dp"
+        android:paddingHorizontal="0dp"
         android:fontFamily="@font/dekko"
         android:layout_marginTop="24dp"
         style="@style/dekko_text_20"
 
         android:textStyle="bold"
         android:gravity="center"
-        android:text="@string/are_you_sure_you_want_to_delete_this_entry"
+        android:text="We send you an Email. Please click the Link in the Email to verify your Email Adress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btnDelete_deleteEntryDialog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/zest_text_button"
-        android:layout_marginTop="16dp"
-        android:text="@string/delete"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvText" />
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

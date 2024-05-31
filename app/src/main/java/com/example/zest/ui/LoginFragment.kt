@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.zest.FirebaseViewModel
@@ -63,8 +64,18 @@ class LoginFragment : Fragment() {
             val email = binding.etEmailLogin.text.toString()
             val password = binding.etPasswordLogin.text.toString()
 
-            viewModel.login(email, password)
+            if (email.isBlank() || password.isBlank()) {
 
+                Toast.makeText(
+                    requireContext(),
+                    "Please enter your Login data.",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+            } else {
+
+                viewModel.login(email, password)
+            }
         }
     }
 

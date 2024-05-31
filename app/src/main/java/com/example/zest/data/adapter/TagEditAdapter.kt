@@ -93,7 +93,7 @@ class TagEditAdapter(
 
         addTagDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        addTagDialogBinding.btnAddAddTagDialog.setOnClickListener {
+        addTagDialogBinding.btnAddTag.setOnClickListener {
 
             val tag = addTagDialogBinding.etTag.text.toString()
 

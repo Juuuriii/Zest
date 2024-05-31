@@ -1,5 +1,8 @@
 package com.example.zest.ui
 
+import android.app.AlertDialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +12,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.zest.FirebaseViewModel
 import com.example.zest.R
+import com.example.zest.databinding.DialogVerifyEmailBinding
 import com.example.zest.databinding.FragmentSignupBinding
 
 
@@ -46,6 +50,21 @@ class SignupFragment : Fragment() {
         }
     }
 
+    fun verifyEmailDialog() {
+
+        val verifyEmailDialogBinding = DialogVerifyEmailBinding.inflate(layoutInflater)
+
+        val verifyEmailDialog = AlertDialog.Builder(requireContext()).setView(verifyEmailDialogBinding.root).show()
+
+        verifyEmailDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        verifyEmailDialogBinding.btnClose.setOnClickListener {
+
+            verifyEmailDialog.dismiss()
+
+        }
+
+    }
     private fun setSignUpButtonOnClickListener() {
         binding.btnSignup.setOnClickListener {
 
@@ -53,7 +72,11 @@ class SignupFragment : Fragment() {
             val email = binding.etEmailSignup.text.toString()
             val password = binding.etPasswordSignup.text.toString()
 
+
+
             viewModel.register(email, password, username) {
+
+                verifyEmailDialog()
 
                 findNavController().navigate(R.id.loginFragment)
 

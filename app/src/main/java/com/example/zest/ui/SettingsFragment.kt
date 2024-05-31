@@ -23,6 +23,7 @@ import com.example.zest.MainActivity
 import com.example.zest.R
 import com.example.zest.databinding.DialogDeleteEntryBinding
 import com.example.zest.databinding.DialogChangeUsernameBinding
+import com.example.zest.databinding.DialogVerifyEmailBinding
 import com.example.zest.databinding.FragmentSettingsBinding
 import java.time.LocalDate
 
@@ -43,17 +44,76 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.tvPassword.setOnClickListener {
-
-            viewModel.resetPassword()
-
-        }
-
         setupObservers()
         setupOnClickListeners()
 
+    }
 
 
+    private fun changeUsernameDialog() {
+
+        val changeUsernameDialogBinding = DialogChangeUsernameBinding.inflate(layoutInflater)
+
+        val changeUsernameDialog =
+            AlertDialog.Builder(requireContext()).setView(changeUsernameDialogBinding.root).show()
+
+        changeUsernameDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        changeUsernameDialogBinding.btnSave.setOnClickListener {
+
+            val newUsername = changeUsernameDialogBinding.etUsername.text.toString()
+
+            if (newUsername != "") {
+
+                viewModel.changeUserName(newUsername)
+                changeUsernameDialog.dismiss()
+
+            } else {
+
+                changeUsernameDialog.dismiss()
+
+            }
+
+        }
+
+        changeUsernameDialogBinding.btnCancel.setOnClickListener {
+
+            changeUsernameDialog.dismiss()
+
+        }
+
+    }
+
+    private fun changePasswordDialog() {
+
+        val changePasswordDialogBinding = DialogVerifyEmailBinding.inflate(layoutInflater)
+
+        val changePasswordDialog =
+            AlertDialog.Builder(requireContext()).setView(changePasswordDialogBinding.root).show()
+
+        changePasswordDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        changePasswordDialogBinding.tvText.text =
+            resources.getString(R.string.reset_password_dialog)
+
+        changePasswordDialogBinding.btnClose.setOnClickListener {
+
+            changePasswordDialog.dismiss()
+
+        }
+
+
+    }
+
+    private fun setupOnClickListeners() {
+        setBackButtonOnClickListener()
+        setLogoutButtonOnClickListener()
+        setOnUsernameOnClickListener()
+        setPasswordChangeOnClickListener()
+        setChangeImageOnClickListener()
+    }
+
+    private fun setChangeImageOnClickListener() {
         val changeImage =
             registerForActivityResult(
                 ActivityResultContracts.StartActivityForResult()
@@ -79,44 +139,15 @@ class SettingsFragment : Fragment() {
 
 
         }
-
-
     }
 
+    private fun setPasswordChangeOnClickListener() {
+        binding.tvPassword.setOnClickListener {
 
-
-    private fun changeUsernameDialog() {
-
-        val changeUsernameDialogBinding = DialogChangeUsernameBinding.inflate(layoutInflater)
-
-        val changeUsernameDialog = AlertDialog.Builder(requireContext()).setView(changeUsernameDialogBinding.root).show()
-
-        changeUsernameDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-        changeUsernameDialogBinding.btnSave.setOnClickListener {
-
-            val newUsername = changeUsernameDialogBinding.etUsername.text.toString()
-
-            if(newUsername != "") {
-
-                viewModel.changeUserName(newUsername)
-                changeUsernameDialog.dismiss()
-
-            } else {
-
-                changeUsernameDialog.dismiss()
-
-            }
+            viewModel.resetPassword()
+            changePasswordDialog()
 
         }
-
-    }
-
-
-    private fun setupOnClickListeners() {
-        setBackButtonOnClickListener()
-        setLogoutButtonOnClickListener()
-        setOnUsernameOnClickListener()
     }
 
     private fun setOnUsernameOnClickListener() {

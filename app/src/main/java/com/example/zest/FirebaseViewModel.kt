@@ -152,6 +152,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
                         }
 
                     } else {
+                        Toast.makeText(getApplication(), "Wrong Password or Email", Toast.LENGTH_SHORT).show()
                         Log.e("FIREBASE_AUTH", authResult.exception.toString())
                     }
                 }
@@ -180,6 +181,12 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
     fun resetPassword() {
 
         firebaseAuth.sendPasswordResetEmail(firebaseAuth.currentUser!!.email.toString())
+
+    }
+
+    fun changeMail(){
+
+
 
     }
 
@@ -354,9 +361,12 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun nextCurrentMonth() {
+        if(curCalendarMonth.value!! < YearMonth.now()){
 
-        _curCalendarMonth.value = _curCalendarMonth.value?.plusMonths(1)
-        getEntriesOfMonth(_curCalendarMonth.value!!)
+            _curCalendarMonth.value = _curCalendarMonth.value?.plusMonths(1)
+            getEntriesOfMonth(_curCalendarMonth.value!!)
+
+        }
     }
 
     fun previousCurrentMonth() {

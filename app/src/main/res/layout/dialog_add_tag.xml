@@ -18,7 +18,7 @@
             android:layout_marginTop="16dp"
             android:text="@string/cancel"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etTag" />
+            app:layout_constraintTop_toBottomOf="@+id/etTag"/>
 
         <AutoCompleteTextView
             android:id="@+id/etTag"
@@ -38,7 +38,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/btnAdd_addTagDialog"
+            android:id="@+id/btnAddTag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/zest_text_button"

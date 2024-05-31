@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="48dp"
     android:layout_height="48dp"
-    app:strokeColor="@color/primary_taupe"
+    app:strokeWidth="0dp"
     app:cardCornerRadius="90dp"
     android:backgroundTint="@color/primary_coral"
     >
