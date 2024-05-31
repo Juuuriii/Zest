@@ -55,7 +55,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun setForgotPasswordOnClickListener() {
-        binding.ivLogo.setOnClickListener {
+        binding.btnForgotPassword.setOnClickListener {
 
             Log.i("navForgotPassword", "click")
 

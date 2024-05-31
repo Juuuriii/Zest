@@ -141,12 +141,14 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvForgotPassword"
-        style="@style/dekko_text_16"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnForgotPassword"
+        style="@style/zest_text_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
+        android:textAllCaps="false"
+        android:background="#00FFFFFF"
+        android:textStyle="normal"
         android:gravity="end"
         android:text="Forgot Password..."
         app:layout_constraintEnd_toEndOf="@+id/linearLayout4"
@@ -159,7 +161,7 @@
         android:layout_marginTop="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvForgotPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/btnForgotPassword" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
