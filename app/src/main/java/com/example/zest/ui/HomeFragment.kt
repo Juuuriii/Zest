@@ -35,11 +35,15 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
+        setUpViewInformation()
         setBackGroundAlpha()
         setupObservers()
 
     }
 
+    private fun setUpViewInformation() {
+        viewModel.getUser()
+    }
 
 
     private fun setBackGroundAlpha() {
@@ -56,7 +60,7 @@ class HomeFragment : Fragment() {
 
     private fun observeUser() {
 
-        viewModel.getUser()
+
 
         viewModel.curUserProfile.observe(viewLifecycleOwner){
 

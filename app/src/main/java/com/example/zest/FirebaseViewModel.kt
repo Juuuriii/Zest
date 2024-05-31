@@ -1,10 +1,15 @@
 package com.example.zest
 
+import android.app.AlertDialog
 import android.app.Application
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.util.Log
+import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -16,8 +21,10 @@ import com.example.zest.data.model.CalendarDay
 import com.example.zest.data.model.Entry
 import com.example.zest.data.model.ZestUser
 import com.example.zest.data.remote.QuoteApi
+import com.example.zest.databinding.DialogVerifyEmailBinding
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.firebase.Firebase
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.CollectionReference
@@ -39,7 +46,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
         "Games"
     ) //TODO(Safe used tags for AutocompleteTextView)
 
-    private val firebaseAuth = Firebase.auth
+    private var firebaseAuth = Firebase.auth
 
     private val firestoreDatabase = Firebase.firestore
 
@@ -101,8 +108,12 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
         get() = _profilePic
 
     init {
+
         loadQuotes()
+
     }
+
+
 
     private fun loadQuotes() {
 
@@ -140,6 +151,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
                         if (firebaseAuth.currentUser!!.isEmailVerified) {
 
                             _curUser.value = firebaseAuth.currentUser
+                            checkEmailProfile()
 
                         } else {
 
@@ -158,7 +170,6 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
                 }
         }
     }
-
 
     private fun createUser(username: String) {
 
@@ -184,11 +195,58 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
     }
 
-    fun changeMail(){
+    fun changeMail(password: String, newEmail: String, context: Context){
+
+       val credential = firebaseAuth.currentUser!!.email?.let { email -> EmailAuthProvider.getCredential( email , password ) }
+
+       firebaseAuth.currentUser!!.reauthenticate(credential!!).addOnCompleteListener { task ->
+
+           if(task.isSuccessful){
+
+
+
+                   firebaseAuth.currentUser!!.verifyBeforeUpdateEmail(
+                       newEmail
+                   )
+
+                   Log.e("changeMail", "yay")
+
+                    val changeEmailDialogBinding = DialogVerifyEmailBinding.inflate(LayoutInflater.from(context))
+
+                    val changeEmailDialog = AlertDialog.Builder(context).setView(changeEmailDialogBinding.root).show()
+
+                    changeEmailDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+                    changeEmailDialogBinding.tvText.text = "We send you a verification mail to your new email. You can log in with your new Email after verifying it."
+
+                    changeEmailDialog.setOnDismissListener {
+
+                        logout()
+
+                    }
+
+                    changeEmailDialogBinding.btnClose.setOnClickListener {
+
+                        changeEmailDialog.dismiss()
+
+                    }
+
+
+           } else {
+
+               Log.e("changeMail", "Failed")
+               Toast.makeText(getApplication(),"Wrong Password", Toast.LENGTH_SHORT).show()
+           }
+
+
+       }
+
 
 
 
     }
+
+
 
     fun createEntry(
         title: String,
@@ -231,23 +289,41 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
     fun getUser() {
 
-        firestoreDatabase.collection("users").document(firebaseAuth.currentUser!!.uid)
-            .addSnapshotListener { value, error ->
-                _curUserProfile.value = value?.toObject(ZestUser::class.java)
+
+        if (firebaseAuth.currentUser != null) {
+
+            firestoreDatabase.collection("users").document(firebaseAuth.currentUser!!.uid)
+                .addSnapshotListener { value, error ->
+                    _curUserProfile.value = value?.toObject(ZestUser::class.java)
 
 
-                loadProfilePicture(_curUserProfile.value!!.profilePicPath)
+                    loadProfilePicture(_curUserProfile.value!!.profilePicPath)
 
 
-            }
+                }
+        } else {
 
+            Log.e("getUser", "${firebaseAuth.currentUser}")
+
+        }
 
     }
 
     fun changeUserName(newName: String) {
 
-        firestoreDatabase.collection("users").document(firebaseAuth.currentUser!!.uid)
-            .update("username", newName)
+
+
+    }
+
+    fun checkEmailProfile() {
+
+        if (curUser.value!!.email != curUserProfile.value!!.userEmail) {
+
+            firestoreDatabase.collection("users").document(firebaseAuth.currentUser!!.uid)
+                .update("email", curUser.value!!.email)
+
+        }
+
 
     }
 

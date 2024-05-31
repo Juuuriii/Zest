@@ -53,4 +53,8 @@
     <string name="save">Save</string>
     <string name="close">Close</string>
     <string name="reset_password_dialog">We send you an email to change your password.</string>
+
+    <string name="continue_btn">Continue</string>
+    <string name="password_">Password...</string>
+    <string name="new_email">New Email...</string>
 </resources>

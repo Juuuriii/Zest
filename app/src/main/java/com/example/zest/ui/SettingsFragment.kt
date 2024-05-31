@@ -5,29 +5,25 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import coil.load
 import com.example.zest.FirebaseViewModel
-import com.example.zest.MainActivity
 import com.example.zest.R
-import com.example.zest.databinding.DialogDeleteEntryBinding
+import com.example.zest.databinding.DialogAddTagBinding
 import com.example.zest.databinding.DialogChangeUsernameBinding
+import com.example.zest.databinding.DialogConfirmPasswordBinding
 import com.example.zest.databinding.DialogVerifyEmailBinding
 import com.example.zest.databinding.FragmentSettingsBinding
-import java.time.LocalDate
 
-//TODO(clean up code)
 
 class SettingsFragment : Fragment() {
 
@@ -105,12 +101,67 @@ class SettingsFragment : Fragment() {
 
     }
 
+    private fun changeEmailDialogPassword() {
+
+        val changeEmailDialogBinding = DialogConfirmPasswordBinding.inflate(layoutInflater)
+
+        val changeEmailDialog =
+            AlertDialog.Builder(requireContext()).setView(changeEmailDialogBinding.root).show()
+
+        changeEmailDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        changeEmailDialogBinding.btnContinue.setOnClickListener {
+
+            val password = changeEmailDialogBinding.etPassword.text.toString()
+
+            val newEmail = changeEmailDialogBinding.etEmail.text.toString()
+
+
+
+
+            if (password.isNotBlank() && newEmail.isNotBlank()) {
+
+                viewModel.changeMail(password, newEmail, requireContext())
+
+                changeEmailDialog.dismiss()
+
+            } else {
+
+                Toast.makeText(requireContext(),"You need to fill out both fields", Toast.LENGTH_LONG).show()
+
+            }
+
+
+
+        }
+
+        changeEmailDialogBinding.btnCancelAddTagDialog.setOnClickListener {
+
+            changeEmailDialog.dismiss()
+
+        }
+
+    }
+
+
+
     private fun setupOnClickListeners() {
         setBackButtonOnClickListener()
         setLogoutButtonOnClickListener()
         setOnUsernameOnClickListener()
         setPasswordChangeOnClickListener()
         setChangeImageOnClickListener()
+        setChangeEmailOnClickListener()
+    }
+
+    private fun setChangeEmailOnClickListener() {
+
+        binding.tvEmail.setOnClickListener {
+
+            changeEmailDialogPassword()
+
+        }
+
     }
 
     private fun setChangeImageOnClickListener() {
@@ -172,14 +223,27 @@ class SettingsFragment : Fragment() {
     private fun setupObservers() {
         observeProfilePicture()
         observeUserProfile()
+        observeCurrentUser()
+    }
+
+    private fun observeCurrentUser() {
+        viewModel.curUser.observe(viewLifecycleOwner){
+
+            binding.tvEmail.text = it?.email
+
+            if (it == null) {
+
+                findNavController().navigate(R.id.welcomeFragment)
+
+            }
+
+        }
     }
 
     private fun observeUserProfile() {
         viewModel.curUserProfile.observe(viewLifecycleOwner) {
 
             binding.tvUsername.text = it.username
-
-            binding.tvEmail.text = it.userEmail
 
         }
     }
