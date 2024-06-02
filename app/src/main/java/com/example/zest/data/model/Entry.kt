@@ -1,7 +1,6 @@
 package com.example.zest.data.model
 
 import com.example.zest.utils.TimeHandler
-import com.google.firebase.firestore.DocumentId
 import java.time.LocalDate
 
 data class Entry(
@@ -16,12 +15,14 @@ data class Entry(
 
     var date: String = LocalDate.now().toString(),
 
-    val day : String = LocalDate.now().dayOfMonth.toString(),
+    val day: String = LocalDate.now().dayOfMonth.toString(),
 
     val month: String = LocalDate.now().month.toString(),
 
     val year: String = LocalDate.now().year.toString(),
 
-    val userId: String = ""
+    val userId: String = "",
+
+    val keyWords: List<String> = listOf()
 
 )

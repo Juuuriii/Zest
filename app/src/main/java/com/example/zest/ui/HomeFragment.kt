@@ -35,13 +35,19 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-
+        setViewInformation()
         setBackGroundAlpha()
         setupObservers()
 
     }
 
+    private fun setViewInformation() {
+        if (viewModel.curUser.value != null){
 
+            viewModel.getUser()
+
+        }
+    }
 
 
     private fun setBackGroundAlpha() {

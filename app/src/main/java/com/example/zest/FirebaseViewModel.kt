@@ -14,7 +14,6 @@ import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.zest.data.Repository
 import com.example.zest.data.model.CalendarDay
@@ -154,6 +153,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
                             _curUser.value = firebaseAuth.currentUser
 
                             getUser()
+
                         } else {
 
                             Toast.makeText(
@@ -232,19 +232,12 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
                     }
 
-
            } else {
 
                Log.e("changeMail", "Failed")
                Toast.makeText(getApplication(),"Wrong Password", Toast.LENGTH_SHORT).show()
            }
-
-
        }
-
-
-
-
     }
 
 
@@ -282,10 +275,24 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
                         day = date.dayOfMonth.toString(),
                         month = date.month.value.toString(),
                         year = date.year.toString(),
-                        userId = firebaseAuth.currentUser!!.uid
+                        userId = firebaseAuth.currentUser!!.uid,
+                        keyWords = convertTextToKeyWords(text)
+
                     )
                 )
         }
+    }
+
+    private fun convertTextToKeyWords(text: String): List<String> {
+
+        val keyWords = text.lowercase().replace("""[\^*#$%§<>(){}\[\]?/\\\-_!.,:;"']""".toRegex(), "").split(" ").toMutableSet()
+
+        keyWords.remove("")
+
+        val keyWordsFiltered = keyWords.toSet()
+
+
+        return keyWordsFiltered.toList()
     }
 
     fun getUser() {
@@ -322,7 +329,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
         if (curUser.value!!.email != curUserProfile.value!!.userEmail) {
 
             firestoreDatabase.collection("users").document(firebaseAuth.currentUser!!.uid)
-                .update("email", curUser.value!!.email)
+                .update("userEmail", curUser.value!!.email)
 
         }
 
@@ -381,7 +388,8 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
                 mapOf(
                     "title" to title,
                     "text" to text,
-                    "tags" to tags
+                    "tags" to tags,
+                    "keyWords" to convertTextToKeyWords(text)
                 )
             )
     }
