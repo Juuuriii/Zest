@@ -21,7 +21,7 @@ class SearchFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSearchBinding.inflate(inflater,container,false)
+        binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -29,12 +29,50 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        setBackgroundAplha()
+        setBackgroundAlpha()
+        setupObservers()
+        binding.ibSearch.setOnClickListener {
 
+            val searchTerm = binding.actvSearch.text.toString()
+
+            viewModel.searchEntries(searchTerm)
+
+        }
 
     }
 
-    private fun setBackgroundAplha() {
+    private fun setupObservers() {
+        observeSearchResults()
+    }
+
+    private fun observeSearchResults() {
+        viewModel.searchResults.observe(viewLifecycleOwner) {
+
+            when (it.size) {
+
+                0 -> {
+                    binding.tvSearchResultsCount.visibility = View.GONE
+                }
+
+                1 -> {
+                    binding.tvSearchResultsCount.visibility = View.VISIBLE
+                    binding.tvSearchResultsCount.text = "${it.size} Search Result Found!"
+                }
+
+                else -> {
+                    binding.tvSearchResultsCount.visibility = View.VISIBLE
+                    binding.tvSearchResultsCount.text = "${it.size} Search Results Found!"
+                }
+            }
+
+
+
+            binding.rvSearch.adapter = SearchAdapter(it)
+
+        }
+    }
+
+    private fun setBackgroundAlpha() {
         binding.clSearchScreen.background.alpha = (255 * 0.6).toInt()
     }
 

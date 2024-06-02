@@ -57,4 +57,5 @@
     <string name="continue_btn">Continue</string>
     <string name="password_">Password...</string>
     <string name="new_email">New Email...</string>
+    <string name="search_dots">Search...</string>
 </resources>

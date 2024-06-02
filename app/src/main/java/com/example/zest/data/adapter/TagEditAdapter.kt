@@ -6,9 +6,11 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.example.zest.R
 import com.example.zest.databinding.DialogAddTagBinding
 import com.example.zest.databinding.DialogDeleteEntryBinding
 import com.example.zest.databinding.ItemEditAddbuttonItemBinding
@@ -18,7 +20,8 @@ class TagEditAdapter(
     private val tagList: List<String>,
     private val context: Context,
     private val deleteTag: (Int) -> Unit,
-    private val addTag: (String) -> Unit
+    private val addTag: (String) -> Unit,
+    private val usedTags: MutableList<String>
 ) : RecyclerView.Adapter<ViewHolder>() {
 
     private val tagView = 1
@@ -92,6 +95,10 @@ class TagEditAdapter(
         val addTagDialog = AlertDialog.Builder(context).setView(addTagDialogBinding.root).show()
 
         addTagDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val adapter = ArrayAdapter(context, R.layout.item_autocomplete_text, R.id.tvAutoCompleteItem , usedTags )
+
+        addTagDialogBinding.etTag.setAdapter(adapter)
 
         addTagDialogBinding.btnAddTag.setOnClickListener {
 

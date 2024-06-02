@@ -27,7 +27,9 @@ import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.Filter
 import com.google.firebase.firestore.firestore
+import com.google.firebase.firestore.toObject
 import com.google.firebase.storage.storage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -38,12 +40,6 @@ import java.util.Date
 
 class FirebaseViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val tagList = mutableListOf(
-        "Work",
-        "Food",
-        "Tennis",
-        "Games"
-    ) //TODO(Safe used tags for AutocompleteTextView)
 
     private var firebaseAuth = Firebase.auth
 
@@ -54,6 +50,8 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
     private val repository = Repository(QuoteApi)
 
     val quotes = repository.quoteList
+
+    var usedTags: MutableList<String> = mutableListOf()
 
 
     private var _curUser = MutableLiveData<FirebaseUser?>(firebaseAuth.currentUser)
@@ -106,13 +104,17 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
     val profilePic: LiveData<Bitmap>
         get() = _profilePic
 
+    private var _searchResults = MutableLiveData<List<Entry>>(listOf())
+
+    val searchResults: LiveData<List<Entry>>
+        get() = _searchResults
+
     init {
 
         loadQuotes()
         getUser()
 
     }
-
 
 
     private fun loadQuotes() {
@@ -165,11 +167,20 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
                         }
 
                     } else {
-                        Toast.makeText(getApplication(), "Wrong Password or Email", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            getApplication(),
+                            "Wrong Password or Email",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         Log.e("FIREBASE_AUTH", authResult.exception.toString())
                     }
                 }
         }
+    }
+
+    fun logout() {
+        firebaseAuth.signOut()
+        _curUser.value = firebaseAuth.currentUser
     }
 
     private fun createUser(username: String) {
@@ -190,56 +201,109 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
             }
     }
 
+    fun getUser() {
+
+
+        if (firebaseAuth.currentUser != null) {
+
+            firestoreDatabase.collection("users").document(firebaseAuth.currentUser!!.uid)
+                .addSnapshotListener { value, error ->
+
+                    _curUserProfile.value = value?.toObject(ZestUser::class.java)
+                    loadProfilePicture(_curUserProfile.value!!.profilePicPath)
+                    checkEmailProfile()
+                    usedTags = _curUserProfile.value!!.usedTags
+
+                }
+        } else {
+
+            Log.e("getUser", "${firebaseAuth.currentUser}")
+
+        }
+
+    }
+
+    private fun addTagsToUsedTags(tags: MutableList<String>) {
+
+
+        Log.i("addTagsToUsedTags", "${curUserProfile.value!!.usedTags}")
+        val currentTags = curUserProfile.value?.usedTags ?: mutableListOf()
+
+        currentTags.addAll(tags)
+
+        val newTagsSet = currentTags.toSet()
+
+        val newTags = newTagsSet.toMutableList()
+
+        firestoreDatabase
+            .collection("users")
+            .document(firebaseAuth.currentUser!!.uid)
+            .update("usedTags", newTags)
+            .addOnCompleteListener {
+
+                getUser()
+                Log.i("addTagsToUsedTags", "${curUserProfile.value!!.usedTags}")
+            }
+
+
+    }
+
     fun resetPassword() {
 
         firebaseAuth.sendPasswordResetEmail(firebaseAuth.currentUser!!.email.toString())
 
     }
 
-    fun changeMail(password: String, newEmail: String, context: Context){
+    fun changeMail(password: String, newEmail: String, context: Context) {
 
-       val credential = firebaseAuth.currentUser!!.email?.let { email -> EmailAuthProvider.getCredential( email , password ) }
+        val credential = firebaseAuth.currentUser!!.email?.let { email ->
+            EmailAuthProvider.getCredential(
+                email,
+                password
+            )
+        }
 
-       firebaseAuth.currentUser!!.reauthenticate(credential!!).addOnCompleteListener { task ->
+        firebaseAuth.currentUser!!.reauthenticate(credential!!).addOnCompleteListener { task ->
 
-           if(task.isSuccessful){
+            if (task.isSuccessful) {
 
 
+                firebaseAuth.currentUser!!.verifyBeforeUpdateEmail(
+                    newEmail
+                )
 
-                   firebaseAuth.currentUser!!.verifyBeforeUpdateEmail(
-                       newEmail
-                   )
+                Log.e("changeMail", "yay")
 
-                   Log.e("changeMail", "yay")
+                val changeEmailDialogBinding =
+                    DialogVerifyEmailBinding.inflate(LayoutInflater.from(context))
 
-                    val changeEmailDialogBinding = DialogVerifyEmailBinding.inflate(LayoutInflater.from(context))
+                val changeEmailDialog =
+                    AlertDialog.Builder(context).setView(changeEmailDialogBinding.root).show()
 
-                    val changeEmailDialog = AlertDialog.Builder(context).setView(changeEmailDialogBinding.root).show()
+                changeEmailDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-                    changeEmailDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                changeEmailDialogBinding.tvText.text =
+                    "We send you a verification mail to your new email. You can log in with your new Email after verifying it."
 
-                    changeEmailDialogBinding.tvText.text = "We send you a verification mail to your new email. You can log in with your new Email after verifying it."
+                changeEmailDialog.setOnDismissListener {
 
-                    changeEmailDialog.setOnDismissListener {
+                    logout()
 
-                        logout()
+                }
 
-                    }
+                changeEmailDialogBinding.btnClose.setOnClickListener {
 
-                    changeEmailDialogBinding.btnClose.setOnClickListener {
+                    changeEmailDialog.dismiss()
 
-                        changeEmailDialog.dismiss()
+                }
 
-                    }
+            } else {
 
-           } else {
-
-               Log.e("changeMail", "Failed")
-               Toast.makeText(getApplication(),"Wrong Password", Toast.LENGTH_SHORT).show()
-           }
-       }
+                Log.e("changeMail", "Failed")
+                Toast.makeText(getApplication(), "Wrong Password", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
-
 
 
     fun createEntry(
@@ -276,16 +340,22 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
                         month = date.month.value.toString(),
                         year = date.year.toString(),
                         userId = firebaseAuth.currentUser!!.uid,
-                        keyWords = convertTextToKeyWords(text)
+                        keyWordsText = convertTextToKeyWords(text),
+                        keyWordTitle = title.lowercase(),
+                        keyWordsTags = convertTagsToKeyWords(tags)
 
                     )
                 )
+
+            addTagsToUsedTags(tags)
         }
     }
 
     private fun convertTextToKeyWords(text: String): List<String> {
 
-        val keyWords = text.lowercase().replace("""[\^*#$%§<>(){}\[\]?/\\\-_!.,:;"']""".toRegex(), "").split(" ").toMutableSet()
+        val keyWords =
+            text.lowercase().replace("""[\^*#$%§<>(){}\[\]?/\\\-_!.,:;"']""".toRegex(), "")
+                .split(" ").toMutableSet()
 
         keyWords.remove("")
 
@@ -295,27 +365,17 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
         return keyWordsFiltered.toList()
     }
 
-    fun getUser() {
+    private fun convertTagsToKeyWords(tags: MutableList<String>): MutableList<String>{
 
+        val keyWordsTags = mutableListOf<String>()
 
-        if (firebaseAuth.currentUser != null) {
-
-            firestoreDatabase.collection("users").document(firebaseAuth.currentUser!!.uid)
-                .addSnapshotListener { value, error ->
-                    _curUserProfile.value = value?.toObject(ZestUser::class.java)
-
-
-                    loadProfilePicture(_curUserProfile.value!!.profilePicPath)
-                    checkEmailProfile()
-
-                }
-        } else {
-
-            Log.e("getUser", "${firebaseAuth.currentUser}")
-
+        tags.forEach {
+            keyWordsTags.add(it.lowercase())
         }
 
+        return keyWordsTags
     }
+
 
     fun changeUserName(newName: String) {
 
@@ -335,12 +395,6 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
 
     }
-
-    fun logout() {
-        firebaseAuth.signOut()
-        _curUser.value = firebaseAuth.currentUser
-    }
-
 
     fun curDatePlusOne() {
 
@@ -389,9 +443,14 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
                     "title" to title,
                     "text" to text,
                     "tags" to tags,
-                    "keyWords" to convertTextToKeyWords(text)
+                    "keyWords" to convertTextToKeyWords(text),
+
                 )
-            )
+            ).addOnCompleteListener {
+
+                addTagsToUsedTags(tags)
+
+            }
     }
 
     fun setEmptyEntry() {
@@ -447,7 +506,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun nextCurrentMonth() {
-        if(curCalendarMonth.value!! < YearMonth.now()){
+        if (curCalendarMonth.value!! < YearMonth.now()) {
 
             _curCalendarMonth.value = _curCalendarMonth.value?.plusMonths(1)
             getEntriesOfMonth(_curCalendarMonth.value!!)
@@ -469,7 +528,6 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
     }
 
     private fun getDaysOfMonth(yearMonth: YearMonth): MutableList<CalendarDay> {
-
 
 
         val daysInMonthList = mutableListOf<CalendarDay>()
@@ -601,6 +659,36 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
 
     }
+
+
+    fun searchEntries(searchTerm: String) {
+
+        val query = firestoreDatabase.collectionGroup("entries").where(
+            Filter.or(
+                Filter.equalTo("keyWordTitle", searchTerm),
+                Filter.arrayContains("keyWordsTags", searchTerm),
+                Filter.arrayContains("keyWordsText", searchTerm)
+
+            )
+        )
+
+        query.get().addOnSuccessListener { querySnapshot ->
+
+
+            _searchResults.value = querySnapshot.map { it.toObject(Entry::class.java) }
+
+            Log.e("searchEntries", "${searchResults.value}")
+
+        }
+            .addOnFailureListener {
+
+                Log.e("searchEntries", "$it")
+
+            }
+
+
+    }
+
 
 }
 

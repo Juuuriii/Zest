@@ -43,7 +43,7 @@ class EntryEditFragment : Fragment() {
         viewModel.curEntryTags.observe(viewLifecycleOwner) {
 
             binding.rvTagsEdit.adapter =
-                TagEditAdapter(it, requireContext(), viewModel.deleteTag, viewModel.addTag)
+                TagEditAdapter(it, requireContext(), viewModel.deleteTag, viewModel.addTag, viewModel.usedTags)
 
         }
     }

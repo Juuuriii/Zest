@@ -29,6 +29,7 @@ class SearchAdapter(
         holder.binding.tvDateSearch.text = TimeHandler().formatLocalDate(entry.date)
         holder.binding.tvTimeSearch.text = TimeHandler().formatDateTimeHoursMins(entry.time)
         holder.binding.tvTextSearch.text = entry.text
+        holder.binding.rvTags.adapter = TagAdapter(entry.tags)
 
     }
 
