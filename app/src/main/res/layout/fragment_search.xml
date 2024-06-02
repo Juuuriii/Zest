@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/clSearchScreen"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clSearchScreen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_fragment_search"
@@ -20,27 +20,42 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:gravity="center"
+            android:layout_height="wrap_content"
             android:background="@color/primary_Alabaster"
-            android:paddingHorizontal="16dp">
+            android:gravity="center"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="16dp">
 
             <AutoCompleteTextView
                 android:id="@+id/actvSearch"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
-                android:layout_weight="1"
-                android:fontFamily="@font/dekko"
-                android:textColor="@color/primary_taupe"
+                android:layout_weight="0.8"
                 android:background="@drawable/bg_edit_text"
+                android:fontFamily="@font/dekko"
+                android:hint="Search by Title or Tag..."
                 android:inputType="text"
                 android:paddingHorizontal="16dp"
-                android:hint="@string/search_dots"/>
+                android:textColor="@color/primary_taupe" />
 
-            <ImageButton
-                android:id="@+id/ibSearch"
-                style="@style/zest_imageButton_style"
-                android:src="@drawable/icon_search" />
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cvSearch"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="8dp"
+                app:strokeColor="@color/primary_taupe"
+                app:strokeWidth="3dp"
+                android:backgroundTint="@color/primary_coral">
+
+                <ImageView
+                    android:id="@+id/ivSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="8dp"
+                    android:src="@drawable/icon_search"
+                    android:scaleType="fitCenter"/>
+
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
 
@@ -49,8 +64,8 @@
             android:id="@+id/tvSearchResultsCount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="8dp"
+            android:paddingHorizontal="32dp"
+            android:background="@color/primary_Alabaster"
             android:fontFamily="@font/dekko"
             android:text="@string/_0000_search_results_found"
             android:textColor="@color/primary_taupe"

@@ -31,14 +31,23 @@ class SearchFragment : Fragment() {
 
         setBackgroundAlpha()
         setupObservers()
-        binding.ibSearch.setOnClickListener {
+        setupOnClickListeners()
+
+
+    }
+
+    private fun setupOnClickListeners() {
+        setOnSearchButtonOnClickListener()
+    }
+
+    private fun setOnSearchButtonOnClickListener() {
+        binding.ivSearch.setOnClickListener {
 
             val searchTerm = binding.actvSearch.text.toString()
 
             viewModel.searchEntries(searchTerm)
 
         }
-
     }
 
     private fun setupObservers() {

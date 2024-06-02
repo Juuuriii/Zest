@@ -181,6 +181,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
     fun logout() {
         firebaseAuth.signOut()
         _curUser.value = firebaseAuth.currentUser
+        _searchResults.value = mutableListOf()
     }
 
     private fun createUser(username: String) {
@@ -443,7 +444,8 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
                     "title" to title,
                     "text" to text,
                     "tags" to tags,
-                    "keyWords" to convertTextToKeyWords(text),
+                    "keyWordsTags" to convertTagsToKeyWords(tags),
+                    "keyWordTitle" to title.lowercase()
 
                 )
             ).addOnCompleteListener {
@@ -466,7 +468,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
     val addTag: (tag: String) -> Unit = { tag ->
 
-        if (tag != "" && !_curEntry.value!!.tags.contains(tag)) {
+        if (tag != "" && !_curEntry.value!!.tags.contains(tag) && curEntryTags.value!!.size < 10) {
             _curEntryTags.value?.add(0, tag) ?: mutableListOf<String>()
             _curEntryTags.value = _curEntryTags.value
             Log.i("ΩTags", "${_curEntry.value!!.tags}")
@@ -665,9 +667,10 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
         val query = firestoreDatabase.collectionGroup("entries").where(
             Filter.or(
-                Filter.equalTo("keyWordTitle", searchTerm),
-                Filter.arrayContains("keyWordsTags", searchTerm),
-                Filter.arrayContains("keyWordsText", searchTerm)
+
+                Filter.equalTo("keyWordTitle", searchTerm.lowercase()),
+                Filter.arrayContains("keyWordsTags", searchTerm.lowercase())
+
 
             )
         )
