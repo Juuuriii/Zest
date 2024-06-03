@@ -7,6 +7,18 @@
     android:background="@color/primary_Alabaster"
     tools:context=".ui.EntryEditFragment">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.6"
+        android:scaleType="fitEnd"
+        android:layout_marginEnd="-12dp"
+        android:src="@drawable/bg_fragment_entry"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvTagsEdit"
         android:layout_width="match_parent"

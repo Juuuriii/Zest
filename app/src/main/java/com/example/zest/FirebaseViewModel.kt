@@ -159,7 +159,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
                             _curUser.value = firebaseAuth.currentUser
 
-                            getUser()
+
 
                         } else {
 
@@ -247,7 +247,6 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
             .update("usedTags", newTags)
             .addOnCompleteListener {
 
-                getUser()
                 Log.i("addTagsToUsedTags", "${curUserProfile.value!!.usedTags}")
             }
 
