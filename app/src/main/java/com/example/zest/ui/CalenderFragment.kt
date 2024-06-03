@@ -34,11 +34,13 @@ class CalenderFragment : Fragment() {
         setupObservers()
         setupOnClickListeners()
 
+
     }
 
     private fun setupView() {
-        viewModel.getEntriesOfMonth(viewModel.curCalendarMonth.value!!)
         viewModel.setCurrentCalendarMonth()
+        viewModel.getEntriesOfMonth(viewModel.curCalendarMonth.value!!)
+
     }
 
     private fun setupOnClickListeners() {
@@ -85,6 +87,11 @@ class CalenderFragment : Fragment() {
         }
 
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.setCurrentCalendarMonth()
     }
 
 

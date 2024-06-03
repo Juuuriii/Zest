@@ -118,11 +118,7 @@ class CalendarAdapter(
 
 
 
-        val date: LocalDate = if (day.day != "") {
-            curCalendarMonth.value!!.atDay(day.day.toInt())
-        } else {
-            curCalendarMonth.value!!.atDay(1)
-        }
+
 
         when (holder) {
 
@@ -131,6 +127,13 @@ class CalendarAdapter(
                 holder.binding.tvDay.text = day.day
 
                 holder.binding.tvDay.setOnClickListener {
+
+                    val date: LocalDate = if (day.day != "") {
+                        curCalendarMonth.value!!.atDay(day.day.toInt())
+                    } else {
+                        curCalendarMonth.value!!.atDay(1)
+                    }
+
 
                     if (LocalDate.now() >= date) {
                         setCurDate(date)
@@ -145,6 +148,12 @@ class CalendarAdapter(
 
                 holder.binding.tvDay.setOnClickListener {
 
+                    val date: LocalDate = if (day.day != "") {
+                        curCalendarMonth.value!!.atDay(day.day.toInt())
+                    } else {
+                        curCalendarMonth.value!!.atDay(1)
+                    }
+
                     if (LocalDate.now() >= date) {
                         setCurDate(date)
                         holder.itemView.findNavController().navigate(R.id.journalFragment)
@@ -156,6 +165,12 @@ class CalendarAdapter(
                 holder.binding.tvDay.text = day.day
 
                 holder.binding.tvDay.setOnClickListener {
+
+                    val date: LocalDate = if (day.day != "") {
+                        curCalendarMonth.value!!.atDay(day.day.toInt())
+                    } else {
+                        curCalendarMonth.value!!.atDay(1)
+                    }
 
                     if (LocalDate.now() >= date) {
                         setCurDate(date)
@@ -169,6 +184,12 @@ class CalendarAdapter(
                 holder.binding.tvDay.text = day.day
 
                 holder.binding.tvDay.setOnClickListener {
+
+                    val date: LocalDate = if (day.day != "") {
+                        curCalendarMonth.value!!.atDay(day.day.toInt())
+                    } else {
+                        curCalendarMonth.value!!.atDay(1)
+                    }
 
                     if (LocalDate.now() >= date) {
                         setCurDate(date)
