@@ -341,7 +341,6 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
                         month = date.month.value.toString(),
                         year = date.year.toString(),
                         userId = firebaseAuth.currentUser!!.uid,
-                        keyWordsText = convertTextToKeyWords(text),
                         keyWordTitle = title.lowercase(),
                         keyWordsTags = convertTagsToKeyWords(tags)
 

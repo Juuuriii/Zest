@@ -23,7 +23,6 @@ data class Entry(
 
     val userId: String = "",
 
-    val keyWordsText: List<String> = listOf(),
 
     val keyWordTitle: String = "",
 

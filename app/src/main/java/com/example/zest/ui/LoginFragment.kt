@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.zest.FirebaseViewModel
 import com.example.zest.R
+
 import com.example.zest.databinding.FragmentLoginBinding
 
 
@@ -32,7 +33,13 @@ class LoginFragment : Fragment() {
 
         setupObservers()
         setupOnClickListeners()
+        binding.button.setOnClickListener {
 
+            Log.i("navForgotPassword", "click")
+
+            findNavController().navigate(R.id.forgotPasswordFragment)
+
+        }
 
     }
 
@@ -55,14 +62,10 @@ class LoginFragment : Fragment() {
     }
 
     private fun setForgotPasswordOnClickListener() {
-        binding.btnForgotPassword.setOnClickListener {
 
-            Log.i("navForgotPassword", "click")
-
-            findNavController().navigate(R.id.forgotPasswordFragment)
-
-        }
     }
+
+
 
     private fun setBackButtonOnClickListener() {
         binding.ibBack.setOnClickListener {

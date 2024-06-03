@@ -145,12 +145,12 @@
         android:id="@+id/btnForgotPassword"
         style="@style/zest_text_button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="32dp"
         android:textAllCaps="false"
         android:background="#00FFFFFF"
         android:textStyle="normal"
         android:gravity="end"
-        android:text="Forgot Password..."
+        android:text="@string/forgot_password_dots"
         app:layout_constraintEnd_toEndOf="@+id/linearLayout4"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
 
@@ -162,6 +162,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnForgotPassword" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
