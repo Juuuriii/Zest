@@ -2,7 +2,9 @@ package com.example.zest.data.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.example.zest.R
 import com.example.zest.data.model.Entry
 import com.example.zest.databinding.ItemSearchBinding
 import com.example.zest.utils.TimeHandler
@@ -11,7 +13,8 @@ import java.time.LocalDate
 
 class SearchAdapter(
     private val dataset: List<Entry>,
-    private val setCurDate:(LocalDate) -> Unit
+    private val setCurDate:(LocalDate) -> Unit,
+    private val searchEntries:(String) -> Unit
 ): RecyclerView.Adapter<SearchAdapter.ItemViewHolder>() {
 
     inner class ItemViewHolder(val binding: ItemSearchBinding): RecyclerView.ViewHolder(binding.root)
@@ -32,9 +35,17 @@ class SearchAdapter(
         holder.binding.tvDateSearch.text = TimeHandler().formatLocalDate(entry.date)
         holder.binding.tvTimeSearch.text = TimeHandler().formatDateTimeHoursMins(entry.time)
         holder.binding.tvTextSearch.text = entry.text
-        holder.binding.rvTags.adapter = TagAdapter(entry.tags)
+        holder.binding.rvTags.adapter = TagAdapter(entry.tags, searchEntries)
 
+        holder.binding.cvSearchItem.setOnClickListener {
 
+            val localDate = LocalDate.of(entry.year.toInt(), entry.month.toInt(), entry.day.toInt())
+
+            setCurDate(localDate)
+
+            holder.itemView.findNavController().navigate(R.id.journalFragment)
+
+        }
 
     }
 }

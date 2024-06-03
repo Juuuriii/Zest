@@ -52,7 +52,7 @@ class JournalFragment : Fragment() {
         viewModel.entriesOfSelectedDay.observe(viewLifecycleOwner){
             if (it.isNotEmpty()) {
                 binding.rvEntries.adapter =
-                    JournalEntryAdapter(it,requireContext() ,viewModel.deleteEntry, viewModel.setCurEntry)
+                    JournalEntryAdapter(it,requireContext() ,viewModel.deleteEntry, viewModel.setCurEntry, viewModel.searchEntries)
 
                 binding.rvEntries.visibility = View.VISIBLE
                 binding.tvNoEntries.visibility = View.GONE

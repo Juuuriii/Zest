@@ -109,6 +109,11 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
     val searchResults: LiveData<List<Entry>>
         get() = _searchResults
 
+    private var _curSearchTerm = MutableLiveData<String>()
+
+    val curSearchTerm: LiveData<String>
+        get() = _curSearchTerm
+
     init {
 
         loadQuotes()
@@ -662,7 +667,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
     }
 
 
-    fun searchEntries(searchTerm: String) {
+    val searchEntries: (searchTerm: String) -> Unit = {searchTerm ->
 
         val query = firestoreDatabase.collectionGroup("entries").where(
             Filter.or(
@@ -678,7 +683,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
 
             _searchResults.value = querySnapshot.map { it.toObject(Entry::class.java) }
-
+            _curSearchTerm.value = searchTerm
             Log.e("searchEntries", "${searchResults.value}")
 
         }

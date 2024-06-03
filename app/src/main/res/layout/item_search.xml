@@ -2,6 +2,7 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cvSearchItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="16dp"
@@ -31,10 +32,10 @@
                 android:id="@+id/tvTitleSearch"
                 style="@style/dekko_text_16"
                 android:layout_width="0dp"
-                android:textSize="24sp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/title" />
+                android:text="@string/title"
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/tvDateSearch"
@@ -58,10 +59,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/placeholder_text"
             android:ellipsize="end"
-            android:maxLines="2"
             android:maxHeight="150dp"
+            android:maxLines="2"
+            android:text="@string/placeholder_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
@@ -76,8 +77,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTextSearch"
-            tools:listitem="@layout/item_tag"
-            tools:itemCount="3"/>
+            tools:itemCount="3"
+            tools:listitem="@layout/item_tag" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

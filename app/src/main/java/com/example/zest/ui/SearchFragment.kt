@@ -52,6 +52,15 @@ class SearchFragment : Fragment() {
 
     private fun setupObservers() {
         observeSearchResults()
+        observeCurrentSearchTerm()
+    }
+
+    private fun observeCurrentSearchTerm() {
+        viewModel.curSearchTerm.observe(viewLifecycleOwner){
+
+            binding.actvSearch.setText(it)
+
+        }
     }
 
     private fun observeSearchResults() {
@@ -76,7 +85,9 @@ class SearchFragment : Fragment() {
 
 
 
-            binding.rvSearch.adapter = SearchAdapter(it, viewModel.setCurDate)
+            binding.rvSearch.adapter = SearchAdapter(it, viewModel.setCurDate, viewModel.searchEntries)
+
+
 
         }
     }

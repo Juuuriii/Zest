@@ -21,7 +21,8 @@ class JournalEntryAdapter(
     private val dataset: List<Entry>,
     private val context: Context,
     private val deleteEntry: (String) -> Unit,
-    private val setCurEntry: (Entry) -> Unit
+    private val setCurEntry: (Entry) -> Unit,
+    private val searchEntries: (String) -> Unit
 
 
 ) : RecyclerView.Adapter<JournalEntryAdapter.ItemViewHolder>() {
@@ -44,7 +45,7 @@ class JournalEntryAdapter(
         holder.binding.tvTime.text = TimeHandler().formatDateTimeHoursMins(entry.time)
         holder.binding.tvEntryText.text = entry.text
         holder.binding.tvTitle.text = entry.title
-        holder.binding.rvTags.adapter = TagAdapter(entry.tags)
+        holder.binding.rvTags.adapter = TagAdapter(entry.tags, searchEntries )
 
 
         holder.binding.ibEdit.setOnClickListener {
