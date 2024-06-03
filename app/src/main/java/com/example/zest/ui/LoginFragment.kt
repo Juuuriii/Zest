@@ -33,13 +33,7 @@ class LoginFragment : Fragment() {
 
         setupObservers()
         setupOnClickListeners()
-        binding.button.setOnClickListener {
 
-            Log.i("navForgotPassword", "click")
-
-            findNavController().navigate(R.id.forgotPasswordFragment)
-
-        }
 
     }
 
@@ -62,7 +56,11 @@ class LoginFragment : Fragment() {
     }
 
     private fun setForgotPasswordOnClickListener() {
+        binding.btnForgotPassword.setOnClickListener {
 
+            findNavController().navigate(R.id.forgotPasswordFragment)
+
+        }
     }
 
 

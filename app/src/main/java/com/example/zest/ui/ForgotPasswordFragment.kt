@@ -36,7 +36,7 @@ class ForgotPasswordFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupOnClickListeners()
+      setupOnClickListeners()
 
     }
 
@@ -46,7 +46,11 @@ class ForgotPasswordFragment : Fragment() {
     }
 
     private fun setOnBackButtonClickListener() {
-        findNavController().navigateUp()
+        binding.ibBack.setOnClickListener {
+
+            findNavController().navigateUp()
+
+        }
     }
 
     private fun setChangePasswordButtonClickListener() {

@@ -6,9 +6,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.zest.data.model.Entry
 import com.example.zest.databinding.ItemSearchBinding
 import com.example.zest.utils.TimeHandler
+import java.text.SimpleDateFormat
+import java.time.LocalDate
 
 class SearchAdapter(
-    private val dataset: List<Entry>
+    private val dataset: List<Entry>,
+    private val setCurDate:(LocalDate) -> Unit
 ): RecyclerView.Adapter<SearchAdapter.ItemViewHolder>() {
 
     inner class ItemViewHolder(val binding: ItemSearchBinding): RecyclerView.ViewHolder(binding.root)
@@ -31,6 +34,7 @@ class SearchAdapter(
         holder.binding.tvTextSearch.text = entry.text
         holder.binding.rvTags.adapter = TagAdapter(entry.tags)
 
-    }
 
+
+    }
 }

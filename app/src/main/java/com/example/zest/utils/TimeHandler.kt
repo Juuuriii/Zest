@@ -12,6 +12,8 @@ class TimeHandler() {
         return inputFormat.format(date.time)
     }
 
+
+
     fun formatDateTimeHoursMins(time: String): String {
 
         val list = time.split(":")

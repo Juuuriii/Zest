@@ -76,7 +76,7 @@ class SearchFragment : Fragment() {
 
 
 
-            binding.rvSearch.adapter = SearchAdapter(it)
+            binding.rvSearch.adapter = SearchAdapter(it, viewModel.setCurDate)
 
         }
     }
