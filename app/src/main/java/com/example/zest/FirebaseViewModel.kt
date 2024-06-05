@@ -159,8 +159,6 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
                             _curUser.value = firebaseAuth.currentUser
 
-
-
                         } else {
 
                             Toast.makeText(
@@ -369,7 +367,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
         return keyWordsFiltered.toList()
     }
 
-    private fun convertTagsToKeyWords(tags: MutableList<String>): MutableList<String>{
+    private fun convertTagsToKeyWords(tags: MutableList<String>): MutableList<String> {
 
         val keyWordsTags = mutableListOf<String>()
 
@@ -666,20 +664,18 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
     }
 
 
-    val searchEntries: (searchTerm: String) -> Unit = {searchTerm ->
+    val searchEntries: (searchTerm: String) -> Unit = { searchTerm ->
 
-        val query = firestoreDatabase.collectionGroup("entries").where(
+        val query = firestoreDatabase.collectionGroup("entries")
+            .where(Filter.equalTo("userId", firebaseAuth.currentUser!!.uid))
+            .where(
             Filter.or(
-
                 Filter.equalTo("keyWordTitle", searchTerm.lowercase()),
                 Filter.arrayContains("keyWordsTags", searchTerm.lowercase())
-
-
             )
         )
 
         query.get().addOnSuccessListener { querySnapshot ->
-
 
             _searchResults.value = querySnapshot.map { it.toObject(Entry::class.java) }
             _curSearchTerm.value = searchTerm
@@ -691,11 +687,7 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
                 Log.e("searchEntries", "$it")
 
             }
-
-
     }
-
-
 }
 
 
