@@ -67,6 +67,7 @@
             android:paddingHorizontal="32dp"
             android:background="@color/primary_Alabaster"
             android:fontFamily="@font/dekko"
+            android:paddingBottom="8dp"
             android:text="@string/_0000_search_results_found"
             android:textColor="@color/primary_taupe"
             android:textSize="18sp"

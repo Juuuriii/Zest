@@ -26,6 +26,11 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="dekko_text_14">
+        <item name="fontFamily">@font/dekko</item>
+        <item name="android:textColor">@color/primary_taupe</item>
+        <item name="android:textSize">14sp</item>
+    </style>
     <style name="dekko_text_16">
         <item name="fontFamily">@font/dekko</item>
         <item name="android:textColor">@color/primary_taupe</item>
