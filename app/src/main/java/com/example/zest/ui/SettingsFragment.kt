@@ -165,6 +165,7 @@ class SettingsFragment : Fragment() {
     }
 
     private fun setChangeImageOnClickListener() {
+
         val changeImage =
             registerForActivityResult(
                 ActivityResultContracts.StartActivityForResult()
@@ -175,6 +176,7 @@ class SettingsFragment : Fragment() {
                             uri, Intent.FLAG_GRANT_READ_URI_PERMISSION
                         )
 
+                        binding.ivProfilePic.load(uri)
                         viewModel.uploadProfilePicture(uri)
 
                     }

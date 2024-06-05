@@ -670,7 +670,11 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
             .where(Filter.equalTo("userId", firebaseAuth.currentUser!!.uid))
             .where(
             Filter.or(
-                Filter.equalTo("keyWordTitle", searchTerm.lowercase()),
+                Filter.and(
+                    Filter.greaterThanOrEqualTo("keyWordTitle", searchTerm.lowercase()),
+                    Filter.lessThanOrEqualTo("keyWordTitle", searchTerm.lowercase() + "\uf8ff" )
+                ),
+
                 Filter.arrayContains("keyWordsTags", searchTerm.lowercase())
             )
         )
