@@ -674,23 +674,26 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
                     Filter.greaterThanOrEqualTo("keyWordTitle", searchTerm.lowercase()),
                     Filter.lessThanOrEqualTo("keyWordTitle", searchTerm.lowercase() + "\uf8ff" )
                 ),
-
                 Filter.arrayContains("keyWordsTags", searchTerm.lowercase())
             )
         )
 
-        query.get().addOnSuccessListener { querySnapshot ->
+        if (searchTerm.isNotBlank()){
+            query.get().addOnSuccessListener { querySnapshot ->
 
-            _searchResults.value = querySnapshot.map { it.toObject(Entry::class.java) }
-            _curSearchTerm.value = searchTerm
-            Log.e("searchEntries", "${searchResults.value}")
-
-        }
-            .addOnFailureListener {
-
-                Log.e("searchEntries", "$it")
+                _searchResults.value = querySnapshot.map { it.toObject(Entry::class.java) }
+                _curSearchTerm.value = searchTerm
+                Log.e("searchEntries", "${searchResults.value}")
 
             }
+                .addOnFailureListener {
+
+                    Log.e("searchEntries", "$it")
+
+                }
+        }
+
+
     }
 }
 
