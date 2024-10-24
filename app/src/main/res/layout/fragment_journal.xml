@@ -55,8 +55,9 @@
                     android:id="@+id/ibDatePicker"
                     style="@style/zest_imageButton_style"
                     android:paddingStart="0dp"
+                    android:visibility="gone"
                     android:src="@drawable/icon_calendar"
-                    android:visibility="gone" />
+                    />
 
                 <TextView
                     android:id="@+id/tvDate"
