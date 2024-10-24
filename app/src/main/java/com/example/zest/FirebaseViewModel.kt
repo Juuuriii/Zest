@@ -695,18 +695,3 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
 
     }
 }
-//2
-
-
-
-
-
-
-
-
-
-
-
-
-
-
