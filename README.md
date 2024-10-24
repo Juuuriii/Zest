@@ -3,10 +3,9 @@
 ## Design
 
 <p>
-  <img src="app/res/drawable/z1.png" width="200">
-  <img src="app/res/drawable/z2.png" width="200">
-  <img src="app/res/drawable/z3.png" width="200">
-
+  <img src="img/z1.png" width="200">
+  <img src="img/z2.png" width="200">
+  <img src="img/z3.png" width="200">
 </p>
 
 ## Features
