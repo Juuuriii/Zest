@@ -32,5 +32,5 @@ https://zenquotes.io/api/
 
 ## Credit
 
-Designer & Artist - Tuile (https://tuile.itch.io/)
-Developer - Juuuriii(Juri Huhn)
+- Designer & Artist - Tuile (https://tuile.itch.io/)
+- Developer - Juuuriii(Juri Huhn)
